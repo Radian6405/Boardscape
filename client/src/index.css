@@ -1,7 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: rgb(7, 6, 11);
+.dark {
+  --primary: 114, 90, 193;
+  --dark-primary: 85, 62, 163;
+
+  --secondary: 36, 32, 56;
+
+  --accent: 141, 134, 201;
+  --dark-accent: 98, 89, 180;
+
+  --text: 242, 253, 255;
+
+  --background: 14, 13, 22;
+  --dark-background: 7, 6, 11;
+}
+
+.light {
+  --primary: 114, 90, 193;
+  --dark-primary: 85, 62, 163;
+
+  --secondary: 36, 32, 56;
+
+  --accent: 255, 255, 255;
+  --dark-accent: 98, 89, 180;
+
+  --text: 0, 0, 0;
+
+  --background: 70, 0, 0;
+  --dark-background: 70, 0, 0;
+}
+
+.animated-background {
+  background-size: 400%;
+
+  -webkit-animation: bg-anime 5s ease infinite;
+  -moz-animation: bg-anime 5s ease infinite;
+  animation: bg-anime 5s ease infinite;
+}
+
+@keyframes bg-anime {
+  0%,
+  100% {
+    background-position: 0% 0%;
+  }
+
+  25% {
+    background-position: 100% 100%;
+  }
 }
