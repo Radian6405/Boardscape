@@ -3,7 +3,7 @@ import {
   IconSunFilled,
   IconUserFilled,
 } from "@tabler/icons-react";
-import { DoubleOutlineButton } from "./util/Buttons";
+import { DoubleOutlineButton } from "./Buttons";
 
 function Navbar({
   theme,
@@ -14,27 +14,27 @@ function Navbar({
 }) {
   return (
     <>
-      <div className=" sticky top-0 z-50 flex justify-end items-center py-5 px-10 gap-4">
+      <div className=" sticky top-0 z-50 flex items-center justify-end gap-4 px-10 py-5">
         <div
-          className="size-14 rounded-full flex justify-center items-center hover:cursor-pointer"
+          className="flex size-14 items-center justify-center rounded-full hover:cursor-pointer"
           onClick={() => {
             if (theme == "dark") setTheme("light");
             else setTheme("dark");
           }}
         >
           {theme === "light" ? (
-            <IconSunFilled className="text-text size-8" />
+            <IconSunFilled className="size-8 text-text" />
           ) : (
-            <IconMoonFilled className="text-text size-8" />
+            <IconMoonFilled className="size-8 text-text" />
           )}
         </div>
 
         <DoubleOutlineButton>Login / Sign Up</DoubleOutlineButton>
 
         <div className="p-2">
-          <div className="p-3 bg-secondary border-2 border-dark-accent rounded-full cursor-pointer select-none">
+          <div className="cursor-pointer select-none rounded-full border-2 border-dark-accent bg-secondary p-3">
             {/* placeholder: replace with user profile */}
-            <IconUserFilled className="text-text size-8" />
+            <IconUserFilled className="size-8 text-text" />
           </div>
         </div>
       </div>

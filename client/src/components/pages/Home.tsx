@@ -1,4 +1,4 @@
-import Backdrop from "../Backdrop";
+import Backdrop from "../util/Backdrop";
 import { HollowButton, SolidButton } from "../util/Buttons";
 import { GameCard } from "../util/Cards";
 

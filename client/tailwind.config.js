@@ -20,7 +20,7 @@ export default {
         "dark-background": "rgba(var(--dark-background))",
       },
       animation: {
-        "spin-slow": "spin 120s linear infinite",
+        "spin-slow": "spin 60s linear infinite",
       },
       fontFamily: {
         nueu: ["Comic Neue", "cursive"],

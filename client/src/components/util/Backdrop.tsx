@@ -32,31 +32,31 @@ function Backdrop({ children }: { children: ReactNode }) {
 function BackdropHelper1() {
   return (
     <div className="animate-spin-slow">
-      <div className="size-40 rounded-full bg-dark-primary/60 sm:size-60 md:size-80 lg:size-96"></div>
-      <div className="size-20 rounded-full bg-accent/70  sm:size-32 md:size-44 lg:size-48"></div>
+      <div className="size-40 rounded-full bg-dark-primary sm:size-60 md:size-80 lg:size-96"></div>
+      <div className="size-20 rounded-full bg-accent sm:size-32 md:size-44 lg:size-48"></div>
     </div>
   );
 }
 function BackdropHelper2() {
   return (
     <div className="animate-spin-slow">
-      <div className="h-20 w-32 rounded-full bg-dark-accent/80 sm:h-32 sm:w-44 md:h-44 md:w-64 lg:h-48 lg:w-80 "></div>
+      <div className="h-20 w-32 rounded-full bg-dark-accent sm:h-32 sm:w-44 md:h-44 md:w-64 lg:h-48 lg:w-80 "></div>
     </div>
   );
 }
 function BackdropHelper3() {
   return (
     <div className="animate-spin-slow">
-      <div className="h-20 w-20 rounded-full bg-primary/90 sm:h-32 md:h-44 lg:h-48"></div>
-      <div className="h-28 w-20 rounded-full bg-dark-primary/90 sm:h-32 md:h-52 lg:h-56"></div>
+      <div className="h-20 w-20 rounded-full bg-primary sm:h-32 md:h-44 lg:h-48"></div>
+      <div className="h-28 w-20 rounded-full bg-dark-primary sm:h-32 md:h-52 lg:h-56"></div>
     </div>
   );
 }
 function BackdropHelper4() {
   return (
     <div className="animate-spin-slow">
-      <div className="h-20 w-20 rounded-full bg-dark-accent/90 sm:h-32 md:h-44 lg:h-48"></div>
-      <div className="size-20 rounded-full bg-accent/70  sm:size-32 md:size-44 lg:size-48"></div>
+      <div className="h-20 w-20 rounded-full bg-dark-accent sm:h-32 md:h-44 lg:h-48"></div>
+      <div className="size-20 rounded-full bg-accent  sm:size-32 md:size-44 lg:size-48"></div>
     </div>
   );
 }

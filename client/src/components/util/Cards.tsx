@@ -40,8 +40,8 @@ export function GameCard() {
 
 export function TagCard({ children }: { children: ReactNode }) {
   return (
-    <> 
-      <div className="font-sans text-lg font-semibold text-secondary underline cursor-pointer hover:text-text">
+    <>
+      <div className="cursor-pointer font-sans text-lg font-semibold text-secondary underline hover:text-text">
         {children}
       </div>
     </>
