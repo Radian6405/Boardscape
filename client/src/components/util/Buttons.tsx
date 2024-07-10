@@ -4,8 +4,8 @@ export function DoubleOutlineButton({ children }: { children: ReactNode }) {
   return (
     <>
       <div
-        className="bg-secondary rounded-lg  text-xl text-text font-nueu font-bold  ring-2 ring-dark-accent ring-offset-2 ring-offset-secondary 
-                   flex items-center justify-center px-4 py-3 hover:bg-dark-accent cursor-pointer select-none "
+        className="flex cursor-pointer  select-none items-center justify-center rounded-lg  bg-secondary px-4 py-3 font-nueu 
+                   text-xl font-bold text-text ring-2 ring-dark-accent ring-offset-2 ring-offset-secondary hover:bg-dark-accent "
       >
         {children}
       </div>
@@ -16,8 +16,8 @@ export function DoubleOutlineButton({ children }: { children: ReactNode }) {
 export function SolidButton({ children }: { children: ReactNode }) {
   return (
     <div
-      className="min-w-44 bg-primary rounded-xl px-6 py-4 text-3xl text-text font-nueu font-bold flex justify-center items-center 
-                cursor-pointer select-none hover:bg-accent"
+      className="flex min-w-44 cursor-pointer select-none items-center justify-center rounded-xl bg-primary px-6 py-4 font-nueu text-3xl 
+                font-bold text-text hover:bg-accent"
     >
       {children}
     </div>
@@ -27,8 +27,8 @@ export function SolidButton({ children }: { children: ReactNode }) {
 export function HollowButton({ children }: { children: ReactNode }) {
   return (
     <div
-      className="min-w-44 bg-secondary rounded-xl px-6 py-4 text-3xl text-text font-nueu font-bold flex justify-center items-center 
-                cursor-pointer select-none hover:bg-accent "
+      className="flex min-w-44 cursor-pointer select-none items-center justify-center rounded-xl bg-secondary px-6 py-4 font-nueu text-3xl 
+                font-bold text-text hover:bg-accent "
     >
       {children}
     </div>

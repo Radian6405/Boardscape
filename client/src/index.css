@@ -37,12 +37,12 @@
 .animated-background {
   background-size: 400%;
 
-  -webkit-animation: bg-anime 5s ease infinite;
-  -moz-animation: bg-anime 5s ease infinite;
-  animation: bg-anime 5s ease infinite;
+  -webkit-animation: bg-anim 5s ease infinite;
+  -moz-animation: bg-anim 5s ease infinite;
+  animation: bg-anim 5s ease infinite;
 }
 
-@keyframes bg-anime {
+@keyframes bg-anim {
   0%,
   100% {
     background-position: 0% 0%;
