@@ -47,3 +47,13 @@ export function TagCard({ children }: { children: ReactNode }) {
     </>
   );
 }
+
+export function BorderBox({ children }: { children: ReactNode }) {
+  return (
+    <>
+      <div className="flex max-w-[75%] flex-col items-center justify-center gap-10 rounded-2xl ">
+        {children}
+      </div>
+    </>
+  );
+}

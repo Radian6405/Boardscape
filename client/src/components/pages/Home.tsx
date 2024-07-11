@@ -1,19 +1,18 @@
+import { Link } from "react-router-dom";
 import Backdrop from "../util/Backdrop";
 import { HollowButton, SolidButton } from "../util/Buttons";
-import { GameCard } from "../util/Cards";
+import { BorderBox, GameCard } from "../util/Cards";
+import Footer from "../util/Footer";
 
 function Home() {
   return (
     <>
       <Backdrop>
-        <div className="flex flex-col items-center justify-center gap-16 pt-4">
-          <div
-            className="flex max-w-[75%] flex-col items-center justify-center gap-10 rounded-2xl
-                       border-4 border-dashed border-dark-accent bg-background/50 px-32 py-20"
-          >
+        <div className="flex flex-col items-center justify-center gap-40 pt-16 ">
+          <BorderBox>
             <div
               className="animated-background bg-gradient-to-tr from-accent via-dark-primary to-secondary
-                             bg-clip-text font-nueu text-9xl font-bold text-transparent"
+              bg-clip-text font-nueu text-9xl font-bold text-transparent"
             >
               BOARDSCAPE
             </div>
@@ -24,14 +23,13 @@ function Home() {
             </div>
             <div className="flex flex-row gap-16 p-5">
               <SolidButton>Play</SolidButton>
-              <HollowButton>Join Game</HollowButton>
+              <Link to={"/join"}>
+                <HollowButton>Join Game</HollowButton>
+              </Link>
             </div>
-          </div>
-          <div
-            className="b flex w-[75%] flex-col items-center justify-center gap-10 rounded-2xl border-4 border-dashed 
-                        border-dark-accent bg-background/50 px-16 py-20"
-          >
-            <div className="font-nueu text-6xl font-bold text-accent">
+          </BorderBox>
+          <BorderBox>
+            <div className="w-[100%] px-20 text-start font-nueu text-6xl font-bold text-accent">
               Games
             </div>
             <div className="w-[100%] border-b-4 border-dashed border-dark-accent"></div>
@@ -43,8 +41,10 @@ function Home() {
               <GameCard />
               <GameCard />
             </div>
-          </div>
+          </BorderBox>
         </div>
+        <div className="m-20"></div>
+        <Footer />
       </Backdrop>
     </>
   );
