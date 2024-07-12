@@ -1,11 +1,18 @@
-import { ReactNode } from "react";
+import { MouseEventHandler, ReactNode } from "react";
 
-export function DoubleOutlineButton({ children }: { children: ReactNode }) {
+export function DoubleOutlineButton({
+  children,
+  onClick,
+}: {
+  children: ReactNode;
+  onClick?: MouseEventHandler<HTMLDivElement>;
+}) {
   return (
     <>
       <div
         className="flex cursor-pointer  select-none items-center justify-center rounded-lg  bg-secondary px-4 py-3 font-nueu 
-                   text-xl font-bold text-text ring-2 ring-dark-accent ring-offset-2 ring-offset-secondary hover:bg-dark-accent "
+                   text-xl font-bold text-text ring-2 ring-dark-accent ring-offset-2 ring-offset-secondary hover:bg-dark-accent"
+        onClick={onClick}
       >
         {children}
       </div>
