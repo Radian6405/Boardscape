@@ -2,7 +2,7 @@ import { Pool } from "pg";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const pool = new Pool({
+export const pool: Pool = new Pool({
   host: process.env.POSTGRES_HOST,
   port: Number(process.env.POSTGRES_PORT ?? 5000),
   user: process.env.POSTGRES_USER,
