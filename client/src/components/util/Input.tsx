@@ -1,17 +1,25 @@
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import { useState } from "react";
 
-export function TextInput({ placeholder }: { placeholder: string }) {
+interface InputProps {
+  placeholder: string;
+  value: string | null;
+  setValue: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+export function TextInput({ placeholder, value, setValue }: InputProps) {
   return (
     <input
       type="text"
       className="h-14 w-72 border-b-2 border-accent bg-transparent p-2 text-xl text-text
                     focus:outline-0 "
+      value={value ?? ""}
+      onChange={(event) => setValue(event.target.value)}
       placeholder={placeholder}
     />
   );
 }
-export function PasswordInput({ placeholder }: { placeholder: string }) {
+export function PasswordInput({ placeholder, value, setValue }: InputProps) {
   const [show, setShow] = useState(false);
   return (
     <>
@@ -20,6 +28,8 @@ export function PasswordInput({ placeholder }: { placeholder: string }) {
           type={show ? "text" : "password"}
           className="h-14 w-72 border-b-2 border-accent bg-transparent p-2 text-xl text-text
         focus:outline-0 "
+          value={value ?? ""}
+          onChange={(event) => setValue(event.target.value)}
           placeholder={placeholder}
         />
         <div
