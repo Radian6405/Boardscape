@@ -15,7 +15,7 @@ export const hashPassword = (password: string) => {
 export const comparePassword = (plain: string, hashed: string) =>
   bcrypt.compareSync(plain, hashed);
 
-export function generateAccessTokens(userID: string) {
+export function generateAccessToken(userID: number) {
   return jwt.sign({ userID: userID }, process.env.JWT_TOKEN_SECRET as Secret, {
     expiresIn: "1d",
   });
@@ -29,7 +29,7 @@ export function aucthenticateToken(
   const authHeader = req.headers.authorization;
 
   //if no token is sent
-  if (authHeader == undefined) {
+  if (authHeader === "undefined" || authHeader === undefined) {
     req.user = null;
     next();
     return;
@@ -46,7 +46,7 @@ export function aucthenticateToken(
       }
 
       const findUser = await pool.query(
-        "SELECT * FROM user_data WHERE username = $1",
+        "SELECT * FROM user_data WHERE user_id = $1",
         [data.userID]
       );
 

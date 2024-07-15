@@ -1,5 +1,10 @@
 import { Router, Request, Response } from "express";
-import { comparePassword, hashPassword } from "../util/authHelpers";
+import {
+  aucthenticateToken,
+  comparePassword,
+  generateAccessToken,
+  hashPassword,
+} from "../util/authHelpers";
 import pool from "../db";
 
 const router: Router = Router();
@@ -18,13 +23,15 @@ router.post("/register", async (req: Request, res: Response) => {
       [username, hashedPassword]
     );
 
-    res.status(201).send(newUser.rows[0]);
+    res
+      .status(201)
+      .send({ token: generateAccessToken(newUser.rows[0].user_id) });
   } catch (error) {
     console.log(error);
   }
 });
 
-router.get("/login", async (req: Request, res: Response) => {
+router.post("/login", async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
 
@@ -36,20 +43,30 @@ router.get("/login", async (req: Request, res: Response) => {
     if (
       Number(findUser.rowCount) > 0 &&
       comparePassword(password, findUser.rows[0].password)
-    )
-      res.send("logged in");
-    else res.send("invalid creds");
+    ) {
+      res
+        .status(200)
+        .send({ token: generateAccessToken(findUser.rows[0].user_id) });
+    } else res.status(401).send("invalid creds");
   } catch (error) {
     console.log(error);
   }
 });
 
-router.get("/logout", async (req: Request, res: Response) => {
-  try {
-    console.log(req.user);
-  } catch (error) {
-    console.log(error);
+router.get(
+  "/status",
+  aucthenticateToken,
+  async (req: Request, res: Response) => {
+    if (req.user === null) {
+      res.sendStatus(401);
+      return;
+    }
+    try {
+      res.send(req.user);
+    } catch (error) {
+      console.log(error);
+    }
   }
-});
+);
 
 export default router;
