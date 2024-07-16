@@ -3,6 +3,7 @@ import { SolidButton } from "./reusables/Buttons";
 import { PasswordInput, TextInput } from "./reusables/Input";
 import { IconX } from "@tabler/icons-react";
 import { useCookies } from "react-cookie";
+import GoogleOauth from "./GoogleOauth";
 
 function LoginRegister({
   show,
@@ -66,7 +67,11 @@ function Login({
     }
 
     const token = await response.json();
-    setCookie("token", token.token, { path: "/", maxAge: 60 * 60 * 24 });
+    setCookie(
+      "token",
+      { token: token.token, type: "native" },
+      { path: "/", maxAge: 60 * 60 * 24 }
+    );
   }
   return (
     <>
@@ -84,6 +89,7 @@ function Login({
         setValue={setPassword}
       />
       <SolidButton onClick={handleLogin}>Submit</SolidButton>
+      <GoogleOauth />
       <div className="w-[100%] text-center font-nueu text-lg font-bold text-text/50">
         Click here to{" "}
         <span
@@ -129,7 +135,11 @@ function Register({
     }
 
     const token = await response.json();
-    setCookie("token", token.token, { path: "/", maxAge: 60 * 60 * 24 });
+    setCookie(
+      "token",
+      { token: token.token, type: "native" },
+      { path: "/", maxAge: 60 * 60 * 24 }
+    );
   }
 
   return (
@@ -154,6 +164,7 @@ function Register({
         setValue={setConfirmPassword}
       />
       <SolidButton onClick={handleRegister}>Submit</SolidButton>
+      <GoogleOauth />
       <div className="w-[100%] text-center font-nueu text-lg font-bold text-text/50">
         Click here to{" "}
         <span

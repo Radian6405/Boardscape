@@ -6,7 +6,10 @@ import {
   hashPassword,
 } from "../util/authHelpers";
 import pool from "../db";
+import { OAuth2Client } from "google-auth-library";
+import dotenv from "dotenv";
 
+dotenv.config();
 const router: Router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
