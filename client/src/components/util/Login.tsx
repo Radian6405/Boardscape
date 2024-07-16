@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { SolidButton } from "./Buttons";
-import { PasswordInput, TextInput } from "./Input";
+import { SolidButton } from "./reusables/Buttons";
+import { PasswordInput, TextInput } from "./reusables/Input";
 import { IconX } from "@tabler/icons-react";
 import { useCookies } from "react-cookie";
 

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import Backdrop from "../util/Backdrop";
-import { HollowButton, SolidButton } from "../util/Buttons";
-import { BorderBox, GameCard } from "../util/Cards";
+import Backdrop from "../util/reusables/Backdrop";
+import { HollowButton, SolidButton } from "../util/reusables/Buttons";
+import { BorderBox, GameCard } from "../util/reusables/Cards";
 import Footer from "../util/Footer";
 
 function Home() {

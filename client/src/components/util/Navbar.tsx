@@ -3,7 +3,7 @@ import {
   IconSunFilled,
   IconUserFilled,
 } from "@tabler/icons-react";
-import { DoubleOutlineButton } from "./Buttons";
+import { DoubleOutlineButton } from "./reusables/Buttons";
 import LoginRegister from "./Login";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";

@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { SimpleBackdrop } from "../util/Backdrop";
-import { SolidButton } from "../util/Buttons";
+import { SimpleBackdrop } from "../util/reusables/Backdrop";
+import { SolidButton } from "../util/reusables/Buttons";
 import {
   IconPalette,
   IconRotate,
   IconRotateClockwise,
 } from "@tabler/icons-react";
-import { BorderBox } from "../util/Cards";
-import Avatar from "../util/Avatar";
+import { BorderBox } from "../util/reusables/Cards";
+import Avatar from "../util/reusables/Avatar";
 
 function JoinRoom() {
   const [isAuth, setIsAuth] = useState(false);
@@ -143,7 +143,5 @@ export function UserOptions() {
     </>
   );
 }
-
-
 
 export default JoinRoom;
