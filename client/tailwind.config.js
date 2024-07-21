@@ -18,6 +18,10 @@ export default {
 
         background: "rgba(var(--background))",
         "dark-background": "rgba(var(--dark-background))",
+
+        success: "#82dd55",
+        error: "#e23636",
+        warning: "#edb95e",
       },
       animation: {
         "spin-slow": "spin 60s linear infinite",

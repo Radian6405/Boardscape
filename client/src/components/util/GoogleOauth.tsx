@@ -1,3 +1,5 @@
+import { IconBrandGoogleFilled } from "@tabler/icons-react";
+
 function GoogleOauth() {
   async function getOAuthURL() {
     const response = await fetch("http://localhost:8000/google-oauth/url", {
@@ -24,9 +26,11 @@ function GoogleOauth() {
   return (
     <>
       <div
-        className="size-14 cursor-pointer bg-white"
+        className="cursor-pointer rounded-2xl border-2 border-accent p-2 text-accent hover:bg-secondary"
         onClick={handleGoogleOauth}
-      ></div>
+      >
+        <IconBrandGoogleFilled className="size-10" />
+      </div>
     </>
   );
 }

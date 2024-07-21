@@ -17,7 +17,7 @@ function LoginRegister({
     <>
       <div
         className={
-          "absolute left-[30vw] top-[15vh] z-50 w-[40%] flex-col items-center justify-end gap-6" +
+          " absolute left-[30%] top-[100%] z-50 w-[40%] flex-col items-center justify-end gap-6" +
           " " +
           "rounded-xl border-4 border-secondary bg-background p-8" +
           " " +
@@ -88,16 +88,23 @@ function Login({
         value={password}
         setValue={setPassword}
       />
-      <SolidButton onClick={handleLogin}>Submit</SolidButton>
-      <GoogleOauth />
-      <div className="w-[100%] text-center font-nueu text-lg font-bold text-text/50">
-        Click here to{" "}
-        <span
-          className="cursor-pointer hover:text-accent"
-          onClick={() => setLoginToggle(false)}
-        >
-          Register
-        </span>
+      <div className="flex flex-col gap-2">
+        <SolidButton onClick={handleLogin}>Submit</SolidButton>
+        <div className="w-[100%] text-center font-nueu text-lg font-bold text-text/50">
+          Click here to{" "}
+          <span
+            className="cursor-pointer text-accent/80 hover:text-accent"
+            onClick={() => setLoginToggle(false)}
+          >
+            Register
+          </span>
+        </div>
+      </div>
+      <div className=" flex flex-col items-center justify-center gap-2">
+        <div className="w-[100%] text-center font-nueu text-lg font-bold text-text">
+          Other Login Options:
+        </div>
+        <GoogleOauth />
       </div>
     </>
   );
@@ -163,16 +170,23 @@ function Register({
         value={confirmPassword}
         setValue={setConfirmPassword}
       />
-      <SolidButton onClick={handleRegister}>Submit</SolidButton>
-      <GoogleOauth />
-      <div className="w-[100%] text-center font-nueu text-lg font-bold text-text/50">
-        Click here to{" "}
-        <span
-          className="cursor-pointer hover:text-accent"
-          onClick={() => setLoginToggle(true)}
-        >
-          Login
-        </span>
+      <div className="flex flex-col gap-2">
+        <SolidButton onClick={handleRegister}>Submit</SolidButton>
+        <div className="w-[100%] text-center font-nueu text-lg font-bold text-text/50">
+          Click here to{" "}
+          <span
+            className="cursor-pointer text-accent/80 hover:text-accent"
+            onClick={() => setLoginToggle(true)}
+          >
+            Login
+          </span>
+        </div>
+      </div>
+      <div className=" flex flex-col items-center justify-center gap-2">
+        <div className="w-[100%] text-center font-nueu text-lg font-bold text-text">
+          Other Login Options:
+        </div>
+        <GoogleOauth />
       </div>
     </>
   );
