@@ -77,14 +77,17 @@ export function GuestOptions() {
     <>
       <div className="flex flex-col items-center justify-center gap-5">
         <Avatar text="" rot={avatarRot} disabled={false}>
-          <div className="absolute -right-5 bottom-10 flex size-16 cursor-pointer items-center justify-center rounded-full bg-primary text-text">
-            <IconRotateClockwise
-              stroke={2}
-              className="size-8 rotate-90"
-              onClick={() => setAvatarRot((avatarRot + 90) % 360)}
-            />
+          <div
+            className="absolute -right-5 bottom-10 flex size-16 cursor-pointer items-center 
+                      justify-center rounded-full bg-primary text-text"
+            onClick={() => setAvatarRot((avatarRot + 90) % 360)}
+          >
+            <IconRotateClockwise stroke={2} className="size-8 rotate-90" />
           </div>
-          <div className="absolute -bottom-5 right-10  flex size-16 cursor-pointer items-center justify-center rounded-full bg-primary text-text">
+          <div
+            className="absolute -bottom-5 right-10  flex size-16 cursor-pointer items-center 
+                      justify-center rounded-full bg-primary text-text"
+          >
             <IconPalette stroke={2} className="size-8" />
           </div>
         </Avatar>
@@ -123,14 +126,17 @@ export function UserOptions() {
       <div className="flex flex-col items-center justify-center gap-5">
         {/* fill text and rot with user pref */}
         <Avatar text="lol" rot={avatarRot} disabled={false}>
-          <div className="absolute -right-5 bottom-10 flex size-16 cursor-pointer items-center justify-center rounded-full bg-primary text-text">
-            <IconRotateClockwise
-              stroke={2}
-              className="size-8 rotate-90"
-              onClick={() => setAvatarRot((avatarRot + 90) % 360)}
-            />
+          <div
+            className="absolute -right-5 bottom-10 flex size-16 cursor-pointer items-center 
+                      justify-center rounded-full bg-primary text-text"
+            onClick={() => setAvatarRot((avatarRot + 90) % 360)}
+          >
+            <IconRotateClockwise stroke={2} className="size-8 rotate-90" />
           </div>
-          <div className="absolute -bottom-5 right-10  flex size-16 cursor-pointer items-center justify-center rounded-full bg-primary text-text">
+          <div
+            className="absolute -bottom-5 right-10  flex size-16 cursor-pointer items-center 
+                      justify-center rounded-full bg-primary text-text"
+          >
             <IconPalette stroke={2} className="size-8" />
           </div>
         </Avatar>
