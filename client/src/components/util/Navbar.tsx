@@ -94,14 +94,14 @@ function Navbar({
         throw new Error("failed to fetch");
       }
       const user = await response.json();
-      console.log(user);
+      setUserData(user);
       return;
     }
   }
 
   useEffect(() => {
     getUser();
-  }, [, userData]);
+  }, [, cookie]);
 
   return (
     <>

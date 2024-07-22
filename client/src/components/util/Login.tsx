@@ -25,9 +25,9 @@ function LoginRegister({
         }
       >
         {loginToggle ? (
-          <Login setLoginToggle={setLoginToggle} />
+          <Login setLoginToggle={setLoginToggle} setShow={setShow} />
         ) : (
-          <Register setLoginToggle={setLoginToggle} />
+          <Register setLoginToggle={setLoginToggle} setShow={setShow} />
         )}
         <div
           className="absolute right-5 top-5 cursor-pointer"
@@ -42,8 +42,10 @@ function LoginRegister({
 
 function Login({
   setLoginToggle,
+  setShow,
 }: {
   setLoginToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [username, setUsername] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
@@ -72,6 +74,8 @@ function Login({
       { token: token.token, type: "native" },
       { path: "/", maxAge: 60 * 60 * 24 }
     );
+
+    setShow(false);
   }
   return (
     <>
@@ -112,8 +116,10 @@ function Login({
 
 function Register({
   setLoginToggle,
+  setShow,
 }: {
   setLoginToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [username, setUsername] = useState<string | null>(null);
   const [email, setEmail] = useState<string | null>(null);
@@ -123,7 +129,7 @@ function Register({
   const [, setCookie] = useCookies(["token"]);
 
   async function handleRegister() {
-    if (password != confirmPassword) return;
+    if (password != confirmPassword) return;// todo: edge case
 
     const response = await fetch("http://localhost:8000/register", {
       method: "POST",
@@ -147,6 +153,8 @@ function Register({
       { token: token.token, type: "native" },
       { path: "/", maxAge: 60 * 60 * 24 }
     );
+
+    setShow(false);
   }
 
   return (

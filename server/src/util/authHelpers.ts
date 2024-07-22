@@ -60,6 +60,7 @@ export function aucthenticateToken(
       // user found
       req.user = {
         user_id: findUser.rows[0].user_id,
+        email: findUser.rows[0].email,
         username: String(findUser.rows[0].username),
       };
       next();

@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { OAuth2Client } from "google-auth-library";
 import dotenv from "dotenv";
+import pool from "../../db";
 
 dotenv.config();
 const router: Router = Router();
@@ -20,7 +21,7 @@ router.get("/google-oauth/url", async (req: Request, res: Response) => {
 
   const authoriseURL = OAuthHandler.generateAuthUrl({
     access_type: "offline",
-    scope: "https://www.googleapis.com/auth/userinfo.profile openid",
+    scope: "https://www.googleapis.com/auth/userinfo.email openid",
     prompt: "consent",
   });
 
@@ -39,9 +40,27 @@ router.get("/google-oauth/login", async (req: Request, res: Response) => {
     );
 
     const response = await OAuthHandler.getToken(code);
-    res.status(200).send(response.tokens);
+
+    const user_data = await getUserData(String(response.tokens.access_token));
+
+    // check for new or existing user
+    const findUser = await pool.query(
+      "SELECT * FROM user_data WHERE email=$1",
+      [user_data.email]
+    );
+    if (findUser.rowCount === null) return; //todo: edge case
+
+    if (findUser.rowCount > 0) {
+      res.status(200).send(response.tokens);
+      console.log("user found");
+    } else {
+      res
+        .status(206)
+        .send({ email: user_data.email, username: user_data.name });
+      console.log("user not found");
+    }
   } catch (error) {
-    console.log("test: ", error);
+    // console.log("test: ", error);
   }
 });
 
@@ -68,7 +87,15 @@ router.get("/google-oauth/status", async (req: Request, res: Response) => {
   try {
     const user_data = await getUserData(access_token);
 
-    res.status(200).send(user_data);
+    const findUser = await pool.query(
+      "SELECT * FROM user_data WHERE email = $1",
+      [user_data.email]
+    );
+    res.status(200).send({
+      user_id: findUser.rows[0].user_id,
+      email: String(findUser.rows[0].email),
+      username: String(findUser.rows[0].username),
+    });
   } catch (error) {
     console.log(error);
   }

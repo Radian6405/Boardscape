@@ -18,12 +18,12 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.post("/register", async (req: Request, res: Response) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, email } = req.body;
     const hashedPassword: string = hashPassword(password);
 
     const newUser = await pool.query(
-      "INSERT INTO user_data(username, password) VALUES($1,$2) RETURNING *",
-      [username, hashedPassword]
+      "INSERT INTO user_data(username, email, password) VALUES($1,$2,$3) RETURNING *",
+      [username, email, hashedPassword]
     );
 
     res
