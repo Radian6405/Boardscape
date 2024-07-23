@@ -4,10 +4,15 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { SimpleBackdrop } from "../util/reusables/Backdrop";
 import { IconCheck, IconLoader2 } from "@tabler/icons-react";
 import { IconExclamationMark, IconX } from "@tabler/icons-react";
-import { PasswordInput } from "../util/reusables/Input";
+import { PasswordInput, TextInput } from "../util/reusables/Input";
 import { SolidButton } from "../util/reusables/Buttons";
 
 function LoginRedirect() {
+  const validUsernameLength = /^.{6,16}$/;
+  const validUsernameChars = /^[A-Za-z0-9_.]+$/;
+  const validPasswordLength = /^.{6,256}$/;
+  const validPasswordChars = /^[\S]+$/;
+
   const [searchParams] = useSearchParams();
   const [, setCookie] = useCookies(["token", "googleRefreshToken"]);
 
@@ -16,10 +21,21 @@ function LoginRedirect() {
 
   const [newEmail, setNewEmail] = useState<string | null>(null);
   const [newUser, setNewUser] = useState<string | null>(null);
+
+  const [username, setUsername] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
+  const [debugText, setDebugText] = useState<string | null>(null);
 
   const navigate = useNavigate();
+
+  function callDebug(text: string) {
+    setDebugText(text);
+    setTimeout(() => {
+      setDebugText(null);
+    }, 5000);
+    return;
+  }
 
   async function getUserToken() {
     const code = searchParams.get("code");
@@ -78,7 +94,29 @@ function LoginRedirect() {
   }
 
   async function handleRegister() {
-    if (password != confirmPassword) return; // todo: edge case
+    if (username === null) {
+      callDebug("username is required");
+      return;
+    }
+    if (password === null) {
+      callDebug("password is required");
+      return;
+    }
+    if (confirmPassword === null) {
+      callDebug("enter the password twice");
+      return;
+    }
+
+    if (
+      validUsernameLength.test(username) &&
+      validUsernameChars.test(username) &&
+      validPasswordLength.test(password) &&
+      validPasswordChars.test(password) &&
+      password !== confirmPassword
+    ) {
+      callDebug("");
+      return;
+    }
 
     const response = await fetch("http://localhost:8000/register", {
       method: "POST",
@@ -86,7 +124,7 @@ function LoginRedirect() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: newUser,
+        username: username,
         password: password,
         email: newEmail,
       }),
@@ -125,19 +163,96 @@ function LoginRedirect() {
               <div className="mt-10 text-center font-nueu text-3xl text-text">
                 Hello <span className="text-accent">{newUser ?? ""}</span>
                 ,<br />
-                set a password here to continue:
+                set a Username & Password to continue:
               </div>
+
+              <TextInput
+                placeholder="Username*"
+                value={username}
+                setValue={setUsername}
+              >
+                <div
+                  className={
+                    "text-start text-sm text-error" +
+                    " " +
+                    (username === null ? "hidden" : "block")
+                  }
+                >
+                  {!validUsernameLength.test(username ?? "") && (
+                    <span>
+                      must be between 6 to 16 characters long <br />
+                    </span>
+                  )}
+                  {!validUsernameChars.test(username ?? "") && (
+                    <span>
+                      must only contain alphabets, numbers, _ and .<br />
+                    </span>
+                  )}
+                </div>
+              </TextInput>
+
               <PasswordInput
-                placeholder="Password"
+                placeholder="Password*"
                 value={password}
                 setValue={setPassword}
-              />
+              >
+                <div
+                  className={
+                    "text-start text-sm text-error" +
+                    " " +
+                    (password === null ? "hidden" : "block")
+                  }
+                >
+                  {!validPasswordLength.test(password ?? "") && (
+                    <span>
+                      must be atleast 6 characters long
+                      <br />
+                    </span>
+                  )}
+                  {!validPasswordChars.test(password ?? "") && (
+                    <span>
+                      cannot contain a black space
+                      <br />
+                    </span>
+                  )}
+                </div>
+              </PasswordInput>
+
               <PasswordInput
-                placeholder="Confirm Password"
+                placeholder="Confirm Password*"
                 value={confirmPassword}
                 setValue={setConfirmPassword}
-              />
-              <SolidButton onClick={handleRegister}>Submit</SolidButton>
+              >
+                <div
+                  className={
+                    "text-start text-sm text-error" +
+                    " " +
+                    (confirmPassword === null ? "hidden" : "block")
+                  }
+                >
+                  {password !== confirmPassword && (
+                    <span>
+                      passwords must match
+                      <br />
+                    </span>
+                  )}
+                </div>
+              </PasswordInput>
+              <div
+                className={
+                  "text-md text-center text-error" +
+                  " " +
+                  (debugText === null || debugText === "" ? "hidden" : "block")
+                }
+              >
+                {debugText}
+              </div>
+              <SolidButton
+                onClick={handleRegister}
+                className={debugText !== null ? "animated-shake" : ""}
+              >
+                Submit
+              </SolidButton>
             </MessageBoxUnfinished>
           )}
         </div>

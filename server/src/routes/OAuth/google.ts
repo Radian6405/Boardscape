@@ -21,7 +21,8 @@ router.get("/google-oauth/url", async (req: Request, res: Response) => {
 
   const authoriseURL = OAuthHandler.generateAuthUrl({
     access_type: "offline",
-    scope: "https://www.googleapis.com/auth/userinfo.email openid",
+    scope:
+      "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid",
     prompt: "consent",
   });
 
@@ -52,12 +53,10 @@ router.get("/google-oauth/login", async (req: Request, res: Response) => {
 
     if (findUser.rowCount > 0) {
       res.status(200).send(response.tokens);
-      console.log("user found");
     } else {
       res
         .status(206)
         .send({ email: user_data.email, username: user_data.name });
-      console.log("user not found");
     }
   } catch (error) {
     // console.log("test: ", error);

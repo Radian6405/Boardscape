@@ -132,9 +132,8 @@ function Navbar({
             </div>
           </div>
         )}
-
-        <LoginRegister show={showLoginPopup} setShow={setShowLoginPopup} />
       </div>
+      <LoginRegister show={showLoginPopup} setShow={setShowLoginPopup} />
     </>
   );
 }
