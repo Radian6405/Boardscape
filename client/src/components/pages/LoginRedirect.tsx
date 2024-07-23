@@ -108,10 +108,10 @@ function LoginRedirect() {
     }
 
     if (
-      validUsernameLength.test(username) &&
-      validUsernameChars.test(username) &&
-      validPasswordLength.test(password) &&
-      validPasswordChars.test(password) &&
+      !validUsernameLength.test(username) ||
+      !validUsernameChars.test(username) ||
+      !validPasswordLength.test(password) ||
+      !validPasswordChars.test(password) ||
       password !== confirmPassword
     ) {
       callDebug("");
@@ -129,6 +129,12 @@ function LoginRedirect() {
         email: newEmail,
       }),
     });
+
+    if (response.status === 401) {
+      const data = await response.json();
+      callDebug(data.message);
+      return;
+    }
 
     if (!response.ok) {
       setStatus("failed");

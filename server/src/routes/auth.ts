@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import {
   aucthenticateToken,
   comparePassword,
@@ -16,23 +16,70 @@ router.get("/", async (req: Request, res: Response) => {
   res.status(200).send("hello");
 });
 
-router.post("/register", async (req: Request, res: Response) => {
-  try {
+router.post(
+  "/register",
+  async (req: Request, res: Response, next: NextFunction) => {
     const { username, password, email } = req.body;
-    const hashedPassword: string = hashPassword(password);
 
-    const newUser = await pool.query(
-      "INSERT INTO user_data(username, email, password) VALUES($1,$2,$3) RETURNING *",
-      [username, email, hashedPassword]
+    //data validation
+    const usernameCheck = /^[A-Za-z0-9_.]{6,16}$/;
+    const emailCheck = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const passwordCheck = /^[\S]{6,256}$/;
+
+    if (!usernameCheck.test(username)) {
+      res.status(401).send({ message: "Invalid Username" });
+      return;
+    }
+    if (!emailCheck.test(email)) {
+      res.status(401).send({ message: "Invalid Email address" });
+      return;
+    }
+    if (!passwordCheck.test(password)) {
+      res.status(401).send({ message: "Invalid Password" });
+      return;
+    }
+
+    // username availability check
+    const findUserUsername = await pool.query(
+      "SELECT * FROM user_data WHERE username = $1",
+      [username]
     );
+    if (findUserUsername.rowCount === null || findUserUsername.rowCount > 0) {
+      res.status(401).send({ message: "Username already taken" });
+      return;
+    }
 
-    res
-      .status(201)
-      .send({ token: generateAccessToken(newUser.rows[0].user_id) });
-  } catch (error) {
-    console.log(error);
+    // email availability check
+    const findUserEmail = await pool.query(
+      "SELECT * FROM user_data WHERE email = $1",
+      [email]
+    );
+    if (findUserEmail.rowCount === null || findUserEmail.rowCount > 0) {
+      res.status(401).send({ message: "Email address already exists" });
+      return;
+    }
+
+    next();
+  },
+  async (req: Request, res: Response) => {
+    try {
+      const { username, password, email } = req.body;
+
+      const hashedPassword: string = hashPassword(password);
+
+      const newUser = await pool.query(
+        "INSERT INTO user_data(username, email, password) VALUES($1,$2,$3) RETURNING *",
+        [username, email, hashedPassword]
+      );
+
+      res
+        .status(201)
+        .send({ token: generateAccessToken(newUser.rows[0].user_id) });
+    } catch (error) {
+      console.log(error);
+    }
   }
-});
+);
 
 router.post("/login", async (req: Request, res: Response) => {
   try {
@@ -50,7 +97,12 @@ router.post("/login", async (req: Request, res: Response) => {
       res
         .status(200)
         .send({ token: generateAccessToken(findUser.rows[0].user_id) });
-    } else res.status(401).send("invalid creds");
+    } else {
+      res.status(401).send({
+        message:
+          "Invalid credentials. Please check your username and password and try again.",
+      });
+    }
   } catch (error) {
     console.log(error);
   }

@@ -49,6 +49,7 @@ function Login({
   setLoginToggle: React.Dispatch<React.SetStateAction<boolean>>;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const [timeoutHandler, setTimeoutHandeler] = useState<number | null>();
   const [username, setUsername] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [debugText, setDebugText] = useState<string | null>(null);
@@ -56,10 +57,15 @@ function Login({
   const [, setCookie] = useCookies(["token"]);
 
   function callDebug(text: string) {
+    if (timeoutHandler !== null) clearTimeout(timeoutHandler);
+
     setDebugText(text);
-    setTimeout(() => {
-      setDebugText(null);
-    }, 5000);
+    setTimeoutHandeler(
+      setTimeout(() => {
+        setDebugText(null);
+        setTimeoutHandeler(null);
+      }, 5000)
+    );
     return;
   }
 
@@ -84,6 +90,11 @@ function Login({
       }),
     });
 
+    if (response.status === 401) {
+      const data = await response.json();
+      callDebug(data.message);
+      return;
+    }
     if (!response.ok) {
       throw new Error("failed to fetch");
     }
@@ -117,7 +128,7 @@ function Login({
         />
       </div>
 
-      <div className="flex flex-col gap-2 py-6">
+      <div className=" flex w-2/3 flex-col items-center justify-center gap-2 py-6 ">
         <div
           className={
             "text-md text-center text-error" +
@@ -133,6 +144,7 @@ function Login({
         >
           Submit
         </SolidButton>
+
         <div className="w-[100%] text-center font-nueu text-lg font-bold text-text/50">
           Click here to{" "}
           <span
@@ -188,7 +200,7 @@ function Register({
       return;
     }
     if (email === null) {
-      callDebug("email is required");
+      callDebug("email address is required");
       return;
     }
     if (password === null) {
@@ -201,11 +213,11 @@ function Register({
     }
 
     if (
-      validUsernameLength.test(username) &&
-      validUsernameChars.test(username) &&
-      validEmail.test(email) &&
-      validPasswordLength.test(password) &&
-      validPasswordChars.test(password) &&
+      !validUsernameLength.test(username) ||
+      !validUsernameChars.test(username) ||
+      !validEmail.test(email) ||
+      !validPasswordLength.test(password) ||
+      !validPasswordChars.test(password) ||
       password !== confirmPassword
     ) {
       callDebug("");
@@ -223,6 +235,12 @@ function Register({
         email: email,
       }),
     });
+
+    if (response.status === 401) {
+      const data = await response.json();
+      callDebug(data.message);
+      return;
+    }
 
     if (!response.ok) {
       throw new Error("failed to fetch");

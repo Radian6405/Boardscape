@@ -59,7 +59,6 @@ router.get("/google-oauth/login", async (req: Request, res: Response) => {
         .send({ email: user_data.email, username: user_data.name });
     }
   } catch (error) {
-    // console.log("test: ", error);
   }
 });
 

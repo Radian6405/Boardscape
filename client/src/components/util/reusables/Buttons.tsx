@@ -31,17 +31,19 @@ export function DoubleOutlineButton({
 
 export function SolidButton({ children, onClick, className }: ButtonProps) {
   return (
-    <div
-      className={
-        "flex min-w-44 cursor-pointer select-none items-center justify-center rounded-xl bg-primary px-6 py-4 font-nueu text-3xl" +
-        " " +
-        "font-bold text-text hover:bg-accent" +
-        " " +
-        className
-      }
-      onClick={onClick}
-    >
-      {children}
+    <div className="flex">
+      <div
+        className={
+          "flex min-w-44 cursor-pointer select-none items-center justify-center rounded-xl bg-primary px-6 py-4 font-nueu text-3xl" +
+          " " +
+          "font-bold text-text hover:bg-accent" +
+          " " +
+          className
+        }
+        onClick={onClick}
+      >
+        {children}
+      </div>
     </div>
   );
 }
