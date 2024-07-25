@@ -4,12 +4,15 @@ interface ButtonProps {
   children: ReactNode;
   onClick?: MouseEventHandler<HTMLDivElement>;
   className?: string;
+  sizeClass?: string;
+  minWidth?: boolean;
 }
 
 export function DoubleOutlineButton({
   children,
   onClick,
   className,
+  sizeClass,
 }: ButtonProps) {
   return (
     <>
@@ -17,7 +20,9 @@ export function DoubleOutlineButton({
         className={
           "flex cursor-pointer  select-none items-center justify-center rounded-lg  bg-secondary px-4 py-3 font-nueu" +
           " " +
-          "text-xl font-bold text-text ring-2 ring-dark-accent ring-offset-2 ring-offset-secondary hover:bg-dark-accent" +
+          "font-bold text-text ring-2 ring-dark-accent ring-offset-2 ring-offset-secondary hover:bg-dark-accent" +
+          " " +
+          (sizeClass ?? "text-xl") +
           " " +
           className
         }
@@ -29,14 +34,24 @@ export function DoubleOutlineButton({
   );
 }
 
-export function SolidButton({ children, onClick, className }: ButtonProps) {
+export function SolidButton({
+  children,
+  onClick,
+  className,
+  sizeClass,
+  minWidth,
+}: ButtonProps) {
   return (
     <div className="flex">
       <div
         className={
-          "flex min-w-44 cursor-pointer select-none items-center justify-center rounded-xl bg-primary px-6 py-4 font-nueu text-3xl" +
+          "flex cursor-pointer select-none items-center justify-center rounded-xl bg-primary px-6 py-4 font-nueu" +
           " " +
           "font-bold text-text hover:bg-accent" +
+          " " +
+          (minWidth && "min-w-44") +
+          " " +
+          (sizeClass ?? "text-3xl") +
           " " +
           className
         }
@@ -48,13 +63,15 @@ export function SolidButton({ children, onClick, className }: ButtonProps) {
   );
 }
 
-export function HollowButton({ children, className }: ButtonProps) {
+export function HollowButton({ children, className, sizeClass }: ButtonProps) {
   return (
     <div
       className={
-        "flex min-w-44 cursor-pointer select-none items-center justify-center rounded-xl bg-secondary px-6 py-4 font-nueu text-3xl" +
+        "flex min-w-44 cursor-pointer select-none items-center justify-center rounded-xl bg-secondary px-6 py-4 font-nueu" +
         " " +
         "font-bold text-text hover:bg-accent" +
+        " " +
+        (sizeClass ?? "text-3xl") +
         " " +
         className
       }

@@ -1,35 +1,64 @@
 import { IconClock, IconTags, IconUsers } from "@tabler/icons-react";
-import { ReactNode } from "react";
+import { MouseEventHandler, ReactNode, useState } from "react";
+import { SolidButton } from "./Buttons";
 
-export function GameCard() {
+interface GameCardProps {
+  playerCountText: string;
+  gameTimeText: string;
+  tags?: string[];
+  onCreate: MouseEventHandler<HTMLDivElement>;
+}
+
+export function GameCard({
+  playerCountText,
+  gameTimeText,
+  tags,
+  onCreate,
+}: GameCardProps) {
+  const [showOverlay, setShowOverlay] = useState(false);
   return (
     <>
       <div className="rounded-2xl border-2 border-secondary bg-accent">
         <div
-          className="h-48 w-80 cursor-pointer rounded-xl border-2 border-secondary bg-dark-primary transition 
-                    ease-in-out hover:-translate-y-2 hover:scale-110"
-        ></div>
+          className="relative h-48 w-80 cursor-pointer rounded-xl border-2 border-secondary bg-dark-primary text-text 
+                    transition ease-in-out hover:-translate-y-2 hover:scale-110"
+          onMouseEnter={() => setShowOverlay(true)}
+          onMouseLeave={() => setShowOverlay(false)}
+        >
+          <div
+            className={
+              "absolute h-full w-full items-center justify-center rounded-lg bg-background/40 " +
+              " " +
+              (showOverlay ? "flex" : "hidden")
+            }
+          >
+            <SolidButton sizeClass="text-lg" onClick={onCreate}>
+              Create Room
+            </SolidButton>
+          </div>
+          hello
+        </div>
+
         <div className="flex max-h-28 w-80 flex-col gap-1 rounded-xl bg-accent px-6 py-2">
           <div className="flex flex-row items-center justify-start gap-2">
             <IconUsers stroke={2} className="size-5 text-secondary" />
             <div className="font-sans text-lg font-semibold text-secondary">
-              2-8 Players
+              {playerCountText}
             </div>
           </div>
           <div className="flex flex-row items-center justify-start gap-2">
             <IconClock stroke={2} className="size-5 text-secondary" />
             <div className="font-sans text-lg font-semibold text-secondary">
-              5-10 Minutes
+              {gameTimeText}
             </div>
           </div>
           <div className="flex flex-row items-center justify-start gap-2">
             <IconTags stroke={2} className="size-5 text-secondary" />
             <div className="flex flex-row items-center justify-center gap-2 truncate">
-              <TagCard>Tag 1</TagCard>
-              <TagCard>Tag 2</TagCard>
-              <TagCard>Tag 3</TagCard>
-              <TagCard>Tag 4</TagCard>
-              <TagCard>Tag 5</TagCard>
+              {tags !== undefined &&
+                tags.map((tag, i) => {
+                  return <TagCard key={i}>{tag}</TagCard>;
+                })}
             </div>
           </div>
         </div>

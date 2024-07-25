@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import Backdrop from "../util/reusables/Backdrop";
 import { HollowButton, SolidButton } from "../util/reusables/Buttons";
-import { BorderBox, GameCard } from "../util/reusables/Cards";
+import { BorderBox } from "../util/reusables/Cards";
 import Footer from "../util/Footer";
+import TictactoeCard from "../util/game_cards/TictactoeCard";
 
 function Home() {
   return (
@@ -22,7 +23,7 @@ function Home() {
               world of board games.
             </div>
             <div className="flex flex-row gap-16 p-5">
-              <SolidButton>Play</SolidButton>
+              <SolidButton minWidth>Play</SolidButton>
               <Link to={"/join"}>
                 <HollowButton>Join Game</HollowButton>
               </Link>
@@ -34,12 +35,7 @@ function Home() {
             </div>
             <div className="w-[100%] border-b-4 border-dashed border-dark-accent"></div>
             <div className="flex flex-wrap justify-center gap-10">
-              <GameCard />
-              <GameCard />
-              <GameCard />
-              <GameCard />
-              <GameCard />
-              <GameCard />
+              <TictactoeCard />
             </div>
           </BorderBox>
         </div>
