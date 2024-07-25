@@ -18,11 +18,11 @@ export function DoubleOutlineButton({
     <>
       <div
         className={
-          "flex cursor-pointer  select-none items-center justify-center rounded-lg  bg-secondary px-4 py-3 font-nueu" +
+          "flex cursor-pointer select-none items-center justify-center rounded-lg  bg-secondary font-nueu" +
           " " +
           "font-bold text-text ring-2 ring-dark-accent ring-offset-2 ring-offset-secondary hover:bg-dark-accent" +
           " " +
-          (sizeClass ?? "text-xl") +
+          (sizeClass ?? "px-4 py-3 text-xl") +
           " " +
           className
         }
@@ -67,11 +67,11 @@ export function HollowButton({ children, className, sizeClass }: ButtonProps) {
   return (
     <div
       className={
-        "flex min-w-44 cursor-pointer select-none items-center justify-center rounded-xl bg-secondary px-6 py-4 font-nueu" +
+        "flex cursor-pointer select-none items-center justify-center rounded-xl bg-secondary font-nueu" +
         " " +
         "font-bold text-text hover:bg-accent" +
         " " +
-        (sizeClass ?? "text-3xl") +
+        (sizeClass ?? "px-6 py-4 text-3xl") +
         " " +
         className
       }

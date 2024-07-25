@@ -9,5 +9,13 @@ declare global {
     }
   }
 }
+declare module "socket.io" {
+  interface Socket {
+    userData: {
+      username: string;
+      user_id: number | null;
+    };
+  }
+}
 
 export {};
