@@ -17,7 +17,7 @@ function Backdrop({ children }: { children: ReactNode }) {
           <div className="h-96 w-[50%] bg-dark-accent/20"></div>
         </div>
 
-        <div className=" absolute top-0">{children}</div>
+        <div className=" absolute top-0 w-full">{children}</div>
       </div>
     </>
   );

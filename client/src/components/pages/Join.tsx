@@ -17,7 +17,7 @@ function JoinRoom() {
         <div className="flex w-[100vw] flex-col items-center justify-center gap-20 pt-20">
           <BorderBox>
             <div className="flex flex-col gap-6">
-              <div className="w-[100%] px-20 text-start font-nueu text-5xl font-bold text-accent">
+              <div className="w-full px-20 text-start font-nueu text-5xl font-bold text-accent">
                 Enter a Room Code:
               </div>
               <div className="flex flex-row gap-5">

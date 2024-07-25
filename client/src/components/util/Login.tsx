@@ -15,7 +15,7 @@ function LoginRegister({
   const [loginToggle, setLoginToggle] = useState(true);
   return (
     <>
-      <div className="absolute flex w-[100%] justify-center">
+      <div className="absolute flex w-full justify-center">
         <div
           className={
             "relative z-50 w-[40%] flex-col items-center justify-end" +
@@ -110,7 +110,7 @@ function Login({
   }
   return (
     <>
-      <div className="w-[100%] px-10 py-12 text-center font-nueu text-6xl font-bold text-accent">
+      <div className="w-full px-10 py-12 text-center font-nueu text-6xl font-bold text-accent">
         Login
       </div>
 
@@ -145,7 +145,7 @@ function Login({
           Submit
         </SolidButton>
 
-        <div className="w-[100%] text-center font-nueu text-lg font-bold text-text/50">
+        <div className="w-full text-center font-nueu text-lg font-bold text-text/50">
           Click here to{" "}
           <span
             className="cursor-pointer text-accent/80 hover:text-accent"
@@ -156,7 +156,7 @@ function Login({
         </div>
       </div>
       <div className=" flex flex-col items-center justify-center gap-2">
-        <div className="w-[100%] text-center font-nueu text-lg font-bold text-text">
+        <div className="w-full text-center font-nueu text-lg font-bold text-text">
           Other Login Options:
         </div>
         <GoogleOauth />
@@ -258,7 +258,7 @@ function Register({
 
   return (
     <>
-      <div className="w-[100%] px-10 py-12 text-center font-nueu text-6xl font-bold text-accent">
+      <div className="w-full px-10 py-12 text-center font-nueu text-6xl font-bold text-accent">
         Register
       </div>
 
@@ -365,7 +365,7 @@ function Register({
         >
           Submit
         </SolidButton>
-        <div className="w-[100%] text-center font-nueu text-lg font-bold text-text/50">
+        <div className="w-full text-center font-nueu text-lg font-bold text-text/50">
           Click here to{" "}
           <span
             className="cursor-pointer text-accent/80 hover:text-accent"
@@ -376,7 +376,7 @@ function Register({
         </div>
       </div>
       <div className=" flex flex-col items-center justify-center gap-2">
-        <div className="w-[100%] text-center font-nueu text-lg font-bold text-text">
+        <div className="w-full text-center font-nueu text-lg font-bold text-text">
           Other Login Options:
         </div>
         <GoogleOauth />
