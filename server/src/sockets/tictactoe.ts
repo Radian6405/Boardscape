@@ -45,7 +45,7 @@ function tictactoeSocket(io: Server) {
       socket.join(data.room);
 
       socket.nsp.to(data.room).emit("room-update", {
-        isGameStarted: findRoom.rows[0].is_game_started,
+        isGameStarted: findRoom.rows[0]?.is_game_started,
         userList: await getUserList(data.room),
       });
     });
@@ -59,8 +59,16 @@ function tictactoeSocket(io: Server) {
 
       const findRoom = await getRoomData(room);
       socket.to(room).emit("room-update", {
-        isGameStarted: findRoom.rows[0].is_game_started,
+        isGameStarted: findRoom.rows[0]?.is_game_started,
         userList: await getUserList(room),
+      });
+    });
+
+    // message handellers
+    socket.on("send-message", (message, room) => {
+      socket.nsp.to(room).emit("receive-message", {
+        message: message,
+        username: socket.userData.username,
       });
     });
 
@@ -84,7 +92,7 @@ function tictactoeSocket(io: Server) {
 
         const findRoom = await getRoomData(room);
         socket.to(room).emit("room-update", {
-          isGameStarted: findRoom.rows[0].is_game_started,
+          isGameStarted: findRoom.rows[0]?.is_game_started,
           userList: await getUserList(room),
         });
       }

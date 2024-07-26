@@ -1,7 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { SimpleBackdrop } from "../../util/reusables/Backdrop";
-import { IconSend2 } from "@tabler/icons-react";
-import { RoomCodeCard } from "../../util/game_cards/Misc";
+import { Chat, chatMessage, RoomCodeCard } from "../../util/game_cards/Misc";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { getUser, userData } from "../../util/Navbar";
@@ -14,9 +13,12 @@ function TicTacToe() {
   const [cookie, setCookie] = useCookies(["token", "googleRefreshToken"]);
   const navigate = useNavigate();
 
+  const [socket, setSocket] = useState<Socket | null>(null);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [userList, setUserList] = useState<userData[] | null>(null);
-  const [socket, setSocket] = useState<Socket | null>(null);
+  const [chatList, setChatList] = useState<chatMessage[]>([
+    { message: "1", username: "system" },
+  ]);
 
   async function init() {
     // get user data
@@ -40,9 +42,14 @@ function TicTacToe() {
       navigate("/room-not-found");
     });
 
+    //message calls
+    socket.on("receive-message", (data: chatMessage) => {
+      setChatList([...chatList, data]);
+      chatList.push(data);
+    });
+
     // updated user list listener
     socket.on("room-update", (data) => {
-      console.log(data);
       setUserList(data.userList);
       setIsGameStarted(data.isGameStarted);
     });
@@ -56,7 +63,7 @@ function TicTacToe() {
     <>
       <SimpleBackdrop>
         {isGameStarted ? (
-          <Game userList={userList} />
+          <Game userList={userList} socket={socket} chatList={chatList} />
         ) : (
           <Lobby
             userList={userList}
@@ -64,6 +71,8 @@ function TicTacToe() {
               setIsGameStarted(true);
               socket?.emit("set-game-status", searchParams.get("room"), true);
             }}
+            socket={socket}
+            chatList={chatList}
           />
         )}
       </SimpleBackdrop>
@@ -74,9 +83,13 @@ function TicTacToe() {
 function Lobby({
   userList,
   startGame,
+  socket,
+  chatList,
 }: {
   userList: userData[] | null;
   startGame: React.MouseEventHandler<HTMLDivElement>;
+  socket: Socket | null;
+  chatList: chatMessage[];
 }) {
   const [searchParams] = useSearchParams();
 
@@ -89,29 +102,11 @@ function Lobby({
             className="flex h-3/4 w-96 flex-col items-center justify-center gap-4 rounded-xl border-4 
                         border-dashed border-dark-primary bg-background/50 p-4"
           >
-            <div className="font-nueu text-4xl font-extrabold text-accent">
-              Chat
-            </div>
-            <div className="h-full w-full overflow-y-auto px-2">
-              {Array.from({ length: 60 }, (_, i) => {
-                return (
-                  <div key={i} className="text-text">
-                    hello
-                  </div>
-                );
-              })}
-            </div>
-            <div className="flex flex-row gap-4 px-4">
-              <input
-                type="text"
-                className="h-14 w-60 border-b-2 border-accent bg-transparent p-2 text-xl text-text
-                    focus:outline-0 "
-                placeholder="type here"
-              />
-              <div className="flex cursor-pointer items-center justify-center rounded-lg bg-primary px-4 py-2 hover:bg-accent">
-                <IconSend2 stroke={2} className="size-9 text-text" />
-              </div>
-            </div>
+            <Chat
+              socket={socket}
+              room={searchParams.get("room")}
+              chatList={chatList}
+            />
           </div>
         </div>
 
@@ -148,7 +143,15 @@ function Lobby({
   );
 }
 
-function Game({ userList }: { userList: userData[] | null }) {
+function Game({
+  userList,
+  socket,
+  chatList,
+}: {
+  userList: userData[] | null;
+  socket: Socket | null;
+  chatList: chatMessage[];
+}) {
   const [searchParams] = useSearchParams();
 
   return (
@@ -186,29 +189,11 @@ function Game({ userList }: { userList: userData[] | null }) {
           className="flex h-[48rem] w-96 flex-col items-center justify-center gap-4 rounded-xl 
                     border-4 border-dashed border-dark-primary bg-background/50 p-4"
         >
-          <div className="font-nueu text-4xl font-extrabold text-accent">
-            Chat
-          </div>
-          <div className="h-full w-full overflow-y-auto px-2">
-            {Array.from({ length: 60 }, (_, i) => {
-              return (
-                <div key={i} className="text-text">
-                  hello
-                </div>
-              );
-            })}
-          </div>
-          <div className="flex flex-row gap-4 px-4">
-            <input
-              type="text"
-              className="h-14 w-60 border-b-2 border-accent bg-transparent p-2 text-xl text-text
-                    focus:outline-0 "
-              placeholder="type here"
-            />
-            <div className="flex cursor-pointer items-center justify-center rounded-lg bg-primary px-4 py-2 hover:bg-accent">
-              <IconSend2 stroke={2} className="size-9 text-text" />
-            </div>
-          </div>
+          <Chat
+            socket={socket}
+            room={searchParams.get("room")}
+            chatList={chatList}
+          />
         </div>
       </div>
     </>
