@@ -5,7 +5,7 @@ export function RoomCodeCard({ code }: { code: string }) {
     <>
       <div
         className="flex h-1/4 flex-col items-center justify-center gap-4 rounded-xl border-4 border-dashed
-                        border-dark-primary bg-background/50"
+                  border-dark-primary bg-background/50 px-10"
       >
         <div className="font-nueu text-4xl font-extrabold text-accent">
           Room Code:

@@ -1,21 +1,25 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { SimpleBackdrop } from "../../util/reusables/Backdrop";
 import { IconSend2 } from "@tabler/icons-react";
 import { RoomCodeCard } from "../../util/game_cards/Misc";
 import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { getUser, userData } from "../../util/Navbar";
 import { useCookies } from "react-cookie";
-import { AvatarMedium } from "../../util/reusables/Avatar";
+import { AvatarMedium, AvatarSmall } from "../../util/reusables/Avatar";
 import { DoubleOutlineButton } from "../../util/reusables/Buttons";
 
 function TicTacToe() {
   const [searchParams] = useSearchParams();
   const [cookie, setCookie] = useCookies(["token", "googleRefreshToken"]);
+  const navigate = useNavigate();
 
+  const [isGameStarted, setIsGameStarted] = useState(false);
   const [userList, setUserList] = useState<userData[] | null>(null);
+  const [socket, setSocket] = useState<Socket | null>(null);
 
   async function init() {
+    // get user data
     let data: userData = await getUser(cookie, setCookie);
     if (data === null || data === undefined) {
       data = {
@@ -24,15 +28,23 @@ function TicTacToe() {
       };
     }
 
+    // connection call
     const socket = io("http://localhost:8000/tictactoe", {
       auth: { userData: data },
     });
+    setSocket(socket);
     console.log(socket);
 
-    socket.emit("join-room", { room: searchParams.get("room") });
+    // room join call
+    socket.emit("join-room", { room: searchParams.get("room") }, () => {
+      navigate("/room-not-found");
+    });
 
-    socket.on("user-list", (list) => {
-      setUserList(list);
+    // updated user list listener
+    socket.on("room-update", (data) => {
+      console.log(data);
+      setUserList(data.userList);
+      setIsGameStarted(data.isGameStarted);
     });
   }
 
@@ -43,14 +55,29 @@ function TicTacToe() {
   return (
     <>
       <SimpleBackdrop>
-        <Lobby userList={userList} />
-        {/* <Game /> */}
+        {isGameStarted ? (
+          <Game userList={userList} />
+        ) : (
+          <Lobby
+            userList={userList}
+            startGame={() => {
+              setIsGameStarted(true);
+              socket?.emit("set-game-status", searchParams.get("room"), true);
+            }}
+          />
+        )}
       </SimpleBackdrop>
     </>
   );
 }
 
-function Lobby({ userList }: { userList: userData[] | null }) {
+function Lobby({
+  userList,
+  startGame,
+}: {
+  userList: userData[] | null;
+  startGame: React.MouseEventHandler<HTMLDivElement>;
+}) {
   const [searchParams] = useSearchParams();
 
   return (
@@ -90,7 +117,7 @@ function Lobby({ userList }: { userList: userData[] | null }) {
 
         <div className="flex h-[48rem] w-[54rem] flex-col gap-4 rounded-xl border-4 border-dashed border-dark-primary bg-background/50 p-2">
           <div className="p-5 text-center font-nueu text-6xl font-extrabold text-accent">
-            Players 4/8
+            Players {userList?.length}/2
           </div>
           <div className="flex flex-wrap  items-start justify-center gap-4 overflow-auto">
             {userList?.map((user, i) => {
@@ -108,7 +135,10 @@ function Lobby({ userList }: { userList: userData[] | null }) {
             })}
           </div>
           <div className="flex items-center justify-center p-5">
-            <DoubleOutlineButton sizeClass="text-4xl px-10 py-4">
+            <DoubleOutlineButton
+              sizeClass="text-4xl px-10 py-4"
+              onClick={startGame}
+            >
               Start
             </DoubleOutlineButton>
           </div>
@@ -118,7 +148,7 @@ function Lobby({ userList }: { userList: userData[] | null }) {
   );
 }
 
-export function Game() {
+function Game({ userList }: { userList: userData[] | null }) {
   const [searchParams] = useSearchParams();
 
   return (
@@ -134,14 +164,17 @@ export function Game() {
               Players
             </div>
             <div className="h-full w-full overflow-y-auto px-2">
-              {Array.from({ length: 6 }, (_, i) => {
+              {userList?.map((user, i) => {
                 return (
-                  <>
-                    <div
-                      key={i}
-                      className="h-12 w-80 border-b-2 border-black bg-white"
-                    ></div>
-                  </>
+                  <div
+                    key={i}
+                    className="mb-2 flex flex-row items-center justify-start gap-4 rounded-lg bg-secondary p-2"
+                  >
+                    <AvatarSmall text="tst" rot={0} disabled />
+                    <div className="font-nueu text-2xl font-bold text-text">
+                      {user.username}
+                    </div>
+                  </div>
                 );
               })}
             </div>

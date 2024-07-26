@@ -5,12 +5,15 @@ function TictactoeCard() {
   const navigate = useNavigate();
 
   async function getRoomCode() {
-    const response = await fetch("http://localhost:8000/create-room", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "http://localhost:8000/create-room?type=tictactoe",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error("failed to fetch");
