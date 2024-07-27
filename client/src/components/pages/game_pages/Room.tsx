@@ -8,7 +8,7 @@ import { useCookies } from "react-cookie";
 import { AvatarMedium, AvatarSmall } from "../../util/reusables/Avatar";
 import { DoubleOutlineButton } from "../../util/reusables/Buttons";
 
-function TicTacToe() {
+function Room() {
   const [searchParams] = useSearchParams();
   const [cookie, setCookie] = useCookies(["token", "googleRefreshToken"]);
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ function TicTacToe() {
     console.log(socket);
 
     // room join call
-    socket.emit("join-room", { room: searchParams.get("room") }, () => {
+    socket.emit("join-room", { room: searchParams.get("code") }, () => {
       navigate("/room-not-found");
     });
 
@@ -50,6 +50,7 @@ function TicTacToe() {
     socket.on("room-update", (data) => {
       setUserList(data.userList);
       setIsGameStarted(data.isGameStarted);
+      console.log(data.game);
     });
   }
 
@@ -67,7 +68,7 @@ function TicTacToe() {
             userList={userList}
             startGame={() => {
               setIsGameStarted(true);
-              socket?.emit("set-game-status", searchParams.get("room"), true);
+              socket?.emit("set-game-status", searchParams.get("code"), true);
             }}
             socket={socket}
             chatList={chatList}
@@ -95,14 +96,14 @@ function Lobby({
     <>
       <div className="flex w-screen flex-row items-center justify-center gap-8 p-20">
         <div className="flex h-[48rem] flex-col justify-start gap-4">
-          <RoomCodeCard code={searchParams.get("room") ?? ""} />
+          <RoomCodeCard code={searchParams.get("code") ?? ""} />
           <div
             className="flex h-3/4 w-96 flex-col items-center justify-center gap-4 rounded-xl border-4 
                         border-dashed border-dark-primary bg-background/50 p-4"
           >
             <Chat
               socket={socket}
-              room={searchParams.get("room")}
+              room={searchParams.get("code")}
               chatList={chatList}
             />
           </div>
@@ -156,7 +157,7 @@ function Game({
     <>
       <div className="flex w-screen flex-row items-center justify-center gap-8 p-20">
         <div className="flex h-[48rem] flex-col justify-start gap-4">
-          <RoomCodeCard code={searchParams.get("room") ?? ""} />
+          <RoomCodeCard code={searchParams.get("code") ?? ""} />
           <div
             className="flex h-3/4 flex-col items-center justify-center gap-4 rounded-xl 
                     border-4 border-dashed border-dark-primary bg-background/50 p-4"
@@ -189,7 +190,7 @@ function Game({
         >
           <Chat
             socket={socket}
-            room={searchParams.get("room")}
+            room={searchParams.get("code")}
             chatList={chatList}
           />
         </div>
@@ -198,4 +199,4 @@ function Game({
   );
 }
 
-export default TicTacToe;
+export default Room;

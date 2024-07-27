@@ -15,10 +15,28 @@ function tictactoeSocket(io: Server) {
 
   async function getRoomData(room: string) {
     const findRoom = await pool.query(
-      "SELECT * FROM tictactoe_room_data WHERE room_code = $1",
+      "SELECT * FROM room_data WHERE room_code = $1",
       [room]
     );
     return findRoom;
+  }
+
+  async function notifyUpdate(room: string, socket: Socket, self: boolean) {
+    const findRoom = await getRoomData(room);
+    const userList = await getUserList(room);
+    if (self) {
+      socket.nsp.to(room).emit("room-update", {
+        isGameStarted: findRoom.rows[0]?.is_game_started,
+        userList: userList,
+        game: findRoom.rows[0]?.game,
+      });
+    } else {
+      socket.to(room).emit("room-update", {
+        isGameStarted: findRoom.rows[0]?.is_game_started,
+        userList: userList,
+        game: findRoom.rows[0]?.game,
+      });
+    }
   }
 
   // adding data to socket
@@ -44,24 +62,17 @@ function tictactoeSocket(io: Server) {
 
       socket.join(data.room);
 
-      socket.nsp.to(data.room).emit("room-update", {
-        isGameStarted: findRoom.rows[0]?.is_game_started,
-        userList: await getUserList(data.room),
-      });
+      notifyUpdate(data.room, socket, true);
     });
 
     //game start listener
     socket.on("set-game-status", async (room, status) => {
       const updateRoom = await pool.query(
-        "UPDATE tictactoe_room_data SET is_game_started = $1 WHERE room_code = $2",
+        "UPDATE room_data SET is_game_started = $1 WHERE room_code = $2",
         [status, room]
       );
 
-      const findRoom = await getRoomData(room);
-      socket.to(room).emit("room-update", {
-        isGameStarted: findRoom.rows[0]?.is_game_started,
-        userList: await getUserList(room),
-      });
+      notifyUpdate(room, socket, false);
     });
 
     // message handellers
@@ -83,18 +94,12 @@ function tictactoeSocket(io: Server) {
         // delete the room from database if empty
         const userList = await getUserList(room);
         if (userList.length === 0) {
-          pool.query("DELETE FROM tictactoe_room_data WHERE room_code = $1", [
-            room,
-          ]);
+          pool.query("DELETE FROM room_data WHERE room_code = $1", [room]);
 
           return;
         }
 
-        const findRoom = await getRoomData(room);
-        socket.to(room).emit("room-update", {
-          isGameStarted: findRoom.rows[0]?.is_game_started,
-          userList: await getUserList(room),
-        });
+        notifyUpdate(room, socket, false);
       }
     });
   });

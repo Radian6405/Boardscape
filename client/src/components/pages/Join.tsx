@@ -55,7 +55,7 @@ function JoinRoom() {
                 />
                 <SolidButton
                   onClick={() => {
-                    if (code.length === 6) navigate("/tictactoe?room=" + code);
+                    if (code.length === 6) navigate("/room?code=" + code);
                     else callDebug("Not a valid room code");
                   }}
                   className={debugText !== null ? "animated-shake" : ""}

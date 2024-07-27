@@ -4,8 +4,8 @@ import Home from "./components/pages/Home";
 import { Route, Routes } from "react-router-dom";
 import JoinRoom from "./components/pages/Join";
 import LoginRedirect from "./components/pages/LoginRedirect";
-import TicTacToe from "./components/pages/game_pages/TicTacToe";
 import RoomNotFound from "./components/pages/RoomNotFound";
+import Room from "./components/pages/game_pages/Room";
 
 function App() {
   const [theme, setTheme] = useState("dark");
@@ -33,7 +33,7 @@ function App() {
         <Route path="/redirect" element={<LoginRedirect />} />
         <Route path="/room-not-found" element={<RoomNotFound />} />
 
-        <Route path="/tictactoe" element={<TicTacToe />} />
+        <Route path="/room" element={<Room />} />
       </Routes>
     </>
   );

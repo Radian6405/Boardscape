@@ -6,7 +6,7 @@ function TictactoeCard() {
 
   async function getRoomCode() {
     const response = await fetch(
-      "http://localhost:8000/create-room?type=tictactoe",
+      "http://localhost:8000/create-room?game=tictactoe",
       {
         method: "GET",
         headers: {
@@ -20,7 +20,7 @@ function TictactoeCard() {
     }
 
     const data = await response.json();
-    navigate("/tictactoe?room=" + data.code);
+    navigate(`/room?code=${data.code}&game=tictactoe`);
   }
   return (
     <>

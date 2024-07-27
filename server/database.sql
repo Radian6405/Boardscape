@@ -7,8 +7,9 @@ CREATE TABLE user_data (
     password VARCHAR(60) NOT NULL
 );
 
-CREATE TABLE tictactoe_room_data (
+CREATE TABLE room_data (
     room_id SERIAL NOT NULL PRIMARY KEY,
     room_code VARCHAR(6) UNIQUE NOT NULL,
-    is_game_started BOOLEAN
+    is_game_started BOOLEAN NOT NULL,
+    game VARCHAR(24) NOT NULL
 );
