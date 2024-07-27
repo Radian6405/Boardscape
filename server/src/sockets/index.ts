@@ -1,5 +1,5 @@
 import { Server } from "socket.io";
-import tictactoeSocket from "./tictactoe";
+import roomSocket from "./room";
 
 function manageSockets(httpServer: any) {
   const io = new Server(httpServer, {
@@ -8,7 +8,7 @@ function manageSockets(httpServer: any) {
     },
   });
 
-  tictactoeSocket(io);
+  roomSocket(io);
 }
 
 export default manageSockets;

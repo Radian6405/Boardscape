@@ -1,11 +1,11 @@
 import { Server, Socket } from "socket.io";
 import pool from "../db";
 
-function tictactoeSocket(io: Server) {
-  const tictactoeIO = io.of("/tictactoe");
+function roomSocket(io: Server) {
+  const roomIO = io.of("/tictactoe");
 
   async function getUserList(room: string) {
-    const userList = await tictactoeIO.in(room).fetchSockets();
+    const userList = await roomIO.in(room).fetchSockets();
     const parsedList = userList.map((s) => {
       const socket = s as unknown as Socket;
       return socket.userData;
@@ -40,7 +40,7 @@ function tictactoeSocket(io: Server) {
   }
 
   // adding data to socket
-  tictactoeIO.use((socket, next) => {
+  roomIO.use((socket, next) => {
     if (socket.handshake.auth.username !== null) {
       socket.userData = socket.handshake.auth.userData;
     }
@@ -48,7 +48,7 @@ function tictactoeSocket(io: Server) {
   });
 
   // connection listener
-  tictactoeIO.on("connection", (socket) => {
+  roomIO.on("connection", (socket) => {
     console.log("tictactoe connected socket: ", socket.id);
 
     //room join listener
@@ -105,4 +105,4 @@ function tictactoeSocket(io: Server) {
   });
 }
 
-export default tictactoeSocket;
+export default roomSocket;
