@@ -16,9 +16,7 @@ function TicTacToe() {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [userList, setUserList] = useState<userData[] | null>(null);
-  const [chatList, setChatList] = useState<chatMessage[]>([
-    { message: "1", username: "system" },
-  ]);
+  const [chatList, setChatList] = useState<chatMessage[]>([]);
 
   async function init() {
     // get user data

@@ -22,7 +22,7 @@ function Avatar({ children, text, rot, disabled }: AvatarProps) {
           defaultValue={text}
           autoFocus
           className={
-            "my-8 h-48 w-64 scale-125 select-none resize-none items-center bg-transparent py-10 text-center font-nueu text-8xl text-text focus:outline-0" +
+            "my-2 h-48 w-52 scale-125 select-none resize-none items-center bg-transparent pb-8 pt-12 text-center font-nueu text-8xl text-text focus:outline-0" +
             " " +
             (rot === 0 ? "rotate-[0deg]" : "") +
             (rot === 90 ? "rotate-[90deg]" : "") +
