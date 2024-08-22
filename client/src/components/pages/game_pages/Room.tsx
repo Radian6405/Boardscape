@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { getUser, userData } from "../../util/Navbar";
 import { useCookies } from "react-cookie";
-import { AvatarMedium, AvatarSmall } from "../../util/reusables/Avatar";
+import { AvatarMedium } from "../../util/reusables/Avatar";
 import { DoubleOutlineButton } from "../../util/reusables/Buttons";
+import TicTacToeGame from "./TicTacToe";
 
 function Room() {
   const [searchParams] = useSearchParams();
@@ -15,6 +16,7 @@ function Room() {
 
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isGameStarted, setIsGameStarted] = useState(false);
+  const [game, setGame] = useState<string | null>(null);
   const [userList, setUserList] = useState<userData[] | null>(null);
   const [chatList, setChatList] = useState<chatMessage[]>([]);
 
@@ -29,7 +31,7 @@ function Room() {
     }
 
     // connection call
-    const socket = io("http://localhost:8000/tictactoe", {
+    const socket = io("http://localhost:8000/room", {
       auth: { userData: data },
     });
     setSocket(socket);
@@ -50,7 +52,9 @@ function Room() {
     socket.on("room-update", (data) => {
       setUserList(data.userList);
       setIsGameStarted(data.isGameStarted);
-      console.log(data.game);
+
+      // console.log(data.game);
+      setGame(data.game);
     });
   }
 
@@ -62,7 +66,13 @@ function Room() {
     <>
       <SimpleBackdrop>
         {isGameStarted ? (
-          <Game userList={userList} socket={socket} chatList={chatList} />
+          game === "tictactoe" && (
+            <TicTacToeGame
+              userList={userList}
+              socket={socket}
+              chatList={chatList}
+            />
+          )
         ) : (
           <Lobby
             userList={userList}
@@ -136,63 +146,6 @@ function Lobby({
               Start
             </DoubleOutlineButton>
           </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function Game({
-  userList,
-  socket,
-  chatList,
-}: {
-  userList: userData[] | null;
-  socket: Socket | null;
-  chatList: chatMessage[];
-}) {
-  const [searchParams] = useSearchParams();
-
-  return (
-    <>
-      <div className="flex w-screen flex-row items-center justify-center gap-8 p-20">
-        <div className="flex h-[48rem] flex-col justify-start gap-4">
-          <RoomCodeCard code={searchParams.get("code") ?? ""} />
-          <div
-            className="flex h-3/4 flex-col items-center justify-center gap-4 rounded-xl 
-                    border-4 border-dashed border-dark-primary bg-background/50 p-4"
-          >
-            <div className="font-nueu text-4xl font-extrabold text-accent">
-              Players
-            </div>
-            <div className="h-full w-full overflow-y-auto px-2">
-              {userList?.map((user, i) => {
-                return (
-                  <div
-                    key={i}
-                    className="mb-2 flex flex-row items-center justify-start gap-4 rounded-lg bg-secondary p-2"
-                  >
-                    <AvatarSmall text="tst" rot={0} disabled />
-                    <div className="font-nueu text-2xl font-bold text-text">
-                      {user.username}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        <div className="flex h-[48rem] w-[48rem] rounded-xl border-4 border-dashed border-dark-primary bg-background/50"></div>
-        <div
-          className="flex h-[48rem] w-96 flex-col items-center justify-center gap-4 rounded-xl 
-                    border-4 border-dashed border-dark-primary bg-background/50 p-4"
-        >
-          <Chat
-            socket={socket}
-            room={searchParams.get("code")}
-            chatList={chatList}
-          />
         </div>
       </div>
     </>

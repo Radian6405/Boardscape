@@ -21,7 +21,9 @@ export function RoomCodeCard({ code }: { code: string }) {
             >
               {code}
             </div>
-            <div className="text-center text-text/50 ">Use code to invite</div>
+            <div className="text-center text-sm text-text/50">
+              Use code to invite
+            </div>
           </div>
 
           <div className="flex flex-col gap-1">
@@ -44,7 +46,7 @@ export function RoomCodeCard({ code }: { code: string }) {
                 <IconCopy className="size-8" stroke={2} />
               )}
             </div>
-            <div className="text-center text-text/50 ">Copy link</div>
+            <div className="text-center text-sm text-text/50">Copy link</div>
           </div>
         </div>
       </div>
@@ -79,13 +81,18 @@ export function Chat({
       <div className="h-full w-full overflow-y-auto px-2">
         {chatList.map((entry, i) => {
           return (
-            <div className="flex flex-row gap-2">
-              <div key={i} className="font-nueu text-xl font-bold text-text">
+            <div
+              key={i}
+              className={
+                "flex flex-row gap-2 px-2 py-2" +
+                " " +
+                (i % 2 != 0 && "bg-secondary/70")
+              }
+            >
+              <div className="font-nueu text-xl font-bold text-text">
                 {entry.username}:
               </div>
-              <div key={i} className="font-nueu text-xl text-text">
-                {entry.message}
-              </div>
+              <div className="font-nueu text-xl text-text">{entry.message}</div>
             </div>
           );
         })}

@@ -1,8 +1,9 @@
 import { Server, Socket } from "socket.io";
 import pool from "../db";
+import tictactoe_sockets from "./tictactoe";
 
 function roomSocket(io: Server) {
-  const roomIO = io.of("/tictactoe");
+  const roomIO = io.of("/room");
 
   async function getUserList(room: string) {
     const userList = await roomIO.in(room).fetchSockets();
@@ -82,6 +83,8 @@ function roomSocket(io: Server) {
         username: socket.userData.username,
       });
     });
+
+    tictactoe_sockets(socket);
 
     // disconnection listener
     socket.on("disconnecting", async (reason, desc) => {
