@@ -5,6 +5,7 @@ import { userData } from "../../util/Navbar";
 import { AvatarSmall } from "../../util/reusables/Avatar";
 import { useEffect, useState } from "react";
 import { IconCircle, IconX } from "@tabler/icons-react";
+import { SolidButton } from "../../util/reusables/Buttons";
 
 function TicTacToeGame({
   userList,
@@ -48,11 +49,20 @@ function TicTacToeGame({
                 return (
                   <div
                     key={i}
-                    className="mb-2 flex flex-row items-center justify-start gap-4 rounded-lg bg-secondary p-2"
+                    className="mb-2 flex flex-row items-center justify-between rounded-lg bg-secondary p-2"
                   >
-                    <AvatarSmall text="tst" rot={0} disabled />
-                    <div className="font-nueu text-2xl font-bold text-text">
-                      {user.username}
+                    <div className="flex flex-row items-center justify-start gap-4">
+                      <AvatarSmall text="tst" rot={0} disabled />
+                      <div className="font-nueu text-2xl font-bold text-text">
+                        {user.username}
+                      </div>
+                    </div>
+                    <div className="mx-2 rounded-sm bg-accent/20 p-2">
+                      {i == 0 ? (
+                        <IconX className="size-6 text-text" />
+                      ) : (
+                        <IconCircle className="size-6 text-text" />
+                      )}
                     </div>
                   </div>
                 );
@@ -62,7 +72,7 @@ function TicTacToeGame({
         </div>
 
         <div
-          className="flex h-[48rem] w-[48rem] items-center justify-center rounded-xl border-4 border-dashed
+          className="flex h-[48rem] w-[48rem] flex-col items-center justify-center gap-10 rounded-xl border-4 border-dashed
                         border-dark-primary bg-background/50"
         >
           <div className="flex flex-col">
@@ -81,7 +91,7 @@ function TicTacToeGame({
                         playCell={() => {
                           socket?.emit(
                             "tictactoe-play",
-                            { row: i, col: j},
+                            { row: i, col: j },
                             searchParams.get("code")
                           );
                         }}
@@ -92,6 +102,13 @@ function TicTacToeGame({
               );
             })}
           </div>
+          <SolidButton
+            onClick={() => {
+              socket?.emit("tictactoe-reset", searchParams.get("code"));
+            }}
+          >
+            Reset
+          </SolidButton>
         </div>
         <div
           className="flex h-[48rem] w-96 flex-col items-center justify-center gap-4 rounded-xl 
