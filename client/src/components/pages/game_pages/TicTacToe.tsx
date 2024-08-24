@@ -23,10 +23,8 @@ function TicTacToeGame({
 
   function init() {
     socket?.on("tictactoe-update", (data) => {
-      console.log(data);
+      setBoard(data.board);
     });
-
-    console.log(board);
   }
 
   useEffect(() => {
@@ -83,7 +81,7 @@ function TicTacToeGame({
                         playCell={() => {
                           socket?.emit(
                             "tictactoe-play",
-                            { row: i, col: j },
+                            { row: i, col: j},
                             searchParams.get("code")
                           );
                         }}
@@ -95,7 +93,7 @@ function TicTacToeGame({
             })}
           </div>
         </div>
-        {/* <div
+        <div
           className="flex h-[48rem] w-96 flex-col items-center justify-center gap-4 rounded-xl 
                       border-4 border-dashed border-dark-primary bg-background/50 p-4"
         >
@@ -104,7 +102,7 @@ function TicTacToeGame({
             room={searchParams.get("code")}
             chatList={chatList}
           />
-        </div> */}
+        </div>
       </div>
     </>
   );
