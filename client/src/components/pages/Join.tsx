@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SimpleBackdrop } from "../util/reusables/Backdrop";
 import { SolidButton } from "../util/reusables/Buttons";
 import {
@@ -8,26 +8,69 @@ import {
 } from "@tabler/icons-react";
 import { BorderBox } from "../util/reusables/Cards";
 import Avatar from "../util/reusables/Avatar";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function JoinRoom() {
   const [isAuth, setIsAuth] = useState(false);
+  const [code, setCode] = useState<string>("");
+  const [debugText, setDebugText] = useState<string | null>(null);
+
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  function callDebug(text: string) {
+    setDebugText(text);
+    setTimeout(() => {
+      setDebugText(null);
+    }, 2000);
+    return;
+  }
+
+  useEffect(() => {
+    let code = searchParams.get("code")?.replace(/[^a-zA-Z]/g, "");
+    if (code !== undefined) setCode(code.toUpperCase());
+  }, []);
+
   return (
     <>
       <SimpleBackdrop>
         <div className="flex w-[100vw] flex-col items-center justify-center gap-20 pt-20">
           <BorderBox>
             <div className="flex flex-col gap-6">
-              <div className="w-[100%] px-20 text-start font-nueu text-5xl font-bold text-accent">
+              <div className="w-full px-20 text-start font-nueu text-5xl font-bold text-accent">
                 Enter a Room Code:
               </div>
-              <div className="flex flex-row gap-5">
+              <div className="flex flex-row justify-center gap-5">
                 <input
-                  className="h-18 w-96 rounded-xl border-2 border-accent bg-background/40 px-4 text-3xl 
+                  className="h-18 w-64 rounded-xl border-2 border-accent bg-background/40 px-4 text-2xl 
                   text-text focus:outline-none active:outline-none"
-                  placeholder="Enter 5 digit Code"
+                  placeholder="Enter 6 digit Code"
+                  maxLength={6}
                   type="text"
+                  value={code}
+                  onChange={(event) => {
+                    let code = event.target.value.replace(/[^a-zA-Z]/g, "");
+                    setCode(code.toUpperCase());
+                  }}
                 />
-                <SolidButton>Join</SolidButton>
+                <SolidButton
+                  onClick={() => {
+                    if (code.length === 6) navigate("/room?code=" + code);
+                    else callDebug("Not a valid room code");
+                  }}
+                  className={debugText !== null ? "animated-shake" : ""}
+                >
+                  Join
+                </SolidButton>
+              </div>
+              <div
+                className={
+                  "text-md text-center text-error" +
+                  " " +
+                  (debugText === null || debugText === "" ? "hidden" : "block")
+                }
+              >
+                {debugText}
               </div>
             </div>
           </BorderBox>

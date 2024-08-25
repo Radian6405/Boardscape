@@ -4,6 +4,8 @@ import Home from "./components/pages/Home";
 import { Route, Routes } from "react-router-dom";
 import JoinRoom from "./components/pages/Join";
 import LoginRedirect from "./components/pages/LoginRedirect";
+import RoomNotFound from "./components/pages/RoomNotFound";
+import Room from "./components/pages/game_pages/Room";
 
 function App() {
   const [theme, setTheme] = useState("dark");
@@ -27,7 +29,11 @@ function App() {
         />
 
         <Route path="/join" element={<JoinRoom />} />
+
         <Route path="/redirect" element={<LoginRedirect />} />
+        <Route path="/room-not-found" element={<RoomNotFound />} />
+
+        <Route path="/room" element={<Room />} />
       </Routes>
     </>
   );

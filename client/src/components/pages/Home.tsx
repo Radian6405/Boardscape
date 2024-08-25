@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
 import Backdrop from "../util/reusables/Backdrop";
 import { HollowButton, SolidButton } from "../util/reusables/Buttons";
-import { BorderBox, GameCard } from "../util/reusables/Cards";
+import { BorderBox } from "../util/reusables/Cards";
 import Footer from "../util/Footer";
+import TictactoeCard from "../util/game_cards/TictactoeCard";
 
 function Home() {
   return (
     <>
       <Backdrop>
-        <div className="flex flex-col items-center justify-center gap-40 pt-16 ">
+        <div className="flex flex-col w-full items-center justify-center gap-40 pt-16 ">
           <BorderBox>
             <div
               className="animated-background bg-gradient-to-tr from-accent via-dark-primary to-secondary
@@ -22,24 +23,19 @@ function Home() {
               world of board games.
             </div>
             <div className="flex flex-row gap-16 p-5">
-              <SolidButton>Play</SolidButton>
+              <SolidButton minWidth>Play</SolidButton>
               <Link to={"/join"}>
                 <HollowButton>Join Game</HollowButton>
               </Link>
             </div>
           </BorderBox>
           <BorderBox>
-            <div className="w-[100%] px-20 text-start font-nueu text-6xl font-bold text-accent">
+            <div className="w-full px-20 text-start font-nueu text-6xl font-bold text-accent">
               Games
             </div>
-            <div className="w-[100%] border-b-4 border-dashed border-dark-accent"></div>
+            <div className="w-full border-b-4 border-dashed border-dark-accent"></div>
             <div className="flex flex-wrap justify-center gap-10">
-              <GameCard />
-              <GameCard />
-              <GameCard />
-              <GameCard />
-              <GameCard />
-              <GameCard />
+              <TictactoeCard />
             </div>
           </BorderBox>
         </div>

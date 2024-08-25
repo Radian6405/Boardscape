@@ -8,8 +8,8 @@ import LoginRegister from "./Login";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
-interface userData {
-  user_id: number;
+export interface userData {
+  user_id: number | null;
   username: string;
 }
 
@@ -25,82 +25,13 @@ function Navbar({
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [cookie, setCookie] = useCookies(["token", "googleRefreshToken"]);
 
-  async function getUser() {
-    if (cookie.token == undefined) {
-      //generating access token from google refresh tokens
-      if (cookie.googleRefreshToken) {
-        const response = await fetch(
-          `http://localhost:8000/google-oauth/access-token?refresh_token=${cookie.googleRefreshToken}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("failed to fetch");
-        }
-        const data = await response.json();
-        setCookie(
-          "token",
-          {
-            access_token: data.access_token,
-            type: "google",
-          },
-          {
-            path: "/",
-            maxAge: data.expires_in,
-          }
-        );
-      } else return;
-    }
-
-    // for normal users
-    if (cookie.token.type == "native") {
-      const response = await fetch("http://localhost:8000/status", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: cookie.token.token,
-        },
-      });
-
-      if (response.status === 401) {
-        return;
-      }
-      if (!response.ok) {
-        throw new Error("failed to fetch");
-      }
-      const user = await response.json();
-      setUserData(user);
-      return;
-    }
-
-    // for google authorised users
-    if (cookie.token.type == "google") {
-      const response = await fetch(
-        `http://localhost:8000/google-oauth/status?access_token=${cookie.token.access_token}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("failed to fetch");
-      }
-      const user = await response.json();
-      setUserData(user);
-      return;
-    }
+  async function setUser() {
+    const data = await getUser(cookie, setCookie);
+    if (data !== null) setUserData(data);
   }
 
   useEffect(() => {
-    getUser();
+    setUser();
   }, [, cookie]);
 
   return (
@@ -136,6 +67,85 @@ function Navbar({
       <LoginRegister show={showLoginPopup} setShow={setShowLoginPopup} />
     </>
   );
+}
+
+export async function getUser(
+  cookie: { token?: any; googleRefreshToken?: any },
+  setCookie: (
+    name: "token" | "googleRefreshToken",
+    value: any,
+    options?: any
+  ) => void
+) {
+  if (cookie.token == undefined) {
+    //generating access token from google refresh tokens
+    if (cookie.googleRefreshToken) {
+      const response = await fetch(
+        `http://localhost:8000/google-oauth/access-token?refresh_token=${cookie.googleRefreshToken}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("failed to fetch");
+      }
+      const data = await response.json();
+      setCookie(
+        "token",
+        {
+          access_token: data.access_token,
+          type: "google",
+        },
+        {
+          path: "/",
+          maxAge: data.expires_in,
+        }
+      );
+    } else return null;
+  }
+
+  // for normal users
+  if (cookie.token.type == "native") {
+    const response = await fetch("http://localhost:8000/status", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: cookie.token.token,
+      },
+    });
+
+    if (response.status === 401) {
+      return null;
+    }
+    if (!response.ok) {
+      throw new Error("failed to fetch");
+    }
+    const user = await response.json();
+    return user;
+  }
+
+  // for google authorised users
+  if (cookie.token.type == "google") {
+    const response = await fetch(
+      `http://localhost:8000/google-oauth/status?access_token=${cookie.token.access_token}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("failed to fetch");
+    }
+    const user = await response.json();
+    return user;
+  }
 }
 
 export default Navbar;
