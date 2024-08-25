@@ -39,7 +39,7 @@ function roomSocket(io: Server) {
       });
     }
 
-    if (findRoom.rows[0].is_game_started) {
+    if (findRoom.rows[0]?.is_game_started) {
       // TODO: change the below command based on game in the room from above
       sendTictactoeUpdate(socket, room);
     }

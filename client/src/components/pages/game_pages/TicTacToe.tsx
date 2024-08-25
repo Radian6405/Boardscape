@@ -22,14 +22,15 @@ function TicTacToeGame({
   const [board, setBoard] = useState<(boolean | null)[][]>(
     Array(3).fill(Array(3).fill(null))
   );
-  const [solvedCells, setSolvedCells] = useState<solvedCells | null>(null);
+  const [solvedCell, setSolvedCell] = useState<solvedCells | null>(null);
   // if diagonal is
   // 1 - top left to bottom right (row = col)
   // 0 - bottom left to top right (row + col = 2)
 
   function init() {
     socket?.on("tictactoe-update", (data) => {
-      setSolvedCells(isSolved(data.board));
+      const isBoardSolved = isSolved(data.board);
+      setSolvedCell(isBoardSolved);
       setBoard(data.board);
     });
   }
@@ -81,7 +82,25 @@ function TicTacToeGame({
           className="flex h-[48rem] w-[48rem] flex-col items-center justify-center gap-10 rounded-xl border-4 border-dashed
                         border-dark-primary bg-background/50"
         >
-          <div className="flex flex-col">
+          <div className="relative flex flex-col">
+            <div
+              className={
+                "absolute inset-0 items-center justify-center bg-dark-background/50" +
+                " " +
+                (solvedCell !== null && userList && userList.length >= 2
+                  ? "flex"
+                  : "hidden")
+              }
+            >
+              <div className="flex items-center justify-center rounded-xl bg-primary p-6 font-nueu text-5xl font-bold text-text">
+                {userList &&
+                  userList.length >= 2 &&
+                  (solvedCell?.player
+                    ? userList[0].username
+                    : userList[1].username)}{" "}
+                wins!
+              </div>
+            </div>
             {[...Array(3).keys()].map((_, i) => {
               return (
                 <div key={i} className="flex flex-row">
@@ -93,10 +112,10 @@ function TicTacToeGame({
                         key={3 * i + j}
                         row={i}
                         col={j}
-                        isSolved={isSolvedCell(i, j, solvedCells)}
+                        isSolved={isSolvedCell(i, j, solvedCell)}
                         value={board[i][j]}
                         playCell={() => {
-                          if (solvedCells !== null) return;
+                          if (solvedCell !== null) return;
                           socket?.emit(
                             "tictactoe-play",
                             { row: i, col: j },
