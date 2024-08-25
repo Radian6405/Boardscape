@@ -6,6 +6,7 @@ import { AvatarSmall } from "../../util/reusables/Avatar";
 import { useEffect, useState } from "react";
 import { IconCircle, IconX } from "@tabler/icons-react";
 import { SolidButton } from "../../util/reusables/Buttons";
+import { isSolved, isSolvedCell, solvedCells } from "../../util/Misc";
 
 function TicTacToeGame({
   userList,
@@ -21,9 +22,14 @@ function TicTacToeGame({
   const [board, setBoard] = useState<(boolean | null)[][]>(
     Array(3).fill(Array(3).fill(null))
   );
+  const [solvedCells, setSolvedCells] = useState<solvedCells | null>(null);
+  // if diagonal is
+  // 1 - top left to bottom right (row = col)
+  // 0 - bottom left to top right (row + col = 2)
 
   function init() {
     socket?.on("tictactoe-update", (data) => {
+      setSolvedCells(isSolved(data.board));
       setBoard(data.board);
     });
   }
@@ -87,8 +93,10 @@ function TicTacToeGame({
                         key={3 * i + j}
                         row={i}
                         col={j}
+                        isSolved={isSolvedCell(i, j, solvedCells)}
                         value={board[i][j]}
                         playCell={() => {
+                          if (solvedCells !== null) return;
                           socket?.emit(
                             "tictactoe-play",
                             { row: i, col: j },
@@ -128,11 +136,13 @@ function TicTacToeGame({
 function Cell({
   row,
   col,
+  isSolved,
   value,
   playCell,
 }: {
   row: number;
   col: number;
+  isSolved: boolean;
   value: boolean | null;
   playCell: React.MouseEventHandler<HTMLDivElement>;
 }) {
@@ -146,17 +156,23 @@ function Cell({
       className={
         "flex size-40 select-none items-center justify-center p-2" +
         " " +
-        (col !== 2 && " border-r-8") +
+        (col !== 2 && "border-r-8") +
         " " +
-        (col !== 0 && " border-l-8") +
+        (col !== 0 && "border-l-8") +
         " " +
-        (row !== 2 && " border-b-8") +
+        (row !== 2 && "border-b-8") +
         " " +
-        (row !== 0 && " border-t-8")
+        (row !== 0 && "border-t-8") +
+        " " +
+        (isSolved && "bg-primary ")
       }
     >
       <div
-        className=" cursor-pointer p-4 hover:bg-secondary"
+        className={
+          "cursor-pointer p-4 " +
+          " " +
+          (isSolved ? "hover:bg-primary" : "hover:bg-secondary")
+        }
         onClick={playCell}
       >
         {value === null ? (
@@ -170,4 +186,5 @@ function Cell({
     </div>
   );
 }
+
 export default TicTacToeGame;
