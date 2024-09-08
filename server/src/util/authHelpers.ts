@@ -4,7 +4,7 @@ import jwt, { Secret } from "jsonwebtoken";
 import dotenv from "dotenv";
 import pool from "../db";
 
-dotenv.config();
+dotenv.config({ path: "../../.env" });
 const saltRounds: number = 10;
 
 export const hashPassword = (password: string) => {

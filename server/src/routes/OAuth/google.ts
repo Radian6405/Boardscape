@@ -3,7 +3,7 @@ import { OAuth2Client } from "google-auth-library";
 import dotenv from "dotenv";
 import pool from "../../db";
 
-dotenv.config();
+dotenv.config({ path: "../../../.env" });
 const router: Router = Router();
 
 router.get("/google-oauth/url", async (req: Request, res: Response) => {
@@ -58,8 +58,7 @@ router.get("/google-oauth/login", async (req: Request, res: Response) => {
         .status(206)
         .send({ email: user_data.email, username: user_data.name });
     }
-  } catch (error) {
-  }
+  } catch (error) {}
 });
 
 router.get(
