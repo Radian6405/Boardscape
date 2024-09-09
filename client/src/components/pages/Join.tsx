@@ -6,7 +6,7 @@ import {
   IconRotate,
   IconRotateClockwise,
 } from "@tabler/icons-react";
-import { BorderBox } from "../util/reusables/Cards";
+import { ContainerBox } from "../util/reusables/Cards";
 import Avatar from "../util/reusables/Avatar";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -35,7 +35,7 @@ function JoinRoom() {
     <>
       <SimpleBackdrop>
         <div className="flex w-[100vw] flex-col items-center justify-center gap-20 pt-20">
-          <BorderBox>
+          <ContainerBox>
             <div className="flex flex-col gap-6">
               <div className="w-full px-20 text-start font-nueu text-5xl font-bold text-accent">
                 Enter a Room Code:
@@ -73,8 +73,8 @@ function JoinRoom() {
                 {debugText}
               </div>
             </div>
-          </BorderBox>
-          <BorderBox>
+          </ContainerBox>
+          <ContainerBox>
             <div className="mx-20 flex flex-col">
               <div className="flex flex-row">
                 <div
@@ -107,7 +107,7 @@ function JoinRoom() {
                 {isAuth ? <UserOptions /> : <GuestOptions />}
               </div>
             </div>
-          </BorderBox>
+          </ContainerBox>
         </div>
       </SimpleBackdrop>
     </>

@@ -19,8 +19,9 @@ export function GameCard({
   return (
     <>
       <div className="rounded-2xl border-2 border-secondary bg-accent">
+        {/* relative h-48 w-80 cursor-pointer rounded-xl border-2 border-secondary bg-dark-primary text-text */}
         <div
-          className="relative h-48 w-80 cursor-pointer rounded-xl border-2 border-secondary bg-dark-primary text-text 
+          className="relative h-40 w-60 cursor-pointer rounded-xl border-2 border-secondary bg-dark-primary text-text 
                     transition ease-in-out hover:-translate-y-2 hover:scale-110"
           onMouseEnter={() => setShowOverlay(true)}
           onMouseLeave={() => setShowOverlay(false)}
@@ -32,14 +33,14 @@ export function GameCard({
               (showOverlay ? "flex" : "hidden")
             }
           >
-            <SolidButton sizeClass="text-lg" onClick={onCreate}>
+            <SolidButton sizeClass="text-lg" onClick={onCreate} minWidth>
               Create Room
             </SolidButton>
           </div>
           hello
         </div>
 
-        <div className="flex max-h-28 w-80 flex-col gap-1 rounded-xl bg-accent px-6 py-2">
+        <div className="flex max-h-28 w-60 flex-col gap-1 rounded-xl bg-accent px-6 py-2">
           <div className="flex flex-row items-center justify-start gap-2">
             <IconUsers stroke={2} className="size-5 text-secondary" />
             <div className="font-sans text-lg font-semibold text-secondary">
@@ -77,10 +78,13 @@ export function TagCard({ children }: { children: ReactNode }) {
   );
 }
 
-export function BorderBox({ children }: { children: ReactNode }) {
+export function ContainerBox({ children }: { children: ReactNode }) {
   return (
     <>
-      <div className="flex max-w-[75%] flex-col items-center justify-center gap-10 rounded-2xl ">
+      <div
+        className="flex max-w-[75%] flex-col items-center justify-center gap-2 rounded-2xl
+        p-5 sm:gap-4 md:gap-8 lg:gap-10 "
+      >
         {children}
       </div>
     </>
