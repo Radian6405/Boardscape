@@ -24,33 +24,29 @@ Boardscape is an online multiplayer platform where you can connect with friends 
 
 ## Installation
 
-### Backend
+### Backend & Database
 
-1. Install dependencies 
-    ```bash
-    cd server
-    npm install
+1. Install [`Docker` ](https://www.docker.com/)
+2. Create a `.env` file in the root directory and fill it with the following details:
     ```
-2. Create a .env file and fill it with the following details:
-    ```
+    SERVER_HOST=server-c
     SERVER_PORT=8000
 
-    POSTGRES_HOST=localhost
+    POSTGRES_HOST=postgres-c
     POSTGRES_PORT=5000
+
     POSTGRES_USER=<postgres username>
     POSTGRES_PASSWORD=<postgres password>
     POSTGRES_DB=boardscape
 
-    JWT_TOKEN_SECRET=<your jtw token secret>
+    JWT_TOKEN_SECRET=<jtw token secret>
 
     GOOGLE_OAUTH_CLIENT_ID=<your google client ID>
     GOOGLE_OAUTH_CLIENT_SECRET=<your google client secret>
     ```
-3. Create the database and tables from ```database.sql```
+3. Run `docker-compose --env-file .env up` in the same directory
 
-4. Run ```npm run dev``` to start the server.
-
-5. Your backend server should be running on http://localhost:8000.
+4. Docker containers should start running your `server` & `database`
 
 ### Frontend
 
