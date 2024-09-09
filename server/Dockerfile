@@ -3,7 +3,10 @@ FROM node:20-alpine
 WORKDIR /server
 
 COPY package*.json .
+COPY package-lock*.json .
 
 RUN npm install
 
-CMD ["npm", "start"]
+EXPOSE 8000
+
+CMD ["npm", "run", "dev"]
