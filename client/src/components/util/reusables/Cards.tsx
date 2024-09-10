@@ -83,7 +83,7 @@ export function ContainerBox({ children }: { children: ReactNode }) {
     <>
       <div
         className="flex max-w-[75%] flex-col items-center justify-center gap-2 rounded-2xl
-        p-5 sm:gap-4 md:gap-8 lg:gap-10 "
+         sm:gap-4 md:gap-8 lg:gap-10 "
       >
         {children}
       </div>

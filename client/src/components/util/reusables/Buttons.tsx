@@ -23,7 +23,7 @@ export function DoubleOutlineButton({
           "font-bold text-text ring-2 ring-dark-accent ring-offset-2 ring-offset-secondary hover:bg-dark-accent" +
           " " +
           (sizeClass ??
-            "text-md px-3 py-2 sm:px-4 sm:text-xl md:px-6 md:text-3xl lg:text-4xl lg:py-3 lg:px-7") +
+            "px-3 py-2 text-base sm:px-4 sm:text-xl md:px-6 md:text-3xl lg:px-7 lg:py-3 lg:text-4xl") +
           " " +
           className
         }
@@ -55,7 +55,7 @@ export function SolidButton({
           (minWidth && "min-w-16 sm:min-w-24 md:min-w-36 lg:min-w-44 ") +
           " " +
           (sizeClass ??
-            "text-md p-2 sm:text-2xl md:p-4 md:text-3xl lg:text-4xl") +
+            "p-2 text-base sm:text-2xl md:p-4 md:text-3xl lg:text-4xl") +
           " " +
           className
         }
@@ -85,7 +85,7 @@ export function HollowButton({
         (minWidth && "min-w-16 sm:min-w-24 md:min-w-36 lg:min-w-44 ") +
         " " +
         (sizeClass ??
-          "text-md p-2 sm:text-2xl md:p-4 md:text-3xl lg:text-4xl") +
+          "p-2 text-base sm:text-2xl md:p-4 md:text-3xl lg:text-4xl") +
         " " +
         className
       }

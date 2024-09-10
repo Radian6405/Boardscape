@@ -246,7 +246,7 @@ function LoginRedirect() {
               </PasswordInput>
               <div
                 className={
-                  "text-md text-center text-error" +
+                  "text-center text-base text-error" +
                   " " +
                   (debugText === null || debugText === "" ? "hidden" : "block")
                 }

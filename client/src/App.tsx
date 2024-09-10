@@ -12,8 +12,8 @@ function App() {
 
   useEffect(() => {
     document.body.className = theme;
-    document.body.style.backgroundColor = "rgba(var(--dark-background))"; //change before commit
-    // document.body.style.backgroundColor = "rgba(var(--text))";
+    document.body.style.backgroundColor = "rgba(var(--dark-background))";
+    // document.body.style.backgroundColor = "rgba(var(--text))"; // for debug
   }, [theme]);
 
   return (

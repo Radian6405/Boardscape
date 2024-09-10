@@ -32,17 +32,16 @@ function Backdrop({ children }: { children: ReactNode }) {
 export function SimpleBackdrop({ children }: { children: ReactNode }) {
   return (
     <>
-      <div className="relative">
+      <div className="relative h-lvh">
         {/* <div
-          className="-z-10 flex items-center justify-center bg-background p-20
-                    blur-[48px] sm:blur-[72px] md:blur-[96px]" 
+          className="-z-10 flex h-[100vh] items-center justify-center bg-background p-20
+                    blur-[48px] sm:blur-[72px] md:blur-[96px]"
         > */}
         {/* change before commit */}
-        <div className="-z-10 flex items-center justify-center bg-background p-20">
-          <div className="h-[80vh] w-full bg-dark-accent/20 sm:w-[60%]"></div>
+        <div className="-z-10 flex h-full items-center justify-center bg-background ">
+          <div className="h-4/5 w-3/5 bg-dark-accent/20"></div>
         </div>
-
-        <div className=" absolute inset-0 flex w-full items-center justify-center">
+        <div className="absolute top-0 flex w-full items-center justify-center">
           {children}
         </div>
       </div>

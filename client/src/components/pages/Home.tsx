@@ -19,8 +19,8 @@ function Home() {
               BOARDSCAPE
             </div>
             <div
-              className="leading-2 sm:text-md w-[90%] text-ellipsis text-balance text-center font-sans text-xs 
-              text-text sm:leading-4 md:text-xl lg:text-xl"
+              className="leading-2 w-[90%] text-ellipsis text-balance text-center font-sans text-xs text-text 
+              sm:text-base sm:leading-4 md:text-xl lg:text-xl"
             >
               A platform to play a wide range board games and many more online.
               Challenge your friends and embark on exciting adventures in the

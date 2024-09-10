@@ -131,7 +131,7 @@ function Login({
       <div className=" flex w-2/3 flex-col items-center justify-center gap-2 py-6 ">
         <div
           className={
-            "text-md text-center text-error" +
+            "text-center text-base text-error" +
             " " +
             (debugText === null || debugText === "" ? "hidden" : "block")
           }
@@ -352,7 +352,7 @@ function Register({
       <div className="flex flex-col gap-2 py-6">
         <div
           className={
-            "text-md text-center text-error" +
+            "text-center text-base text-error" +
             " " +
             (debugText === null || debugText === "" ? "hidden" : "block")
           }
