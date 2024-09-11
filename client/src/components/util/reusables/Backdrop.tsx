@@ -4,15 +4,9 @@ function Backdrop({ children }: { children: ReactNode }) {
   return (
     <>
       <div className="relative">
-        {/* <div
-          className="-z-10 flex flex-col items-center justify-center gap-44 bg-background
-            pt-[10%] blur-[48px] sm:pt-[5%] sm:blur-[72px] md:blur-[96px] 
-            "
-        > */}
-        {/* change before commit */}
         <div
           className="-z-10 flex flex-col items-center justify-center gap-44 bg-background
-            pt-[10%] sm:pt-[5%] 
+            pt-[10%] blur-[48px] sm:pt-[5%] sm:blur-[72px] md:blur-[96px] 
             "
         >
           <div className="animate-spin-slow">
@@ -33,12 +27,10 @@ export function SimpleBackdrop({ children }: { children: ReactNode }) {
   return (
     <>
       <div className="relative h-lvh">
-        {/* <div
+        <div
           className="-z-10 flex h-[100vh] items-center justify-center bg-background p-20
                     blur-[48px] sm:blur-[72px] md:blur-[96px]"
-        > */}
-        {/* change before commit */}
-        <div className="-z-10 flex h-full items-center justify-center bg-background ">
+        >
           <div className="h-4/5 w-3/5 bg-dark-accent/20"></div>
         </div>
         <div className="absolute top-0 flex w-full items-center justify-center">

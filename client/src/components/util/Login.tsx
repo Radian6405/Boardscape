@@ -18,9 +18,9 @@ function LoginRegister({
       <div className="absolute flex w-full justify-center">
         <div
           className={
-            "relative z-50 w-4/5 flex-col items-center justify-end gap-4 rounded-lg border-4 border-secondary bg-background p-8" +
+            "relative z-50 flex-col items-center justify-end gap-4 rounded-lg border-4 border-secondary bg-background p-8" +
             " " +
-            "md:w-3/5 md:gap-6 md:rounded-xl lg:w-2/5 lg:gap-8" +
+            "sm:p-12 md:gap-6 md:rounded-xl md:px-20 md:py-16 lg:gap-8 lg:px-24 lg:py-20" +
             " " +
             (show ? "flex" : "hidden")
           }
@@ -277,7 +277,8 @@ function Register({
           >
             {!validUsernameLength.test(username ?? "") && (
               <span>
-                must be between 6 to 16 characters<br />
+                must be between 6 to 16 characters
+                <br />
               </span>
             )}
             {!validUsernameChars.test(username ?? "") && (

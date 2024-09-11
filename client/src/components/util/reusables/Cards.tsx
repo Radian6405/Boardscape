@@ -19,7 +19,6 @@ export function GameCard({
   return (
     <>
       <div className="rounded-2xl border-2 border-secondary bg-accent">
-        {/* relative h-48 w-80 cursor-pointer rounded-xl border-2 border-secondary bg-dark-primary text-text */}
         <div
           className="relative h-40 w-60 cursor-pointer rounded-xl border-2 border-secondary bg-dark-primary text-text 
                     transition ease-in-out hover:-translate-y-2 hover:scale-110"
@@ -33,8 +32,8 @@ export function GameCard({
               (showOverlay ? "flex" : "hidden")
             }
           >
-            <SolidButton sizeClass="text-lg" onClick={onCreate} minWidth>
-              Create Room
+            <SolidButton sizeClass="text-base" onClick={onCreate}>
+              <span className="mx-4 my-2">Create Room</span>
             </SolidButton>
           </div>
           hello
