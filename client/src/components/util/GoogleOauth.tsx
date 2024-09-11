@@ -26,10 +26,10 @@ function GoogleOauth() {
   return (
     <>
       <div
-        className="cursor-pointer rounded-2xl border-2 border-accent p-2 text-accent hover:bg-secondary"
+        className="cursor-pointer rounded-lg border-2 border-accent p-2 text-accent hover:bg-secondary md:rounded-xl"
         onClick={handleGoogleOauth}
       >
-        <IconBrandGoogleFilled className="size-10" />
+        <IconBrandGoogleFilled className="size-6 sm:size-8 md:size-10" />
       </div>
     </>
   );

@@ -72,7 +72,7 @@ function JoinRoom() {
               </div>
               <div
                 className={
-                  "text-center text-base text-error" +
+                  "text-center text-sm text-error sm:text-base md:text-lg" +
                   " " +
                   (debugText === null || debugText === "" ? "hidden" : "block")
                 }
