@@ -29,7 +29,7 @@ export function RoomCodeCard({ code }: { code: string }) {
           <div className="flex flex-col gap-1">
             <div
               className="flex cursor-pointer select-none items-center justify-center rounded-lg bg-primary p-4 font-nueu font-bold
-              text-text hover:bg-accent"
+              text-white hover:bg-accent"
               onClick={() => {
                 navigator.clipboard.writeText(
                   "http://127.0.0.1:5173/join?code=" + code
@@ -112,10 +112,10 @@ export function Chat({
           }}
         />
         <div
-          className="flex cursor-pointer items-center justify-center rounded-lg bg-primary px-4 py-2 hover:bg-accent"
+          className="flex cursor-pointer items-center justify-center rounded-lg bg-primary px-4 py-2 text-white hover:bg-accent"
           onClick={sendMessage}
         >
-          <IconSend2 stroke={2} className="size-9 text-text" />
+          <IconSend2 stroke={2} className="size-9" />
         </div>
       </div>
     </>

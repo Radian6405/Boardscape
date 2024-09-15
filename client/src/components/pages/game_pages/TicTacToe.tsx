@@ -173,7 +173,7 @@ function Cell({
   return (
     <div
       className={
-        "flex size-40 select-none items-center justify-center p-2" +
+        "flex size-40 select-none items-center justify-center p-2 border-text" +
         " " +
         (col !== 2 && "border-r-8") +
         " " +

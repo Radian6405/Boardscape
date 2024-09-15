@@ -9,6 +9,7 @@
   --dark-primary: 85, 62, 163;
 
   --secondary: 36, 32, 56;
+  --dark-secondary: 55, 49, 85;
 
   --accent: 141, 134, 201;
   --dark-accent: 98, 89, 180;
@@ -20,18 +21,19 @@
 }
 
 .light {
-  --primary: 114, 90, 193;
-  --dark-primary: 85, 62, 163;
+  --primary: 102, 72, 201;
+  --dark-primary: 87, 63, 166;
 
-  --secondary: 36, 32, 56;
+  --secondary: 209, 204, 229;
+  --dark-secondary: 180, 167, 230;
 
-  --accent: 255, 255, 255;
-  --dark-accent: 98, 89, 180;
+  --accent: 123, 95, 218;
+  --dark-accent: 89, 63, 179;
 
-  --text: 0, 0, 0;
+  --text: 0, 13, 15;
 
-  --background: 70, 0, 0;
-  --dark-background: 70, 0, 0;
+  --background: 246, 245, 250;
+  --dark-background: 222, 221, 225;
 }
 
 .animated-background {

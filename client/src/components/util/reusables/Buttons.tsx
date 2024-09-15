@@ -20,7 +20,7 @@ export function DoubleOutlineButton({
         className={
           "flex cursor-pointer select-none items-center justify-center rounded-lg  bg-secondary font-nueu" +
           " " +
-          "font-bold text-text ring-2 ring-dark-accent ring-offset-2 ring-offset-secondary hover:bg-dark-accent" +
+          "font-bold text-text ring-2 ring-dark-accent ring-offset-2 ring-offset-secondary hover:bg-dark-accent hover:text-background" +
           " " +
           (sizeClass ??
             "px-3 py-2 text-base sm:px-4 sm:text-xl md:px-6 md:text-3xl lg:px-7 lg:py-3 lg:text-4xl") +
@@ -48,7 +48,7 @@ export function SolidButton({
         className={
           "flex cursor-pointer select-none items-center justify-center rounded-md bg-primary font-nueu" +
           " " +
-          "font-bold text-text hover:bg-accent" +
+          "font-bold text-background hover:bg-accent" +
           " " +
           "sm:rounded-lg md:rounded-xl" +
           " " +
@@ -78,7 +78,7 @@ export function HollowButton({
       className={
         "flex cursor-pointer select-none items-center justify-center rounded-md bg-secondary font-nueu" +
         " " +
-        "font-bold text-text hover:bg-accent" +
+        "hover:bg-dark-secondary font-bold text-text" +
         " " +
         "sm:rounded-lg md:rounded-xl" +
         " " +

@@ -10,6 +10,7 @@ export default {
         "dark-primary": "rgba(var(--dark-primary))",
 
         secondary: "rgba(var(--secondary))",
+        "dark-secondary": "rgba(var(--dark-secondary))",
 
         accent: "rgba(var(--accent))",
         "dark-accent": "rgba(var(--dark-accent))",

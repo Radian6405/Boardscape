@@ -41,19 +41,19 @@ export function GameCard({
 
         <div className="flex max-h-28 w-60 flex-col gap-1 rounded-xl bg-accent px-6 py-2">
           <div className="flex flex-row items-center justify-start gap-2">
-            <IconUsers stroke={2} className="size-5 text-secondary" />
-            <div className="font-sans text-lg font-semibold text-secondary">
+            <IconUsers stroke={2} className="size-5 text-background" />
+            <div className="font-sans text-lg font-semibold text-background">
               {playerCountText}
             </div>
           </div>
           <div className="flex flex-row items-center justify-start gap-2">
-            <IconClock stroke={2} className="size-5 text-secondary" />
-            <div className="font-sans text-lg font-semibold text-secondary">
+            <IconClock stroke={2} className="size-5 text-background" />
+            <div className="font-sans text-lg font-semibold text-background">
               {gameTimeText}
             </div>
           </div>
           <div className="flex flex-row items-center justify-start gap-2">
-            <IconTags stroke={2} className="size-5 text-secondary" />
+            <IconTags stroke={2} className="size-5 text-background" />
             <div className="flex flex-row items-center justify-center gap-2 truncate">
               {tags !== undefined &&
                 tags.map((tag, i) => {
@@ -70,7 +70,7 @@ export function GameCard({
 export function TagCard({ children }: { children: ReactNode }) {
   return (
     <>
-      <div className="cursor-pointer font-sans text-lg font-semibold text-secondary underline hover:text-text">
+      <div className="cursor-pointer font-sans text-lg font-semibold text-background underline hover:text-text">
         {children}
       </div>
     </>

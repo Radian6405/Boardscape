@@ -136,7 +136,7 @@ export function GuestOptions() {
         <Avatar text="" rot={avatarRot} disabled={false}>
           <div
             className="absolute -right-5 bottom-10 flex cursor-pointer items-center justify-center rounded-full 
-                      bg-primary p-4 text-text sm:p-5"
+                      bg-primary p-4 text-white sm:p-5"
             onClick={() => setAvatarRot((avatarRot + 90) % 360)}
           >
             <IconRotateClockwise
@@ -146,7 +146,7 @@ export function GuestOptions() {
           </div>
           <div
             className="absolute -bottom-5 right-10  flex cursor-pointer items-center justify-center rounded-full 
-                      bg-primary p-4 text-text sm:p-5"
+                      bg-primary p-4 text-white sm:p-5"
           >
             <IconPalette stroke={2} className="size-6 md:size-8" />
           </div>
@@ -164,7 +164,7 @@ export function GuestOptions() {
             placeholder="Enter a username"
           />
           <div
-            className="flex cursor-pointer items-center justify-center rounded-lg bg-primary p-3 text-text
+            className="flex cursor-pointer items-center justify-center rounded-lg bg-primary p-3 text-white
             md:rounded-xl md:p-4"
           >
             <IconRotate stroke={2} className="size-4 sm:size-6" />
@@ -175,7 +175,7 @@ export function GuestOptions() {
           <div className="px-2 text-lg text-text sm:text-xl md:text-2xl">
             Language:
           </div>
-          <select className="rounded-md bg-primary p-2 text-base text-text focus:outline-0 sm:text-lg md:rounded-lg md:py-3 md:text-xl">
+          <select className="rounded-md bg-dark-accent p-2 text-base text-white focus:outline-0 sm:text-lg md:rounded-lg md:py-3 md:text-xl">
             <option value="english">English</option>
             <option value="apple">Apple</option>
             <option value="banana">Banana</option>
