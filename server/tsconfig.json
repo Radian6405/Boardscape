@@ -11,4 +11,7 @@
         "esModuleInterop": true,
     },
     "include": ["src/**/*"],
+    "watchOptions": {
+        "watchFile": "dynamicPriorityPolling"
+    }
 }
