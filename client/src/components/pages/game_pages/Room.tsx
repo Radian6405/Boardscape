@@ -1,11 +1,15 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { SimpleBackdrop } from "../../util/reusables/Backdrop";
-import { Chat, chatMessage, RoomCodeCard } from "../../util/game_cards/Misc";
+import {
+  Chat,
+  chatMessage,
+  PlayerLobbyCard,
+  RoomCodeCard,
+} from "../../util/game_cards/Misc";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { getUser, userData } from "../../util/Navbar";
 import { useCookies } from "react-cookie";
-import { AvatarMedium, AvatarSmall } from "../../util/reusables/Avatar";
 import { DoubleOutlineButton } from "../../util/reusables/Buttons";
 import TicTacToeGame from "./TicTacToe";
 
@@ -119,22 +123,7 @@ function Lobby({
           </div>
           <div className="flex flex-wrap items-start justify-center gap-4 overflow-auto">
             {userList?.map((user, i) => {
-              return (
-                <div
-                  key={i}
-                  className="flex h-min w-26 flex-col items-center justify-start gap-2 rounded-md p-2 hover:bg-secondary sm:w-48 sm:rounded-lg sm:p-6"
-                >
-                  <div className="hidden sm:block">
-                    <AvatarMedium text="tst" rot={0} disabled />
-                  </div>
-                  <div className="block sm:hidden">
-                    <AvatarSmall text="tst" rot={0} disabled />
-                  </div>
-                  <div className="truncate text-center font-nueu text-xl text-text sm:text-4xl">
-                    {user.username}
-                  </div>
-                </div>
-              );
+              return <PlayerLobbyCard key={i} user={user} />;
             })}
           </div>
           <div className="flex items-center justify-center p-5">

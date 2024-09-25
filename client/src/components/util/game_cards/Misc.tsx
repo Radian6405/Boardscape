@@ -1,6 +1,14 @@
-import { IconCheckbox, IconCopy, IconSend2 } from "@tabler/icons-react";
+import {
+  IconCheckbox,
+  IconCircle,
+  IconCopy,
+  IconSend2,
+  IconX,
+} from "@tabler/icons-react";
 import { useState } from "react";
 import { Socket } from "socket.io-client";
+import { AvatarMedium, AvatarSmall } from "../reusables/Avatar";
+import { userData } from "../Navbar";
 
 export function RoomCodeCard({ code }: { code: string }) {
   const [copyDebug, setCopyDebug] = useState(false);
@@ -46,7 +54,7 @@ export function RoomCodeCard({ code }: { code: string }) {
                 <IconCopy className="size-6 lg:size-8" stroke={2} />
               )}
             </div>
-            <div className="text-center text-xs text-text/50 md:text-sm">
+            <div className="line-clamp-1 text-center text-xs text-text/50 md:text-sm">
               Copy link
             </div>
           </div>
@@ -101,7 +109,7 @@ export function Chat({
           );
         })}
       </div>
-      <div className="flex w-full flex-row">
+      <div className="flex w-full flex-row justify-center">
         <input
           type="text"
           className="h-14 w-4/5 border-b-2 border-primary bg-transparent p-2 text-xl text-text
@@ -123,5 +131,41 @@ export function Chat({
         </div>
       </div>
     </>
+  );
+}
+
+export function PlayerRowCard({ i, user }: { i: number; user: userData }) {
+  return (
+    <div className="mb-2 flex flex-row items-center justify-between rounded-lg bg-secondary p-2 md:px-4">
+      <div className="flex flex-row items-center justify-start gap-2">
+        <AvatarSmall text="tst" rot={0} disabled />
+        <div className="font-nueu text-2xl font-bold text-text">
+          {user.username}
+        </div>
+      </div>
+      <div className=" rounded-sm bg-accent/20 p-2">
+        {i == 0 ? (
+          <IconX className="size-4 text-text md:size-6" />
+        ) : (
+          <IconCircle className="size-4 text-text md:size-6" />
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function PlayerLobbyCard({ user }: { user: userData }) {
+  return (
+    <div className="w-26 flex h-min flex-col items-center justify-start gap-2 rounded-md p-2 hover:bg-secondary sm:w-48 sm:rounded-lg sm:p-6">
+      <div className="hidden sm:block">
+        <AvatarMedium text="tst" rot={0} disabled />
+      </div>
+      <div className="block sm:hidden">
+        <AvatarSmall text="tst" rot={0} disabled />
+      </div>
+      <div className="truncate text-center font-nueu text-xl text-text sm:text-4xl">
+        {user.username}
+      </div>
+    </div>
   );
 }
