@@ -7,6 +7,7 @@ interface GameCardProps {
   gameTimeText: string;
   tags?: string[];
   onCreate: MouseEventHandler<HTMLDivElement>;
+  children: ReactNode;
 }
 
 export function GameCard({
@@ -14,6 +15,7 @@ export function GameCard({
   gameTimeText,
   tags,
   onCreate,
+  children,
 }: GameCardProps) {
   const [showOverlay, setShowOverlay] = useState(false);
   return (
@@ -27,7 +29,7 @@ export function GameCard({
         >
           <div
             className={
-              "absolute h-full w-full items-center justify-center rounded-lg bg-background/40 " +
+              "absolute h-full w-full items-center justify-center rounded-lg z-20 bg-background/40 " +
               " " +
               (showOverlay ? "flex" : "hidden")
             }
@@ -36,7 +38,7 @@ export function GameCard({
               <span className="mx-4 my-2">Create Room</span>
             </SolidButton>
           </div>
-          hello
+          {children}
         </div>
 
         <div className="flex max-h-28 w-60 flex-col gap-1 rounded-xl bg-accent px-6 py-2">

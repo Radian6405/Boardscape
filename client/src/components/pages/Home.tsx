@@ -48,8 +48,6 @@ function Home() {
         </div>
         <div className="flex flex-wrap justify-center gap-8">
           <TictactoeCard />
-          <TictactoeCard />
-          <TictactoeCard />
         </div>
       </div>
       <div className="m-20"></div>

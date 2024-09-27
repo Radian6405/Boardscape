@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { GameCard } from "../reusables/Cards";
+import { IconTicTac } from "@tabler/icons-react";
 
 function TictactoeCard() {
   const navigate = useNavigate();
@@ -25,11 +26,16 @@ function TictactoeCard() {
   return (
     <>
       <GameCard
-        playerCountText="2-8 players"
-        gameTimeText="5-10 mins"
-        tags={["1", "2", "3"]}
+        playerCountText="1-2 players"
+        gameTimeText="2-3 mins"
+        tags={["fun", "classic"]}
         onCreate={getRoomCode}
-      />
+      >
+        <div className="h-full flex flex-col items-center justify-center">
+        <IconTicTac stroke={1.5} className="text-text size-24 rotate-12" />
+        <div className="text-4xl text-text font-nueu font-bold ">TicTacToe</div>
+        </div>
+      </GameCard>
     </>
   );
 }
