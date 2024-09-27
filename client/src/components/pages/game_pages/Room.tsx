@@ -1,11 +1,15 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { SimpleBackdrop } from "../../util/reusables/Backdrop";
-import { Chat, chatMessage, RoomCodeCard } from "../../util/game_cards/Misc";
+import {
+  Chat,
+  chatMessage,
+  PlayerLobbyCard,
+  RoomCodeCard,
+} from "../../util/game_cards/Misc";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { getUser, userData } from "../../util/Navbar";
 import { useCookies } from "react-cookie";
-import { AvatarMedium } from "../../util/reusables/Avatar";
 import { DoubleOutlineButton } from "../../util/reusables/Buttons";
 import TicTacToeGame from "./TicTacToe";
 
@@ -104,48 +108,43 @@ function Lobby({
 
   return (
     <>
-      <div className="flex w-screen flex-row items-center justify-center gap-8 p-20">
-        <div className="flex h-[48rem] flex-col justify-start gap-4">
-          <RoomCodeCard code={searchParams.get("code") ?? ""} />
-          <div
-            className="flex h-3/4 w-96 flex-col items-center justify-center gap-4 rounded-xl border-4 
-                        border-dashed border-dark-primary bg-background/50 p-4"
-          >
-            <Chat
-              socket={socket}
-              room={searchParams.get("code")}
-              chatList={chatList}
-            />
-          </div>
-        </div>
+      <div
+        className="grid w-screen grid-cols-1 grid-rows-[repeat(5,_12rem)] gap-y-5 p-5 sm:p-8 md:grid-cols-3
+                  md:grid-rows-[repeat(3,_12rem)] md:gap-x-5 md:p-10 lg:grid-rows-[repeat(4,_12rem)] lg:gap-x-8 lg:px-24"
+      >
+        <RoomCodeCard code={searchParams.get("code") ?? ""} />
 
-        <div className="flex h-[48rem] w-[54rem] flex-col gap-4 rounded-xl border-4 border-dashed border-dark-primary bg-background/50 p-2">
-          <div className="p-5 text-center font-nueu text-6xl font-extrabold text-accent">
-            Players {userList?.length}/2
+        <div
+          className="row-span-2 flex flex-col gap-2 rounded-xl border-4 border-dashed border-dark-primary
+                    bg-background/50 p-2 md:col-span-2 md:row-span-3 lg:row-span-4"
+        >
+          <div className="py-4 text-center font-nueu text-4xl font-extrabold text-accent sm:text-5xl md:text-6xl">
+            Players {userList?.length ?? 0}/2
           </div>
-          <div className="flex flex-wrap  items-start justify-center gap-4 overflow-auto">
+          <div className="flex flex-wrap items-start justify-center gap-4 overflow-auto">
             {userList?.map((user, i) => {
-              return (
-                <div
-                  key={i}
-                  className="flex h-min flex-col justify-start gap-5 rounded-xl bg-secondary p-6"
-                >
-                  <AvatarMedium text="tst" rot={0} disabled />
-                  <div className="text-center font-nueu text-3xl text-text">
-                    {user.username}
-                  </div>
-                </div>
-              );
+              return <PlayerLobbyCard key={i} user={user} />;
             })}
           </div>
           <div className="flex items-center justify-center p-5">
             <DoubleOutlineButton
-              sizeClass="text-4xl px-10 py-4"
+              sizeClass="text-2xl px-4 py-2 sm:text-3xl md:text-4xl md:px-6 md:py-4 "
               onClick={startGame}
             >
               Start
             </DoubleOutlineButton>
           </div>
+        </div>
+
+        <div
+          className="row-span-2 flex flex-col items-center justify-center gap-4 rounded-xl border-4 
+                    border-dashed border-dark-primary bg-background/50 p-5 pb-8 lg:row-span-3"
+        >
+          <Chat
+            socket={socket}
+            room={searchParams.get("code")}
+            chatList={chatList}
+          />
         </div>
       </div>
     </>

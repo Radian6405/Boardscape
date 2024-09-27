@@ -15,6 +15,7 @@ function generateString(length: number) {
 router.get("/create-room", async (req: Request, res: Response) => {
   let code = generateString(6);
 
+  // TODO: refactor this
   while (true) {
     const findRoom = await pool.query(
       "SELECT * FROM room_data WHERE room_code = $1",

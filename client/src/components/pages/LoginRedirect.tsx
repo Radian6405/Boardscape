@@ -160,13 +160,13 @@ function LoginRedirect() {
   return (
     <>
       <SimpleBackdrop>
-        <div className="mt-16 flex w-[100vw] flex-wrap items-center justify-center ">
+        <div className="flex flex-wrap items-center justify-center p-5 md:p-10 lg:p-16 ">
           {status === null && <MessageBoxLoading />}
           {status === "success" && <MessageBoxSuccess />}
           {status === "failed" && <MessageBoxFailure />}
           {status === "unfinished" && (
             <MessageBoxUnfinished>
-              <div className="mt-10 text-center font-nueu text-3xl text-text">
+              <div className="text-center font-nueu text-xl text-text md:text-2xl lg:text-3xl">
                 Hello <span className="text-accent">{newUser ?? ""}</span>
                 ,<br />
                 set a Username & Password to continue:
@@ -179,7 +179,7 @@ function LoginRedirect() {
               >
                 <div
                   className={
-                    "text-start text-sm text-error" +
+                    "text-center text-xs text-error sm:text-base md:text-lg" +
                     " " +
                     (username === null ? "hidden" : "block")
                   }
@@ -204,7 +204,7 @@ function LoginRedirect() {
               >
                 <div
                   className={
-                    "text-start text-sm text-error" +
+                    "text-center text-xs text-error sm:text-base md:text-lg" +
                     " " +
                     (password === null ? "hidden" : "block")
                   }
@@ -231,7 +231,7 @@ function LoginRedirect() {
               >
                 <div
                   className={
-                    "text-start text-sm text-error" +
+                    "text-center text-xs text-error sm:text-base md:text-lg" +
                     " " +
                     (confirmPassword === null ? "hidden" : "block")
                   }
@@ -246,7 +246,7 @@ function LoginRedirect() {
               </PasswordInput>
               <div
                 className={
-                  "text-md text-center text-error" +
+                  "text-center text-base text-error" +
                   " " +
                   (debugText === null || debugText === "" ? "hidden" : "block")
                 }
@@ -270,15 +270,18 @@ function LoginRedirect() {
 function MessageBoxSuccess() {
   return (
     <>
-      <div className="flex flex-col items-center justify-center gap-12 rounded-3xl border-4 border-dashed border-accent bg-background/50 p-20">
-        <div className="rounded-full border-8 border-success p-2">
-          <IconCheck stroke={2} className="size-36 text-success " />
+      <div className="flex flex-col items-center justify-center gap-6 rounded-3xl border-4 border-dashed border-accent bg-background/50 p-5 md:gap-10 md:p-10 lg:gap-14 lg:p-16">
+        <div className="rounded-full border-4 border-success p-2 md:border-[6px] lg:border-8">
+          <IconCheck
+            stroke={2}
+            className="size-16 text-success md:size-24 lg:size-32 "
+          />
         </div>
         <div className="flex flex-col items-center justify-center gap-4">
-          <div className="font-nueu text-7xl font-bold text-success">
+          <div className="text-center font-nueu text-5xl font-bold text-success md:text-6xl lg:text-7xl">
             Welcome back
           </div>
-          <div className="text-center font-nueu text-2xl text-text">
+          <div className="text-center font-nueu text-lg text-text md:text-xl lg:text-2xl">
             You have been successfully logged in <br />
             redirecting shortly...
           </div>
@@ -293,15 +296,18 @@ function MessageBoxSuccess() {
 function MessageBoxFailure() {
   return (
     <>
-      <div className="flex flex-col items-center justify-center gap-12 rounded-3xl border-4 border-dashed border-accent bg-background/50 p-20">
-        <div className="rounded-full border-8 border-error p-2">
-          <IconX stroke={2} className="size-36 text-error " />
+      <div className="flex flex-col items-center justify-center gap-6 rounded-3xl border-4 border-dashed border-accent bg-background/50 p-5 md:gap-10 md:p-10 lg:gap-14 lg:p-16">
+        <div className="rounded-full border-4 border-error p-2 md:border-[6px] lg:border-8">
+          <IconX
+            stroke={2}
+            className="size-16 text-error md:size-24 lg:size-32 "
+          />
         </div>
         <div className="flex flex-col items-center justify-center gap-4">
-          <div className="font-nueu text-7xl font-bold text-error">
+          <div className="text-center font-nueu text-5xl font-bold text-error md:text-6xl lg:text-7xl">
             Login Failed
           </div>
-          <div className="text-center font-nueu text-2xl text-text">
+          <div className="text-center font-nueu text-lg text-text md:text-xl lg:text-2xl">
             Your login request has failed
             <br />
             Please try again
@@ -317,15 +323,18 @@ function MessageBoxFailure() {
 function MessageBoxUnfinished({ children }: { children: ReactNode }) {
   return (
     <>
-      <div className="flex flex-col items-center justify-center gap-12 rounded-3xl border-4 border-dashed border-accent bg-background/50 p-20">
-        <div className="rounded-full border-8 border-warning p-2">
-          <IconExclamationMark stroke={2} className="size-36 text-warning " />
+      <div className="flex flex-col items-center justify-center gap-6 rounded-3xl border-4 border-dashed border-accent bg-background/50 p-5 md:gap-10 md:p-10 lg:gap-14 lg:p-14">
+        <div className="rounded-full border-4 border-warning p-2 md:border-[6px] lg:border-8">
+          <IconExclamationMark
+            stroke={2}
+            className="size-16 text-warning sm:size-20 md:size-28 lg:size-32 "
+          />
         </div>
         <div className="flex flex-col items-center justify-center gap-4">
-          <div className="font-nueu text-7xl font-bold text-warning">
+          <div className="text-center font-nueu text-5xl font-bold text-warning md:text-6xl lg:text-7xl">
             Action required
           </div>
-          <div className="text-center font-nueu text-2xl text-text">
+          <div className="text-center font-nueu text-lg text-text md:text-xl lg:text-2xl">
             Few more steps remain before loggin you in
           </div>
           {children}
@@ -337,15 +346,18 @@ function MessageBoxUnfinished({ children }: { children: ReactNode }) {
 function MessageBoxLoading() {
   return (
     <>
-      <div className="flex flex-col items-center justify-center gap-12 rounded-3xl border-4 border-dashed border-accent bg-background/50 p-20">
+      <div className="flex flex-col items-center justify-center gap-6 rounded-3xl border-4 border-dashed border-accent bg-background/50 p-5 md:gap-10 md:p-10 lg:gap-14 lg:p-16">
         <div className="animate-spin rounded-full p-2">
-          <IconLoader2 stroke={2} className="size-36 text-text/50 " />
+          <IconLoader2
+            stroke={2}
+            className="size-16 text-text/50 md:size-24 lg:size-32 "
+          />
         </div>
         <div className="flex flex-col items-center justify-center gap-4">
-          <div className="font-nueu text-7xl font-bold text-text/50">
+          <div className="text-center font-nueu text-5xl font-bold text-text/50 md:text-6xl lg:text-7xl">
             Please wait
           </div>
-          <div className="text-center font-nueu text-2xl text-text">
+          <div className="text-center font-nueu text-lg text-text md:text-xl lg:text-2xl">
             Processing your request
           </div>
         </div>

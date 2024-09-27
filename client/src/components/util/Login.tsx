@@ -18,9 +18,9 @@ function LoginRegister({
       <div className="absolute flex w-full justify-center">
         <div
           className={
-            "relative z-50 w-[40%] flex-col items-center justify-end" +
+            "relative z-50 flex-col items-center justify-end gap-4 rounded-lg border-4 border-secondary bg-background p-8" +
             " " +
-            "rounded-xl border-4 border-secondary bg-background p-8" +
+            "sm:p-12 md:gap-6 md:rounded-xl md:px-20 md:py-16 lg:gap-8 lg:px-24 lg:py-20" +
             " " +
             (show ? "flex" : "hidden")
           }
@@ -31,10 +31,10 @@ function LoginRegister({
             <Register setLoginToggle={setLoginToggle} setShow={setShow} />
           )}
           <div
-            className="absolute right-5 top-5 cursor-pointer"
+            className="absolute right-4 top-4 cursor-pointer sm:right-5 sm:top-5"
             onClick={() => setShow(false)}
           >
-            <IconX className="size-10 text-text/80" stroke={2} />
+            <IconX className="size-6 text-text/80 sm:size-8" stroke={2} />
           </div>
         </div>
       </div>
@@ -110,11 +110,11 @@ function Login({
   }
   return (
     <>
-      <div className="w-full px-10 py-12 text-center font-nueu text-6xl font-bold text-accent">
+      <div className="w-full text-center font-nueu text-4xl font-bold text-accent sm:text-6xl">
         Login
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2 md:gap-4">
         <TextInput
           placeholder="Username*"
           value={username}
@@ -128,10 +128,10 @@ function Login({
         />
       </div>
 
-      <div className=" flex w-2/3 flex-col items-center justify-center gap-2 py-6 ">
+      <div className="flex flex-col items-center justify-center gap-2">
         <div
           className={
-            "text-md text-center text-error" +
+            "text-center text-sm text-error sm:text-base md:text-lg" +
             " " +
             (debugText === null || debugText === "" ? "hidden" : "block")
           }
@@ -142,10 +142,10 @@ function Login({
           onClick={handleLogin}
           className={debugText !== null ? "animated-shake" : ""}
         >
-          Submit
+          <span className="mx-2">Submit</span>
         </SolidButton>
 
-        <div className="w-full text-center font-nueu text-lg font-bold text-text/50">
+        <div className="w-full text-center font-nueu text-sm font-bold text-text/50 sm:text-base md:text-lg">
           Click here to{" "}
           <span
             className="cursor-pointer text-accent/80 hover:text-accent"
@@ -156,7 +156,7 @@ function Login({
         </div>
       </div>
       <div className=" flex flex-col items-center justify-center gap-2">
-        <div className="w-full text-center font-nueu text-lg font-bold text-text">
+        <div className="w-full text-center font-nueu text-base font-bold text-text sm:text-lg md:text-xl">
           Other Login Options:
         </div>
         <GoogleOauth />
@@ -258,11 +258,11 @@ function Register({
 
   return (
     <>
-      <div className="w-full px-10 py-12 text-center font-nueu text-6xl font-bold text-accent">
+      <div className="w-full text-center font-nueu text-4xl font-bold text-accent sm:text-6xl">
         Register
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2 md:gap-4">
         <TextInput
           placeholder="Username*"
           value={username}
@@ -270,14 +270,15 @@ function Register({
         >
           <div
             className={
-              "text-start text-sm text-error" +
+              "text-start text-xs text-error sm:text-sm md:text-base" +
               " " +
               (username === null ? "hidden" : "block")
             }
           >
             {!validUsernameLength.test(username ?? "") && (
               <span>
-                must be between 6 to 16 characters long <br />
+                must be between 6 to 16 characters
+                <br />
               </span>
             )}
             {!validUsernameChars.test(username ?? "") && (
@@ -291,7 +292,7 @@ function Register({
         <TextInput placeholder="Email*" value={email} setValue={setEmail}>
           <div
             className={
-              "text-start text-sm text-error" +
+              "text-start text-xs text-error sm:text-sm md:text-base" +
               " " +
               (email === null ? "hidden" : "block")
             }
@@ -307,14 +308,14 @@ function Register({
         >
           <div
             className={
-              "text-start text-sm text-error" +
+              "text-start text-xs text-error sm:text-sm md:text-base" +
               " " +
               (password === null || password === "" ? "hidden" : "block")
             }
           >
             {!validPasswordLength.test(password ?? "") && (
               <span>
-                must be atleast 6 characters long
+                must be atleast 6 characters
                 <br />
               </span>
             )}
@@ -334,7 +335,7 @@ function Register({
         >
           <div
             className={
-              "text-start text-sm text-error" +
+              "text-start text-xs text-error sm:text-sm md:text-base" +
               " " +
               (confirmPassword === null ? "hidden" : "block")
             }
@@ -349,10 +350,10 @@ function Register({
         </PasswordInput>
       </div>
 
-      <div className="flex flex-col gap-2 py-6">
+      <div className="flex flex-col items-center justify-center gap-2">
         <div
           className={
-            "text-md text-center text-error" +
+            "text-center text-sm text-error sm:text-base md:text-lg" +
             " " +
             (debugText === null || debugText === "" ? "hidden" : "block")
           }
@@ -363,9 +364,9 @@ function Register({
           onClick={handleRegister}
           className={debugText !== null ? "animated-shake" : ""}
         >
-          Submit
+          <span className="mx-2">Submit</span>
         </SolidButton>
-        <div className="w-full text-center font-nueu text-lg font-bold text-text/50">
+        <div className="w-full text-center font-nueu text-sm font-bold text-text/50 sm:text-base md:text-lg">
           Click here to{" "}
           <span
             className="cursor-pointer text-accent/80 hover:text-accent"
@@ -376,7 +377,7 @@ function Register({
         </div>
       </div>
       <div className=" flex flex-col items-center justify-center gap-2">
-        <div className="w-full text-center font-nueu text-lg font-bold text-text">
+        <div className="w-full text-center font-nueu text-base font-bold text-text sm:text-lg md:text-xl">
           Other Login Options:
         </div>
         <GoogleOauth />

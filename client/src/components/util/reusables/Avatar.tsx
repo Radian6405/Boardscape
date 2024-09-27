@@ -12,7 +12,7 @@ function Avatar({ children, text, rot, disabled }: AvatarProps) {
     <>
       <div
         className={
-          "relative flex size-64 items-center justify-center rounded-full border-2 border-primary bg-transparent"
+          "relative flex size-48 items-center justify-center rounded-full border-2 border-primary bg-transparent sm:size-64"
         }
       >
         <textarea
@@ -22,7 +22,9 @@ function Avatar({ children, text, rot, disabled }: AvatarProps) {
           defaultValue={text}
           autoFocus
           className={
-            "my-2 h-48 w-52 scale-125 select-none resize-none items-center bg-transparent pb-8 pt-12 text-center font-nueu text-8xl text-text focus:outline-0" +
+            "my-2 h-48 w-52 select-none resize-none items-center bg-transparent pb-8 pt-12 text-center font-nueu text-8xl text-text focus:outline-0" +
+            " " +
+            "sm:scale-125" +
             " " +
             (rot === 0 ? "rotate-[0deg]" : "") +
             (rot === 90 ? "rotate-[90deg]" : "") +

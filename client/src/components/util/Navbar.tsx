@@ -36,24 +36,27 @@ function Navbar({
 
   return (
     <>
-      <div className="sticky top-0 z-50 flex items-center justify-end gap-4 px-10 py-5">
+      <div
+        className="sticky top-0 z-50 flex items-center justify-end gap-4 px-5 py-4 
+        sm:px-10 md:px-16 md:py-6 lg:px-20"
+      >
         <div
-          className="flex size-14 items-center justify-center rounded-full hover:cursor-pointer"
+          className="flex items-center justify-center rounded-full p-2 hover:cursor-pointer hover:bg-primary"
           onClick={() => {
             if (theme == "dark") setTheme("light");
             else setTheme("dark");
           }}
         >
           {theme === "light" ? (
-            <IconSunFilled className="size-8 text-text" />
+            <IconSunFilled className="size-6 text-text sm:size-8 lg:size-10" />
           ) : (
-            <IconMoonFilled className="size-8 text-text" />
+            <IconMoonFilled className="size-6 text-text sm:size-8 lg:size-10" />
           )}
         </div>
 
         {userData === null ? (
           <DoubleOutlineButton onClick={() => setShowLoginPopup(true)}>
-            Login / Register
+            Login
           </DoubleOutlineButton>
         ) : (
           <div className="p-2">

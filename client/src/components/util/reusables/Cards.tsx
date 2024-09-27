@@ -7,6 +7,7 @@ interface GameCardProps {
   gameTimeText: string;
   tags?: string[];
   onCreate: MouseEventHandler<HTMLDivElement>;
+  children: ReactNode;
 }
 
 export function GameCard({
@@ -14,46 +15,47 @@ export function GameCard({
   gameTimeText,
   tags,
   onCreate,
+  children,
 }: GameCardProps) {
   const [showOverlay, setShowOverlay] = useState(false);
   return (
     <>
       <div className="rounded-2xl border-2 border-secondary bg-accent">
         <div
-          className="relative h-48 w-80 cursor-pointer rounded-xl border-2 border-secondary bg-dark-primary text-text 
+          className="relative h-40 w-60 cursor-pointer rounded-xl border-2 border-secondary bg-dark-primary text-text 
                     transition ease-in-out hover:-translate-y-2 hover:scale-110"
           onMouseEnter={() => setShowOverlay(true)}
           onMouseLeave={() => setShowOverlay(false)}
         >
           <div
             className={
-              "absolute h-full w-full items-center justify-center rounded-lg bg-background/40 " +
+              "absolute h-full w-full items-center justify-center rounded-lg z-20 bg-background/40 " +
               " " +
               (showOverlay ? "flex" : "hidden")
             }
           >
-            <SolidButton sizeClass="text-lg" onClick={onCreate}>
-              Create Room
+            <SolidButton sizeClass="text-base" onClick={onCreate}>
+              <span className="mx-4 my-2">Create Room</span>
             </SolidButton>
           </div>
-          hello
+          {children}
         </div>
 
-        <div className="flex max-h-28 w-80 flex-col gap-1 rounded-xl bg-accent px-6 py-2">
+        <div className="flex max-h-28 w-60 flex-col gap-1 rounded-xl bg-accent px-6 py-2">
           <div className="flex flex-row items-center justify-start gap-2">
-            <IconUsers stroke={2} className="size-5 text-secondary" />
-            <div className="font-sans text-lg font-semibold text-secondary">
+            <IconUsers stroke={2} className="size-5 text-background" />
+            <div className="font-sans text-lg font-semibold text-background">
               {playerCountText}
             </div>
           </div>
           <div className="flex flex-row items-center justify-start gap-2">
-            <IconClock stroke={2} className="size-5 text-secondary" />
-            <div className="font-sans text-lg font-semibold text-secondary">
+            <IconClock stroke={2} className="size-5 text-background" />
+            <div className="font-sans text-lg font-semibold text-background">
               {gameTimeText}
             </div>
           </div>
           <div className="flex flex-row items-center justify-start gap-2">
-            <IconTags stroke={2} className="size-5 text-secondary" />
+            <IconTags stroke={2} className="size-5 text-background" />
             <div className="flex flex-row items-center justify-center gap-2 truncate">
               {tags !== undefined &&
                 tags.map((tag, i) => {
@@ -70,17 +72,20 @@ export function GameCard({
 export function TagCard({ children }: { children: ReactNode }) {
   return (
     <>
-      <div className="cursor-pointer font-sans text-lg font-semibold text-secondary underline hover:text-text">
+      <div className="cursor-pointer font-sans text-lg font-semibold text-background underline hover:text-text">
         {children}
       </div>
     </>
   );
 }
 
-export function BorderBox({ children }: { children: ReactNode }) {
+export function ContainerBox({ children }: { children: ReactNode }) {
   return (
     <>
-      <div className="flex max-w-[75%] flex-col items-center justify-center gap-10 rounded-2xl ">
+      <div
+        className="flex max-w-[75%] flex-col items-center justify-center gap-2 rounded-2xl
+         sm:gap-4 md:gap-8 lg:gap-10 "
+      >
         {children}
       </div>
     </>
