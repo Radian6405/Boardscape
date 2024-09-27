@@ -53,7 +53,7 @@ export function PasswordInput({
           placeholder={placeholder}
         />
         <div
-          className="absolute right-0 top-0 flex h-full cursor-pointer items-center justify-center pr-1 text-text sm:pr-2"
+          className="absolute right-0 top-0 flex h-10 cursor-pointer items-center justify-center pr-1 text-text sm:h-12 sm:pr-2 md:h-14"
           onClick={() => setShow(!show)}
         >
           {show ? (
