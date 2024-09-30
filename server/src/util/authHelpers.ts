@@ -62,6 +62,8 @@ export function aucthenticateToken(
         user_id: findUser.rows[0].user_id,
         email: findUser.rows[0].email,
         username: String(findUser.rows[0].username),
+        avatar_text: String(findUser.rows[0].avatar_text),
+        avatar_color: String(findUser.rows[0].avatar_color),
       };
       next();
     }

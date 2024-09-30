@@ -2,7 +2,10 @@ CREATE TABLE user_data (
     user_id SERIAL NOT NULL PRIMARY KEY,
     username VARCHAR(16) UNIQUE NOT NULL,
     email VARCHAR(254) UNIQUE NOT NULL,
-    password VARCHAR(60) NOT NULL
+    password VARCHAR(60) NOT NULL,
+    avatar_text VARCHAR(3) NOT NULL,
+    avatar_color CHAR(7) NOT NULL
+
 );
 
 CREATE TABLE room_data (

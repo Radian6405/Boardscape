@@ -68,8 +68,8 @@ router.post(
       const hashedPassword: string = hashPassword(password);
 
       const newUser = await pool.query(
-        "INSERT INTO user_data(username, email, password) VALUES($1,$2,$3) RETURNING *",
-        [username, email, hashedPassword]
+        "INSERT INTO user_data(username, email, password, avatar_text, avatar_color) VALUES($1,$2,$3,$4,$5) RETURNING *",
+        [username, email, hashedPassword, ":)", "#FF0000"]
       );
 
       res
@@ -100,7 +100,7 @@ router.post("/login", async (req: Request, res: Response) => {
     } else {
       res.status(401).send({
         message:
-          "Invalid credentials. Please check your username and password and try again.",
+          "Invalid credentials. Please check your credentials and try again.",
       });
     }
   } catch (error) {

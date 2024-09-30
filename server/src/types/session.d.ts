@@ -5,6 +5,8 @@ declare global {
         user_id: number;
         username: string;
         email: string;
+        avatar_text: string;
+        avatar_color: string;
       } | null;
     }
   }

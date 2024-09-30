@@ -58,7 +58,9 @@ router.get("/google-oauth/login", async (req: Request, res: Response) => {
         .status(206)
         .send({ email: user_data.email, username: user_data.name });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 router.get(
@@ -92,6 +94,8 @@ router.get("/google-oauth/status", async (req: Request, res: Response) => {
       user_id: findUser.rows[0].user_id,
       email: String(findUser.rows[0].email),
       username: String(findUser.rows[0].username),
+      avatar_text: String(findUser.rows[0].avatar_text),
+      avatar_color: String(findUser.rows[0].avatar_color),
     });
   } catch (error) {
     console.log(error);
