@@ -7,5 +7,5 @@ export function generateRandomAvatarColor() {
   return "#FF0000";
 }
 export function generateRandomAvatarText() {
-  return ":)";
+  return ":(";
 }

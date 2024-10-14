@@ -65,8 +65,6 @@ function Room() {
       setUserList(data.userList);
       setIsGameStarted(data.isGameStarted);
 
-      console.log(data.userList);
-
       // console.log(data.game);
       setGame(data.game);
     });
