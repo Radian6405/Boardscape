@@ -5,9 +5,10 @@ interface AvatarProps {
   text: string;
   rot: number;
   disabled: boolean;
+  color?: string;
 }
 
-function Avatar({ children, text, rot, disabled }: AvatarProps) {
+function Avatar({ children, text, rot, disabled, color }: AvatarProps) {
   return (
     <>
       <div
@@ -38,7 +39,13 @@ function Avatar({ children, text, rot, disabled }: AvatarProps) {
   );
 }
 
-export function AvatarMedium({ children, text, rot, disabled }: AvatarProps) {
+export function AvatarMedium({
+  children,
+  text,
+  rot,
+  disabled,
+  color,
+}: AvatarProps) {
   return (
     <>
       <div
@@ -66,7 +73,13 @@ export function AvatarMedium({ children, text, rot, disabled }: AvatarProps) {
     </>
   );
 }
-export function AvatarSmall({ children, text, rot, disabled }: AvatarProps) {
+export function AvatarSmall({
+  children,
+  text,
+  rot,
+  disabled,
+  color,
+}: AvatarProps) {
   return (
     <>
       <div

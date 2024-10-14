@@ -11,6 +11,9 @@ import { useCookies } from "react-cookie";
 export interface userData {
   user_id: number | null;
   username: string;
+  avatar_color: string;
+  avatar_text: string;
+  email: string | null;
 }
 
 function Navbar({
@@ -26,7 +29,7 @@ function Navbar({
   const [cookie, setCookie] = useCookies(["token", "googleRefreshToken"]);
 
   async function setUser() {
-    const data = await getUser(cookie, setCookie);
+    const data: userData = await getUser(cookie, setCookie);
     if (data !== null) setUserData(data);
   }
 

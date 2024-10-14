@@ -12,6 +12,11 @@ import { getUser, userData } from "../../util/Navbar";
 import { useCookies } from "react-cookie";
 import { DoubleOutlineButton } from "../../util/reusables/Buttons";
 import TicTacToeGame from "./TicTacToe";
+import {
+  generateRandomAvatarColor,
+  generateRandomAvatarText,
+  generateRandomUsername,
+} from "../../util/miscFunctions";
 
 function Room() {
   const [searchParams] = useSearchParams();
@@ -29,8 +34,11 @@ function Room() {
     let data: userData = await getUser(cookie, setCookie);
     if (data === null || data === undefined) {
       data = {
-        username: "user_" + String(Math.floor(Math.random() * 10000)),
+        username: generateRandomUsername(),
         user_id: null,
+        avatar_color: generateRandomAvatarColor(),
+        avatar_text: generateRandomAvatarText(),
+        email: null,
       };
     }
 
@@ -56,6 +64,8 @@ function Room() {
     socket.on("room-update", (data) => {
       setUserList(data.userList);
       setIsGameStarted(data.isGameStarted);
+
+      console.log(data.userList);
 
       // console.log(data.game);
       setGame(data.game);

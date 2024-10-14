@@ -9,9 +9,13 @@ import {
 import { ContainerBox } from "../util/reusables/Cards";
 import Avatar from "../util/reusables/Avatar";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { getUser, userData } from "../util/Navbar";
 
 function JoinRoom() {
-  const [isAuth, setIsAuth] = useState(false);
+  const [cookie] = useCookies(["token", "googleRefreshToken"]);
+
+  const [joinToggle, setJoinToggle] = useState(cookie.token !== undefined);
   const [code, setCode] = useState<string>("");
   const [debugText, setDebugText] = useState<string | null>(null);
 
@@ -90,11 +94,11 @@ function JoinRoom() {
                     " " +
                     "sm:whitespace-nowrap sm:px-6 sm:py-2 sm:text-2xl md:px-8 md:py-4 md:text-3xl lg:px-20 lg:py-5 lg:text-4xl" +
                     " " +
-                    (!isAuth
+                    (!joinToggle
                       ? "rounded-t-lg border-2 border-b-0 bg-background/40 underline underline-offset-4 md:rounded-t-xl"
                       : "border-b-2 ")
                   }
-                  onClick={() => setIsAuth(false)}
+                  onClick={() => setJoinToggle(false)}
                 >
                   Join as Guest
                 </div>
@@ -104,11 +108,11 @@ function JoinRoom() {
                     " " +
                     "sm:whitespace-nowrap sm:px-6 sm:py-2 sm:text-2xl md:px-8 md:py-4 md:text-3xl lg:px-20 lg:py-5 lg:text-4xl" +
                     " " +
-                    (isAuth
+                    (joinToggle
                       ? "rounded-t-lg border-2 border-b-0 bg-background/40 underline underline-offset-4 md:rounded-t-xl"
                       : "border-b-2")
                   }
-                  onClick={() => setIsAuth(true)}
+                  onClick={() => setJoinToggle(true)}
                 >
                   {/* TODO: change "User" to user's username */}
                   Join as User
@@ -118,7 +122,7 @@ function JoinRoom() {
                 className="flex flex-col items-center justify-center gap-5 rounded-b-lg border-2 border-t-0 border-accent bg-background/40 
                 px-6 py-8 md:gap-10 md:rounded-b-xl lg:flex-row"
               >
-                {isAuth ? <UserOptions /> : <GuestOptions />}
+                {joinToggle ? <UserOptions /> : <GuestOptions />}
               </div>
             </div>
           </ContainerBox>
@@ -187,36 +191,69 @@ export function GuestOptions() {
   );
 }
 export function UserOptions() {
+  const [cookie, setCookie] = useCookies(["token", "googleRefreshToken"]);
+  const [isAuth] = useState(cookie.token !== undefined);
+
   const [avatarRot, setAvatarRot] = useState(0);
+
+  const [avatarText, setAvatarText] = useState<string | null>(null);
+  const [avatarColor, setAvatarColor] = useState<string | null>(null);
+
+  async function getUserData() {
+    const data: userData = await getUser(cookie, setCookie);
+    if (data !== null) {
+      setAvatarText(data.avatar_text);
+      setAvatarColor(data.avatar_color);
+    }
+  }
+
+  useEffect(() => {
+    if (cookie.token !== undefined) {
+      getUserData();
+    }
+  }, []);
+
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-5">
         {/* fill text and rot with user pref */}
-        <Avatar text="lol" rot={avatarRot} disabled={false}>
-          <div
-            className="absolute -right-5 bottom-10 flex cursor-pointer items-center justify-center rounded-full 
-                      bg-primary p-4 text-text sm:p-5"
-            onClick={() => setAvatarRot((avatarRot + 90) % 360)}
-          >
-            <IconRotateClockwise
-              stroke={2}
-              className="size-6 rotate-90 md:size-8"
-            />
-          </div>
-          <div
-            className="absolute -bottom-5 right-10  flex cursor-pointer items-center justify-center rounded-full 
-                      bg-primary p-4 text-text sm:p-5"
-          >
-            <IconPalette stroke={2} className="size-6 md:size-8" />
-          </div>
-        </Avatar>
-        <div className="text-sm text-text/50 sm:text-base md:text-lg">
-          type an avatar
-        </div>
-      </div>
-
-      <div className="flex flex-col justify-center gap-10">
-        {/* <div className="size-64 bg-white">login</div> */}
+        {isAuth ? (
+          <>
+            <div className="flex flex-col items-center justify-center gap-5">
+              <Avatar
+                text={avatarText ?? ""}
+                rot={avatarRot}
+                disabled={false}
+                color={avatarColor ?? "#FF0000"}
+              >
+                <div
+                  className="absolute -right-5 bottom-10 flex cursor-pointer items-center justify-center rounded-full 
+                bg-primary p-4 text-text sm:p-5"
+                  onClick={() => setAvatarRot((avatarRot + 90) % 360)}
+                >
+                  <IconRotateClockwise
+                    stroke={2}
+                    className="size-6 rotate-90 md:size-8"
+                  />
+                </div>
+                <div
+                  className="absolute -bottom-5 right-10  flex cursor-pointer items-center justify-center rounded-full 
+                bg-primary p-4 text-text sm:p-5"
+                >
+                  <IconPalette stroke={2} className="size-6 md:size-8" />
+                </div>
+              </Avatar>
+              {/* TODO before merge: update the changed avatar */}
+              {/* <SolidButton>Update</SolidButton> */}
+            </div>
+            <div className="text-sm text-text/50 sm:text-base md:text-lg">
+              type an avatar
+            </div>
+          </>
+        ) : (
+          // TODO before merge: add login Popup
+          <div className="size-64 bg-white">click here to login</div>
+        )}
       </div>
     </>
   );
