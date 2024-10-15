@@ -8,7 +8,7 @@ import {
 import { useState } from "react";
 import { Socket } from "socket.io-client";
 import { AvatarMedium, AvatarSmall } from "../reusables/Avatar";
-import { userData } from "../Navbar";
+import { chatMessage, userData } from "../interfaces";
 
 export function RoomCodeCard({ code }: { code: string }) {
   const [copyDebug, setCopyDebug] = useState(false);
@@ -62,11 +62,6 @@ export function RoomCodeCard({ code }: { code: string }) {
       </div>
     </>
   );
-}
-
-export interface chatMessage {
-  username: string;
-  message: string;
 }
 
 export function Chat({

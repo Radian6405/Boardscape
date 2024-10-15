@@ -2,13 +2,12 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { SimpleBackdrop } from "../../util/reusables/Backdrop";
 import {
   Chat,
-  chatMessage,
   PlayerLobbyCard,
   RoomCodeCard,
 } from "../../util/game_cards/Misc";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import { getUser, userData } from "../../util/Navbar";
+import { getUser } from "../../util/Navbar";
 import { useCookies } from "react-cookie";
 import { DoubleOutlineButton } from "../../util/reusables/Buttons";
 import TicTacToeGame from "./TicTacToe";
@@ -16,7 +15,8 @@ import {
   generateRandomAvatarColor,
   generateRandomAvatarText,
   generateRandomUsername,
-} from "../../util/miscFunctions";
+} from "../../util/misc";
+import { chatMessage, userData } from "../../util/interfaces";
 
 function Room() {
   const [searchParams] = useSearchParams();

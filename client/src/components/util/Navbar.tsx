@@ -7,14 +7,7 @@ import { DoubleOutlineButton } from "./reusables/Buttons";
 import LoginRegister from "./Login";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-
-export interface userData {
-  user_id: number | null;
-  username: string;
-  avatar_color: string;
-  avatar_text: string;
-  email: string | null;
-}
+import { userData } from "./interfaces";
 
 function Navbar({
   theme,

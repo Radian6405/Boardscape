@@ -10,8 +10,9 @@ import { ContainerBox } from "../util/reusables/Cards";
 import Avatar from "../util/reusables/Avatar";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { getUser, userData } from "../util/Navbar";
-import { generateRandomAvatarText } from "../util/miscFunctions";
+import { getUser } from "../util/Navbar";
+import { generateRandomAvatarText } from "../util/misc";
+import { userData } from "../util/interfaces";
 
 function JoinRoom() {
   const [cookie] = useCookies(["token", "googleRefreshToken"]);
