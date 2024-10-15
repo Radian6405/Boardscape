@@ -6,9 +6,19 @@ interface AvatarProps {
   rot: number;
   disabled: boolean;
   color?: string;
+  value?: string | null;
+  setValue?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-function Avatar({ children, text, rot, disabled, color }: AvatarProps) {
+function Avatar({
+  children,
+  text,
+  rot,
+  disabled,
+  color,
+  value,
+  setValue,
+}: AvatarProps) {
   return (
     <>
       <div
@@ -22,6 +32,11 @@ function Avatar({ children, text, rot, disabled, color }: AvatarProps) {
           disabled={disabled}
           defaultValue={text}
           autoFocus
+          value={value ?? ""}
+          onChange={(event) => {
+            if (setValue !== undefined)
+              setValue(event.target.value === "" ? null : event.target.value);
+          }}
           className={
             "my-2 h-48 w-52 select-none resize-none items-center bg-transparent pb-8 pt-12 text-center font-nueu text-8xl text-text focus:outline-0" +
             " " +

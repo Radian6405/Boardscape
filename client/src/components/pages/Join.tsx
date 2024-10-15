@@ -11,6 +11,7 @@ import Avatar from "../util/reusables/Avatar";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { getUser, userData } from "../util/Navbar";
+import { generateRandomAvatarText } from "../util/miscFunctions";
 
 function JoinRoom() {
   const [cookie] = useCookies(["token", "googleRefreshToken"]);
@@ -18,6 +19,14 @@ function JoinRoom() {
   const [joinToggle, setJoinToggle] = useState(cookie.token !== undefined);
   const [code, setCode] = useState<string>("");
   const [debugText, setDebugText] = useState<string | null>(null);
+
+  // for guest options only
+  const [username, setUsername] = useState<string | null>(
+    localStorage.getItem("prevUsername")
+  );
+  const [avatarText, setAvatarText] = useState<string | null>(
+    localStorage.getItem("prevAvatarText") ?? generateRandomAvatarText()
+  );
 
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -28,6 +37,25 @@ function JoinRoom() {
       setDebugText(null);
     }, 2000);
     return;
+  }
+  function joinUser() {
+    if (code.length !== 6) {
+      callDebug("Not a valid room code");
+      return;
+    }
+    if (username === null) {
+      callDebug("Enter a username");
+      return;
+    }
+    if (avatarText === null) {
+      callDebug("Enter an avatar");
+      return;
+    }
+
+    localStorage.setItem("prevUsername", username);
+    localStorage.setItem("prevAvatarText", avatarText);
+
+    navigate("/room?code=" + code);
   }
 
   useEffect(() => {
@@ -65,10 +93,7 @@ function JoinRoom() {
                   }}
                 />
                 <SolidButton
-                  onClick={() => {
-                    if (code.length === 6) navigate("/room?code=" + code);
-                    else callDebug("Not a valid room code");
-                  }}
+                  onClick={joinUser}
                   className={debugText !== null ? "animated-shake" : ""}
                 >
                   <span className="mx-4">Join</span>
@@ -122,7 +147,16 @@ function JoinRoom() {
                 className="flex flex-col items-center justify-center gap-5 rounded-b-lg border-2 border-t-0 border-accent bg-background/40 
                 px-6 py-8 md:gap-10 md:rounded-b-xl lg:flex-row"
               >
-                {joinToggle ? <UserOptions /> : <GuestOptions />}
+                {joinToggle ? (
+                  <UserOptions />
+                ) : (
+                  <GuestOptions
+                    username={username}
+                    setUsername={setUsername}
+                    avatarText={avatarText}
+                    setAvatarText={setAvatarText}
+                  />
+                )}
               </div>
             </div>
           </ContainerBox>
@@ -132,12 +166,29 @@ function JoinRoom() {
   );
 }
 
-export function GuestOptions() {
+export function GuestOptions({
+  username,
+  setUsername,
+  avatarText,
+  setAvatarText,
+}: {
+  username: string | null;
+  setUsername: React.Dispatch<React.SetStateAction<string | null>>;
+  avatarText: string | null;
+  setAvatarText: React.Dispatch<React.SetStateAction<string | null>>;
+}) {
   const [avatarRot, setAvatarRot] = useState(0);
+
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-5">
-        <Avatar text="" rot={avatarRot} disabled={false}>
+        <Avatar
+          text={avatarText ?? ""}
+          value={avatarText}
+          setValue={setAvatarText}
+          rot={avatarRot}
+          disabled={false}
+        >
           <div
             className="absolute -right-5 bottom-10 flex cursor-pointer items-center justify-center rounded-full 
                       bg-primary p-4 text-white sm:p-5"
@@ -166,6 +217,10 @@ export function GuestOptions() {
             className="h-10 w-48 border-b-2 border-accent bg-transparent p-2 text-lg text-text focus:outline-0
             sm:h-12 sm:w-64 sm:text-xl md:h-14 md:w-72"
             placeholder="Enter a username"
+            value={username ?? ""}
+            onChange={(event) =>
+              setUsername(event.target.value === "" ? null : event.target.value)
+            }
           />
           <div
             className="flex cursor-pointer items-center justify-center rounded-lg bg-primary p-3 text-white

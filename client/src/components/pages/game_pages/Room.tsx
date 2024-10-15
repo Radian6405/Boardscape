@@ -34,10 +34,12 @@ function Room() {
     let data: userData = await getUser(cookie, setCookie);
     if (data === null || data === undefined) {
       data = {
-        username: generateRandomUsername(),
+        username:
+          localStorage.getItem("prevUsername") ?? generateRandomUsername(),
         user_id: null,
         avatar_color: generateRandomAvatarColor(),
-        avatar_text: generateRandomAvatarText(),
+        avatar_text:
+          localStorage.getItem("prevAvatarText") ?? generateRandomAvatarText(),
         email: null,
       };
     }
