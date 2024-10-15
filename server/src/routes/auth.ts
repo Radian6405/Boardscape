@@ -67,9 +67,10 @@ router.post(
 
       const hashedPassword: string = hashPassword(password);
 
+      // todo change before merge: randomize avatar text & rot, color
       const newUser = await pool.query(
-        "INSERT INTO user_data(username, email, password, avatar_text, avatar_color) VALUES($1,$2,$3,$4,$5) RETURNING *",
-        [username, email, hashedPassword, ":)", "#FF0000"]
+        "INSERT INTO user_data(username, email, password, avatar_text, avatar_color, avatar_rotation) VALUES($1,$2,$3,$4,$5,$6) RETURNING *",
+        [username, email, hashedPassword, ":)", "#FF0000", 90]
       );
 
       res
