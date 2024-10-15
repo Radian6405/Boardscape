@@ -7,6 +7,7 @@ declare global {
         email: string;
         avatar_text: string;
         avatar_color: string;
+        avatar_rotation: number;
       } | null;
     }
   }

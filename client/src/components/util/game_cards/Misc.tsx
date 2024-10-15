@@ -133,7 +133,11 @@ export function PlayerRowCard({ i, user }: { i: number; user: userData }) {
   return (
     <div className="mb-2 flex flex-row items-center justify-between rounded-lg bg-secondary p-2 md:px-4">
       <div className="flex flex-row items-center justify-start gap-2">
-        <AvatarSmall text={user.avatar_text} rot={0} disabled />
+        <AvatarSmall
+          value={user.avatar_text}
+          rot={user.avatar_rotation}
+          disabled
+        />
         <div className="font-nueu text-2xl font-bold text-text">
           {user.username}
         </div>
@@ -153,10 +157,18 @@ export function PlayerLobbyCard({ user }: { user: userData }) {
   return (
     <div className="w-26 flex h-min flex-col items-center justify-start gap-2 rounded-md p-2 hover:bg-secondary sm:w-48 sm:rounded-lg sm:p-6">
       <div className="hidden sm:block">
-        <AvatarMedium text={user.avatar_text} rot={0} disabled />
+        <AvatarMedium
+          value={user.avatar_text}
+          rot={user.avatar_rotation}
+          disabled
+        />
       </div>
       <div className="block sm:hidden">
-        <AvatarSmall text={user.avatar_text} rot={0} disabled />
+        <AvatarSmall
+          value={user.avatar_text}
+          rot={user.avatar_rotation}
+          disabled
+        />
       </div>
       <div className="truncate text-center font-nueu text-xl text-text sm:text-4xl">
         {user.username}

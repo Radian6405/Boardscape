@@ -3,8 +3,10 @@ export interface userData {
   username: string;
   avatar_color: string;
   avatar_text: string;
+  avatar_rotation: number;
   email: string | null;
 }
+
 export interface chatMessage {
   username: string;
   message: string;

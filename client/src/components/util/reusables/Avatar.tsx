@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 
 interface AvatarProps {
   children?: ReactNode;
-  text: string;
   rot: number;
   disabled: boolean;
   color?: string;
@@ -12,7 +11,6 @@ interface AvatarProps {
 
 function Avatar({
   children,
-  text,
   rot,
   disabled,
   color,
@@ -30,7 +28,6 @@ function Avatar({
           maxLength={3}
           spellCheck={false}
           disabled={disabled}
-          defaultValue={text}
           autoFocus
           value={value ?? ""}
           onChange={(event) => {
@@ -56,7 +53,7 @@ function Avatar({
 
 export function AvatarMedium({
   children,
-  text,
+  value,
   rot,
   disabled,
   color,
@@ -72,7 +69,7 @@ export function AvatarMedium({
           maxLength={3}
           spellCheck={false}
           disabled={disabled}
-          defaultValue={text}
+          defaultValue={value ?? ""}
           autoFocus
           className={
             "my-3 h-20 w-[6.5rem] scale-125 select-none resize-none items-center bg-transparent py-2 text-center font-nueu text-6xl text-text focus:outline-0" +
@@ -90,7 +87,7 @@ export function AvatarMedium({
 }
 export function AvatarSmall({
   children,
-  text,
+  value,
   rot,
   disabled,
   color,
@@ -106,7 +103,7 @@ export function AvatarSmall({
           maxLength={3}
           spellCheck={false}
           disabled={disabled}
-          defaultValue={text}
+          defaultValue={value ?? ""}
           autoFocus
           className={
             "h-10 w-[2.5rem] scale-125 select-none resize-none items-center bg-transparent pb-[0.25rem] pt-[0.375rem] text-center font-nueu text-xl text-text focus:outline-0" +

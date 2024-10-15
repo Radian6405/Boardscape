@@ -28,6 +28,9 @@ function JoinRoom() {
   const [avatarText, setAvatarText] = useState<string | null>(
     localStorage.getItem("prevAvatarText") ?? generateRandomAvatarText()
   );
+  const [avatarRotation, setAvatarRotation] = useState<number>(
+    Number(localStorage.getItem("prevAvatarRotation") ?? 90)
+  );
 
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -44,17 +47,20 @@ function JoinRoom() {
       callDebug("Not a valid room code");
       return;
     }
-    if (username === null) {
-      callDebug("Enter a username");
-      return;
-    }
-    if (avatarText === null) {
-      callDebug("Enter an avatar");
-      return;
-    }
+    if (!joinToggle) {
+      if (username === null) {
+        callDebug("Enter a username");
+        return;
+      }
+      if (avatarText === null) {
+        callDebug("Enter an avatar");
+        return;
+      }
 
-    localStorage.setItem("prevUsername", username);
-    localStorage.setItem("prevAvatarText", avatarText);
+      localStorage.setItem("prevUsername", username);
+      localStorage.setItem("prevAvatarText", avatarText);
+      localStorage.setItem("prevAvatarRotation", String(avatarRotation));
+    }
 
     navigate("/room?code=" + code);
   }
@@ -156,6 +162,8 @@ function JoinRoom() {
                     setUsername={setUsername}
                     avatarText={avatarText}
                     setAvatarText={setAvatarText}
+                    avatarRot={avatarRotation}
+                    setAvatarRot={setAvatarRotation}
                   />
                 )}
               </div>
@@ -172,19 +180,20 @@ export function GuestOptions({
   setUsername,
   avatarText,
   setAvatarText,
+  avatarRot,
+  setAvatarRot,
 }: {
   username: string | null;
   setUsername: React.Dispatch<React.SetStateAction<string | null>>;
   avatarText: string | null;
   setAvatarText: React.Dispatch<React.SetStateAction<string | null>>;
+  avatarRot: number;
+  setAvatarRot: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const [avatarRot, setAvatarRot] = useState(0);
-
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-5">
         <Avatar
-          text={avatarText ?? ""}
           value={avatarText}
           setValue={setAvatarText}
           rot={avatarRot}
@@ -260,6 +269,7 @@ export function UserOptions() {
     if (data !== null) {
       setAvatarText(data.avatar_text);
       setAvatarColor(data.avatar_color);
+      setAvatarRot(data.avatar_rotation);
     }
   }
 
@@ -277,7 +287,8 @@ export function UserOptions() {
           <>
             <div className="flex flex-col items-center justify-center gap-5">
               <Avatar
-                text={avatarText ?? ""}
+                value={avatarText ?? ""}
+                setValue={setAvatarText}
                 rot={avatarRot}
                 disabled={false}
                 color={avatarColor ?? "#FF0000"}
@@ -299,7 +310,7 @@ export function UserOptions() {
                   <IconPalette stroke={2} className="size-6 md:size-8" />
                 </div>
               </Avatar>
-              {/* TODO before merge: update the changed avatar */}
+              {/* TODO before merge: update the changed avatar text and rot */}
               {/* <SolidButton>Update</SolidButton> */}
             </div>
             <div className="text-sm text-text/50 sm:text-base md:text-lg">

@@ -41,6 +41,9 @@ function Room() {
         avatar_text:
           localStorage.getItem("prevAvatarText") ?? generateRandomAvatarText(),
         email: null,
+        avatar_rotation: Number(
+          localStorage.getItem("prevAvatarRotation") ?? 90
+        ),
       };
     }
 

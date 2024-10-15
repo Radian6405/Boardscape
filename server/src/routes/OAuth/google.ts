@@ -96,6 +96,7 @@ router.get("/google-oauth/status", async (req: Request, res: Response) => {
       username: String(findUser.rows[0].username),
       avatar_text: String(findUser.rows[0].avatar_text),
       avatar_color: String(findUser.rows[0].avatar_color),
+      avatar_rotation: findUser.rows[0].avatar_rotation,
     });
   } catch (error) {
     console.log(error);
