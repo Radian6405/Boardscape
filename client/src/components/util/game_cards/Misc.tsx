@@ -136,6 +136,7 @@ export function PlayerRowCard({ i, user }: { i: number; user: userData }) {
         <AvatarSmall
           value={user.avatar_text}
           rot={user.avatar_rotation}
+          color={user.avatar_color}
           disabled
         />
         <div className="font-nueu text-2xl font-bold text-text">
@@ -160,6 +161,7 @@ export function PlayerLobbyCard({ user }: { user: userData }) {
         <AvatarMedium
           value={user.avatar_text}
           rot={user.avatar_rotation}
+          color={user.avatar_color}
           disabled
         />
       </div>
@@ -167,6 +169,7 @@ export function PlayerLobbyCard({ user }: { user: userData }) {
         <AvatarSmall
           value={user.avatar_text}
           rot={user.avatar_rotation}
+          color={user.avatar_color}
           disabled
         />
       </div>

@@ -4,8 +4,8 @@ interface AvatarProps {
   children?: ReactNode;
   rot: number;
   disabled: boolean;
-  color?: string;
-  value?: string | null;
+  color: string;
+  value: string | null;
   setValue?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 

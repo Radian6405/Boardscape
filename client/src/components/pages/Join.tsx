@@ -11,7 +11,10 @@ import Avatar from "../util/reusables/Avatar";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { getUser } from "../util/Navbar";
-import { generateRandomAvatarText } from "../util/misc";
+import {
+  generateRandomAvatarColor,
+  generateRandomAvatarText,
+} from "../util/misc";
 import { userData } from "../util/interfaces";
 
 function JoinRoom() {
@@ -21,6 +24,9 @@ function JoinRoom() {
   const [code, setCode] = useState<string>("");
   const [debugText, setDebugText] = useState<string | null>(null);
 
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
   // for guest options only
   const [username, setUsername] = useState<string | null>(
     localStorage.getItem("prevUsername")
@@ -28,12 +34,12 @@ function JoinRoom() {
   const [avatarText, setAvatarText] = useState<string | null>(
     localStorage.getItem("prevAvatarText") ?? generateRandomAvatarText()
   );
+  const [avatarColor, setAvatarColor] = useState<string>(
+    localStorage.getItem("prevAvatarColor") ?? generateRandomAvatarColor()
+  );
   const [avatarRotation, setAvatarRotation] = useState<number>(
     Number(localStorage.getItem("prevAvatarRotation") ?? 90)
   );
-
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   function callDebug(text: string) {
     setDebugText(text);
@@ -59,6 +65,7 @@ function JoinRoom() {
 
       localStorage.setItem("prevUsername", username);
       localStorage.setItem("prevAvatarText", avatarText);
+      localStorage.setItem("prevAvatarColor", avatarColor);
       localStorage.setItem("prevAvatarRotation", String(avatarRotation));
     }
 
@@ -164,6 +171,8 @@ function JoinRoom() {
                     setAvatarText={setAvatarText}
                     avatarRot={avatarRotation}
                     setAvatarRot={setAvatarRotation}
+                    avatarColor={avatarColor}
+                    setAvatarColor={setAvatarColor}
                   />
                 )}
               </div>
@@ -182,6 +191,8 @@ export function GuestOptions({
   setAvatarText,
   avatarRot,
   setAvatarRot,
+  avatarColor,
+  setAvatarColor,
 }: {
   username: string | null;
   setUsername: React.Dispatch<React.SetStateAction<string | null>>;
@@ -189,6 +200,8 @@ export function GuestOptions({
   setAvatarText: React.Dispatch<React.SetStateAction<string | null>>;
   avatarRot: number;
   setAvatarRot: React.Dispatch<React.SetStateAction<number>>;
+  avatarColor: string;
+  setAvatarColor: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
     <>
@@ -196,6 +209,7 @@ export function GuestOptions({
         <Avatar
           value={avatarText}
           setValue={setAvatarText}
+          color={avatarColor}
           rot={avatarRot}
           disabled={false}
         >
@@ -257,7 +271,7 @@ export function GuestOptions({
 }
 export function UserOptions() {
   const [cookie, setCookie] = useCookies(["token", "googleRefreshToken"]);
-  const [isAuth] = useState(cookie.token !== undefined);
+  const [isAuth, setIsAuth] = useState(cookie.token !== undefined);
 
   const [avatarRot, setAvatarRot] = useState(0);
 
@@ -270,6 +284,8 @@ export function UserOptions() {
       setAvatarText(data.avatar_text);
       setAvatarColor(data.avatar_color);
       setAvatarRot(data.avatar_rotation);
+    } else {
+      setIsAuth(false);
     }
   }
 
@@ -291,6 +307,7 @@ export function UserOptions() {
                 setValue={setAvatarText}
                 rot={avatarRot}
                 disabled={false}
+                // avatarColor is null until data comes from backend
                 color={avatarColor ?? "#FF0000"}
               >
                 <div
