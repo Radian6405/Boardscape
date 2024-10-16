@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { HexColorInput, HexColorPicker } from "react-colorful";
 
 interface AvatarProps {
   children?: ReactNode;
@@ -21,8 +22,9 @@ function Avatar({
     <>
       <div
         className={
-          "relative flex size-48 items-center justify-center rounded-full border-2 border-primary bg-transparent sm:size-64"
+          "relative flex size-48 items-center justify-center rounded-full border-2 border-primary sm:size-64"
         }
+        style={{ backgroundColor: color }}
       >
         <textarea
           maxLength={3}
@@ -35,7 +37,9 @@ function Avatar({
               setValue(event.target.value === "" ? null : event.target.value);
           }}
           className={
-            "my-2 h-48 w-52 select-none resize-none items-center bg-transparent pb-8 pt-12 text-center font-nueu text-8xl text-text focus:outline-0" +
+            "my-2 h-48 w-52 select-none resize-none items-center bg-transparent pb-8 pt-12 text-center font-sans text-8xl" +
+            " " +
+            "text-black focus:outline-0" +
             " " +
             "sm:scale-125" +
             " " +
@@ -62,8 +66,9 @@ export function AvatarMedium({
     <>
       <div
         className={
-          "relative flex size-32 items-center justify-center rounded-full border-2 border-primary bg-transparent"
+          "relative flex size-32 items-center justify-center rounded-full border-2 border-primary"
         }
+        style={{ backgroundColor: color }}
       >
         <textarea
           maxLength={3}
@@ -72,7 +77,9 @@ export function AvatarMedium({
           defaultValue={value ?? ""}
           autoFocus
           className={
-            "my-3 h-20 w-[6.5rem] scale-125 select-none resize-none items-center bg-transparent py-2 text-center font-nueu text-6xl text-text focus:outline-0" +
+            "my-3 h-20 w-[6.5rem] scale-125 select-none resize-none items-center bg-transparent py-2 text-center font-sans" +
+            " " +
+            "text-6xl text-black focus:outline-0" +
             " " +
             (rot === 0 ? "rotate-[0deg]" : "") +
             (rot === 90 ? "rotate-[90deg]" : "") +
@@ -96,8 +103,9 @@ export function AvatarSmall({
     <>
       <div
         className={
-          "relative flex size-12 items-center justify-center rounded-full border-2 border-primary bg-transparent"
+          "relative flex size-12 items-center justify-center rounded-full border-2 border-primary"
         }
+        style={{ backgroundColor: color }}
       >
         <textarea
           maxLength={3}
@@ -106,7 +114,9 @@ export function AvatarSmall({
           defaultValue={value ?? ""}
           autoFocus
           className={
-            "h-10 w-[2.5rem] scale-125 select-none resize-none items-center bg-transparent pb-[0.25rem] pt-[0.375rem] text-center font-nueu text-xl text-text focus:outline-0" +
+            "h-10 w-[2.5rem] scale-125 select-none resize-none items-center bg-transparent pb-[0.25rem] pt-[0.375rem] " +
+            " " +
+            "text-center font-sans text-xl text-black focus:outline-0" +
             " " +
             (rot === 0 ? "rotate-[0deg]" : "") +
             (rot === 90 ? "rotate-[90deg]" : "") +
@@ -117,6 +127,25 @@ export function AvatarSmall({
         {children}
       </div>
     </>
+  );
+}
+
+export function ColorPicker({
+  avatarColor,
+  setAvatarColor,
+}: {
+  avatarColor: string;
+  setAvatarColor: React.Dispatch<React.SetStateAction<string>>;
+}) {
+  return (
+    <div className="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-accent bg-dark-background p-5">
+      <HexColorPicker color={avatarColor} onChange={setAvatarColor} />
+      <HexColorInput
+        color={avatarColor}
+        className="h-10 border-b-2 border-accent bg-inherit px-2 text-text"
+        onChange={setAvatarColor}
+      />
+    </div>
   );
 }
 

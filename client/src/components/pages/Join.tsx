@@ -7,7 +7,7 @@ import {
   IconRotateClockwise,
 } from "@tabler/icons-react";
 import { ContainerBox } from "../util/reusables/Cards";
-import Avatar from "../util/reusables/Avatar";
+import Avatar, { ColorPicker } from "../util/reusables/Avatar";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { getUser } from "../util/Navbar";
@@ -161,9 +161,10 @@ function JoinRoom() {
                 className="flex flex-col items-center justify-center gap-5 rounded-b-lg border-2 border-t-0 border-accent bg-background/40 
                 px-6 py-8 md:gap-10 md:rounded-b-xl lg:flex-row"
               >
-                {joinToggle ? (
+                <div className={joinToggle ? "block" : "hidden"}>
                   <UserOptions />
-                ) : (
+                </div>
+                <div className={!joinToggle ? "block" : "hidden"}>
                   <GuestOptions
                     username={username}
                     setUsername={setUsername}
@@ -174,7 +175,7 @@ function JoinRoom() {
                     avatarColor={avatarColor}
                     setAvatarColor={setAvatarColor}
                   />
-                )}
+                </div>
               </div>
             </div>
           </ContainerBox>
@@ -233,6 +234,10 @@ export function GuestOptions({
         <div className="text-sm text-text/50 sm:text-base md:text-lg">
           type an avatar
         </div>
+        <ColorPicker
+          avatarColor={avatarColor}
+          setAvatarColor={setAvatarColor}
+        />
       </div>
       <div className="flex flex-col justify-center gap-4">
         <div className="flex flex-row gap-2">
@@ -276,7 +281,7 @@ export function UserOptions() {
   const [avatarRot, setAvatarRot] = useState(0);
 
   const [avatarText, setAvatarText] = useState<string | null>(null);
-  const [avatarColor, setAvatarColor] = useState<string | null>(null);
+  const [avatarColor, setAvatarColor] = useState<string>("#FF16DC");
 
   async function getUserData() {
     const data: userData = await getUser(cookie, setCookie);
@@ -299,7 +304,7 @@ export function UserOptions() {
     <>
       <div className="flex flex-col items-center justify-center gap-5">
         {/* fill text and rot with user pref */}
-        {isAuth ? (
+        {isAuth && avatarText !== null ? (
           <>
             <div className="flex flex-col items-center justify-center gap-5">
               <Avatar
@@ -308,7 +313,7 @@ export function UserOptions() {
                 rot={avatarRot}
                 disabled={false}
                 // avatarColor is null until data comes from backend
-                color={avatarColor ?? "#FF0000"}
+                color={avatarColor ?? "#FF16DC"}
               >
                 <div
                   className="absolute -right-5 bottom-10 flex cursor-pointer items-center justify-center rounded-full 
@@ -327,12 +332,17 @@ export function UserOptions() {
                   <IconPalette stroke={2} className="size-6 md:size-8" />
                 </div>
               </Avatar>
+
               {/* TODO before merge: update the changed avatar text and rot */}
               {/* <SolidButton>Update</SolidButton> */}
             </div>
             <div className="text-sm text-text/50 sm:text-base md:text-lg">
               type an avatar
             </div>
+            <ColorPicker
+              avatarColor={avatarColor}
+              setAvatarColor={setAvatarColor}
+            />
           </>
         ) : (
           // TODO before merge: add login Popup

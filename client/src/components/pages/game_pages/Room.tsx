@@ -37,7 +37,9 @@ function Room() {
         username:
           localStorage.getItem("prevUsername") ?? generateRandomUsername(),
         user_id: null,
-        avatar_color: generateRandomAvatarColor(),
+        avatar_color:
+          localStorage.getItem("prevAvatarColor") ??
+          generateRandomAvatarColor(),
         avatar_text:
           localStorage.getItem("prevAvatarText") ?? generateRandomAvatarText(),
         email: null,
