@@ -69,7 +69,12 @@ function JoinRoom() {
       localStorage.setItem("prevAvatarRotation", String(avatarRotation));
     }
 
-    navigate("/room?code=" + code);
+    if (joinToggle && cookie.token === undefined) {
+      callDebug("Please login or join as Guest");
+      return;
+    }
+
+    navigate("/room?code=" + code + "&guest=" + !joinToggle);
   }
 
   useEffect(() => {

@@ -31,8 +31,9 @@ function Room() {
 
   async function init() {
     // get user data
+    const isGuest = searchParams.get("guest")?.toLocaleLowerCase() === "true";
     let data: userData = await getUser(cookie, setCookie);
-    if (data === null || data === undefined) {
+    if (data === null || data === undefined || isGuest) {
       data = {
         username:
           localStorage.getItem("prevUsername") ?? generateRandomUsername(),
