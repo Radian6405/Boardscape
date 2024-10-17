@@ -163,13 +163,25 @@ function JoinRoom() {
                 </div>
               </div>
               <div
-                className="flex flex-col items-center justify-center gap-5 rounded-b-lg border-2 border-t-0 border-accent bg-background/40 
+                className="flex flex-col items-center justify-center rounded-b-lg border-2 border-t-0 border-accent bg-background/40 
                 px-6 py-8 md:gap-10 md:rounded-b-xl lg:flex-row"
               >
-                <div className={joinToggle ? "block" : "hidden"}>
+                <div
+                  className={
+                    "flex flex-col items-center justify-center gap-5 lg:flex-row" +
+                    " " +
+                    (joinToggle ? "block" : "hidden")
+                  }
+                >
                   <UserOptions />
                 </div>
-                <div className={!joinToggle ? "block" : "hidden"}>
+                <div
+                  className={
+                    "flex flex-col items-center justify-center gap-5 lg:flex-row" +
+                    " " +
+                    (!joinToggle ? "block" : "hidden")
+                  }
+                >
                   <GuestOptions
                     username={username}
                     setUsername={setUsername}
@@ -209,6 +221,7 @@ export function GuestOptions({
   avatarColor: string;
   setAvatarColor: React.Dispatch<React.SetStateAction<string>>;
 }) {
+  const [displayColorPicker, setDisplayColorPicker] = useState(false);
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-5">
@@ -232,17 +245,28 @@ export function GuestOptions({
           <div
             className="absolute -bottom-5 right-10  flex cursor-pointer items-center justify-center rounded-full 
                       bg-primary p-4 text-white sm:p-5"
+            onClick={() => {
+              setDisplayColorPicker(true);
+            }}
+            onMouseLeave={() => {
+              setDisplayColorPicker(false);
+            }}
           >
             <IconPalette stroke={2} className="size-6 md:size-8" />
+            <ColorPicker
+              avatarColor={avatarColor}
+              setAvatarColor={setAvatarColor}
+              className={
+                "absolute top-10 md:bottom-10 md:left-10 md:top-auto" +
+                " " +
+                (displayColorPicker ? "block" : "hidden")
+              }
+            />
           </div>
         </Avatar>
         <div className="text-sm text-text/50 sm:text-base md:text-lg">
           type an avatar
         </div>
-        <ColorPicker
-          avatarColor={avatarColor}
-          setAvatarColor={setAvatarColor}
-        />
       </div>
       <div className="flex flex-col justify-center gap-4">
         <div className="flex flex-row gap-2">
@@ -287,6 +311,8 @@ export function UserOptions() {
 
   const [avatarText, setAvatarText] = useState<string | null>(null);
   const [avatarColor, setAvatarColor] = useState<string>("#FF16DC");
+
+  const [displayColorPicker, setDisplayColorPicker] = useState(false);
 
   async function getUserData() {
     const data: userData = await getUser(cookie, setCookie);
@@ -333,8 +359,23 @@ export function UserOptions() {
                 <div
                   className="absolute -bottom-5 right-10  flex cursor-pointer items-center justify-center rounded-full 
                 bg-primary p-4 text-text sm:p-5"
+                  onClick={() => {
+                    setDisplayColorPicker(true);
+                  }}
+                  onMouseLeave={() => {
+                    setDisplayColorPicker(false);
+                  }}
                 >
                   <IconPalette stroke={2} className="size-6 md:size-8" />
+                  <ColorPicker
+                    avatarColor={avatarColor}
+                    setAvatarColor={setAvatarColor}
+                    className={
+                      "absolute top-10 md:bottom-10 md:left-10 md:top-auto" +
+                      " " +
+                      (displayColorPicker ? "block" : "hidden")
+                    }
+                  />
                 </div>
               </Avatar>
 
@@ -344,10 +385,6 @@ export function UserOptions() {
             <div className="text-sm text-text/50 sm:text-base md:text-lg">
               type an avatar
             </div>
-            <ColorPicker
-              avatarColor={avatarColor}
-              setAvatarColor={setAvatarColor}
-            />
           </>
         ) : (
           // TODO before merge: add login Popup
