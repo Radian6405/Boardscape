@@ -8,6 +8,7 @@ import {
 import pool from "../db";
 import { OAuth2Client } from "google-auth-library";
 import dotenv from "dotenv";
+import { generateRandomAvatar, generateRandomAvatarColor } from "../util/misc";
 
 dotenv.config({ path: "../../.env" });
 const router: Router = Router();
@@ -67,10 +68,17 @@ router.post(
 
       const hashedPassword: string = hashPassword(password);
 
-      // todo change before merge: randomize avatar text & rot, color
+      const randomAvatar = generateRandomAvatar();
       const newUser = await pool.query(
         "INSERT INTO user_data(username, email, password, avatar_text, avatar_color, avatar_rotation) VALUES($1,$2,$3,$4,$5,$6) RETURNING *",
-        [username, email, hashedPassword, ":)", "#FF0000", 90]
+        [
+          username,
+          email,
+          hashedPassword,
+          randomAvatar.text,
+          generateRandomAvatarColor(),
+          randomAvatar.rot,
+        ]
       );
 
       res

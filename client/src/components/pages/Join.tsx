@@ -11,10 +11,7 @@ import Avatar, { ColorPicker } from "../util/reusables/Avatar";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { getUser } from "../util/Navbar";
-import {
-  generateRandomAvatarColor,
-  generateRandomAvatarText,
-} from "../util/misc";
+import { generateRandomAvatarColor, generateRandomAvatar } from "../util/misc";
 import { userData } from "../util/interfaces";
 
 function JoinRoom() {
@@ -28,17 +25,18 @@ function JoinRoom() {
   const navigate = useNavigate();
 
   // for guest options only
+  const randomAvatar = generateRandomAvatar();
   const [username, setUsername] = useState<string | null>(
     localStorage.getItem("prevUsername")
   );
   const [avatarText, setAvatarText] = useState<string | null>(
-    localStorage.getItem("prevAvatarText") ?? generateRandomAvatarText()
+    localStorage.getItem("prevAvatarText") ?? randomAvatar.text
   );
   const [avatarColor, setAvatarColor] = useState<string>(
     localStorage.getItem("prevAvatarColor") ?? generateRandomAvatarColor()
   );
   const [avatarRotation, setAvatarRotation] = useState<number>(
-    Number(localStorage.getItem("prevAvatarRotation") ?? 90)
+    Number(localStorage.getItem("prevAvatarRotation") ?? randomAvatar.rot)
   );
 
   function callDebug(text: string) {
@@ -158,7 +156,6 @@ function JoinRoom() {
                   }
                   onClick={() => setJoinToggle(true)}
                 >
-                  {/* TODO: change "User" to user's username */}
                   Join as User
                 </div>
               </div>

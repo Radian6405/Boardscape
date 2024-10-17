@@ -13,7 +13,7 @@ import { DoubleOutlineButton } from "../../util/reusables/Buttons";
 import TicTacToeGame from "./TicTacToe";
 import {
   generateRandomAvatarColor,
-  generateRandomAvatarText,
+  generateRandomAvatar,
   generateRandomUsername,
 } from "../../util/misc";
 import { chatMessage, userData } from "../../util/interfaces";
@@ -34,6 +34,7 @@ function Room() {
     const isGuest = searchParams.get("guest")?.toLocaleLowerCase() === "true";
     let data: userData = await getUser(cookie, setCookie);
     if (data === null || data === undefined || isGuest) {
+      const randomAvatar = generateRandomAvatar();
       data = {
         username:
           localStorage.getItem("prevUsername") ?? generateRandomUsername(),
@@ -42,10 +43,10 @@ function Room() {
           localStorage.getItem("prevAvatarColor") ??
           generateRandomAvatarColor(),
         avatar_text:
-          localStorage.getItem("prevAvatarText") ?? generateRandomAvatarText(),
+          localStorage.getItem("prevAvatarText") ?? randomAvatar.text,
         email: null,
         avatar_rotation: Number(
-          localStorage.getItem("prevAvatarRotation") ?? 90
+          localStorage.getItem("prevAvatarRotation") ?? randomAvatar.rot
         ),
       };
     }
