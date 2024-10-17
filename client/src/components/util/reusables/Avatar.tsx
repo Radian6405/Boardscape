@@ -20,7 +20,7 @@ function Avatar({
 }: AvatarProps) {
   return (
     <>
-      <div className="flex items-center justify-center rounded-full p-1 bg-background border-4 border-primary">
+      <div className="flex items-center justify-center rounded-full border-4 border-primary bg-background p-1">
         <div
           className={
             "relative flex size-48 items-center justify-center rounded-full border-2 border-primary sm:size-64"
@@ -66,30 +66,32 @@ export function AvatarMedium({
 }: AvatarProps) {
   return (
     <>
-      <div
-        className={
-          "relative flex size-32 items-center justify-center rounded-full border-2 border-primary"
-        }
-        style={{ backgroundColor: color }}
-      >
-        <textarea
-          maxLength={3}
-          spellCheck={false}
-          disabled={disabled}
-          defaultValue={value ?? ""}
-          autoFocus
+      <div className="flex items-center justify-center rounded-full border-4 border-primary bg-background p-1">
+        <div
           className={
-            "h-20 w-[6.5rem] scale-125 select-none resize-none items-center bg-transparent text-center font-sans" +
-            " " +
-            "text-6xl text-black focus:outline-0" +
-            " " +
-            (rot === 0 ? "rotate-[0deg]" : "") +
-            (rot === 90 ? "rotate-[90deg]" : "") +
-            (rot === 180 ? "rotate-[180deg]" : "") +
-            (rot === 270 ? "rotate-[270deg]" : "")
+            "relative flex size-32 items-center justify-center rounded-full border-2 border-primary"
           }
-        />
-        {children}
+          style={{ backgroundColor: color }}
+        >
+          <textarea
+            maxLength={3}
+            spellCheck={false}
+            disabled={disabled}
+            defaultValue={value ?? ""}
+            autoFocus
+            className={
+              "h-20 w-[6.5rem] scale-125 select-none resize-none items-center bg-transparent text-center font-sans" +
+              " " +
+              "text-6xl text-black focus:outline-0" +
+              " " +
+              (rot === 0 ? "rotate-[0deg]" : "") +
+              (rot === 90 ? "rotate-[90deg]" : "") +
+              (rot === 180 ? "rotate-[180deg]" : "") +
+              (rot === 270 ? "rotate-[270deg]" : "")
+            }
+          />
+          {children}
+        </div>
       </div>
     </>
   );
@@ -103,30 +105,32 @@ export function AvatarSmall({
 }: AvatarProps) {
   return (
     <>
-      <div
-        className={
-          "relative flex size-12 items-center justify-center rounded-full border-2 border-primary"
-        }
-        style={{ backgroundColor: color }}
-      >
-        <textarea
-          maxLength={3}
-          spellCheck={false}
-          disabled={disabled}
-          defaultValue={value ?? ""}
-          autoFocus
+      <div className="flex items-center justify-center rounded-full border-2 border-primary bg-background p-[0.125rem]">
+        <div
           className={
-            "h-10 w-[2.5rem] scale-125 select-none resize-none items-center bg-transparent p-[0.2rem] " +
-            " " +
-            "text-center font-sans text-xl text-black focus:outline-0" +
-            " " +
-            (rot === 0 ? "rotate-[0deg]" : "") +
-            (rot === 90 ? "rotate-[90deg]" : "") +
-            (rot === 180 ? "rotate-[180deg]" : "") +
-            (rot === 270 ? "rotate-[270deg]" : "")
+            "relative flex size-12 items-center justify-center rounded-full border-[1px] border-primary"
           }
-        />
-        {children}
+          style={{ backgroundColor: color }}
+        >
+          <textarea
+            maxLength={3}
+            spellCheck={false}
+            disabled={disabled}
+            defaultValue={value ?? ""}
+            autoFocus
+            className={
+              "h-10 w-[2.5rem] scale-125 select-none resize-none items-center bg-transparent p-[0.2rem] " +
+              " " +
+              "text-center font-sans text-xl text-black focus:outline-0" +
+              " " +
+              (rot === 0 ? "rotate-[0deg]" : "") +
+              (rot === 90 ? "rotate-[90deg]" : "") +
+              (rot === 180 ? "rotate-[180deg]" : "") +
+              (rot === 270 ? "rotate-[270deg]" : "")
+            }
+          />
+          {children}
+        </div>
       </div>
     </>
   );
