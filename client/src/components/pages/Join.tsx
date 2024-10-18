@@ -11,8 +11,8 @@ import Avatar, { ColorPicker } from "../util/reusables/Avatar";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { getUser } from "../util/Navbar";
-import { generateRandomAvatarColor, generateRandomAvatar } from "../util/misc";
-import { userData } from "../util/interfaces";
+import { generateRandomAvatar } from "../util/misc";
+import { avatar, userData } from "../util/interfaces";
 
 function JoinRoom() {
   const [cookie] = useCookies(["token", "googleRefreshToken"]);
@@ -25,18 +25,12 @@ function JoinRoom() {
   const navigate = useNavigate();
 
   // for guest options only
-  const randomAvatar = generateRandomAvatar();
   const [username, setUsername] = useState<string | null>(
     localStorage.getItem("prevUsername")
   );
-  const [avatarText, setAvatarText] = useState<string | null>(
-    localStorage.getItem("prevAvatarText") ?? randomAvatar.text
-  );
-  const [avatarColor, setAvatarColor] = useState<string>(
-    localStorage.getItem("prevAvatarColor") ?? generateRandomAvatarColor()
-  );
-  const [avatarRotation, setAvatarRotation] = useState<number>(
-    Number(localStorage.getItem("prevAvatarRotation") ?? randomAvatar.rot)
+  const prevAvatar = JSON.parse(localStorage.getItem("prevAvatar") ?? "{}");
+  const [avatar, setAvatar] = useState<avatar>(
+    Object.keys(prevAvatar).length === 0 ? generateRandomAvatar() : prevAvatar
   );
 
   function callDebug(text: string) {
@@ -56,15 +50,10 @@ function JoinRoom() {
         callDebug("Enter a username");
         return;
       }
-      if (avatarText === null) {
+      if (avatar.text === null) {
         callDebug("Enter an avatar");
         return;
       }
-
-      localStorage.setItem("prevUsername", username);
-      localStorage.setItem("prevAvatarText", avatarText);
-      localStorage.setItem("prevAvatarColor", avatarColor);
-      localStorage.setItem("prevAvatarRotation", String(avatarRotation));
     }
 
     if (joinToggle && cookie.token === undefined) {
@@ -182,12 +171,8 @@ function JoinRoom() {
                   <GuestOptions
                     username={username}
                     setUsername={setUsername}
-                    avatarText={avatarText}
-                    setAvatarText={setAvatarText}
-                    avatarRot={avatarRotation}
-                    setAvatarRot={setAvatarRotation}
-                    avatarColor={avatarColor}
-                    setAvatarColor={setAvatarColor}
+                    avatar={avatar}
+                    setAvatar={setAvatar}
                   />
                 </div>
               </div>
@@ -202,37 +187,47 @@ function JoinRoom() {
 export function GuestOptions({
   username,
   setUsername,
-  avatarText,
-  setAvatarText,
-  avatarRot,
-  setAvatarRot,
-  avatarColor,
-  setAvatarColor,
+  avatar,
+  setAvatar,
 }: {
   username: string | null;
   setUsername: React.Dispatch<React.SetStateAction<string | null>>;
-  avatarText: string | null;
-  setAvatarText: React.Dispatch<React.SetStateAction<string | null>>;
-  avatarRot: number;
-  setAvatarRot: React.Dispatch<React.SetStateAction<number>>;
-  avatarColor: string;
-  setAvatarColor: React.Dispatch<React.SetStateAction<string>>;
+  avatar: avatar;
+  setAvatar: React.Dispatch<React.SetStateAction<avatar>>;
 }) {
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
+
+  const [tempColor, setTempColor] = useState(avatar.color);
+
+  useEffect(() => {
+    setAvatar({ ...avatar, color: tempColor });
+  }, [tempColor]);
+
+  useEffect(() => {
+    localStorage.setItem("prevUsername", username ?? "");
+    localStorage.setItem("prevAvatar", JSON.stringify(avatar));
+  }, [username, avatar]);
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-5">
         <Avatar
-          value={avatarText}
-          setValue={setAvatarText}
-          color={avatarColor}
-          rot={avatarRot}
+          value={avatar.text}
+          onChange={(event) => {
+            setAvatar({
+              ...avatar,
+              text: event.target.value === "" ? null : event.target.value,
+            });
+          }}
+          color={avatar.color}
+          rot={avatar.rot}
           disabled={false}
         >
           <div
             className="absolute -right-5 bottom-10 flex cursor-pointer items-center justify-center rounded-full 
                       bg-primary p-4 text-white sm:p-5"
-            onClick={() => setAvatarRot((avatarRot + 90) % 360)}
+            onClick={() =>
+              setAvatar({ ...avatar, rot: (avatar.rot + 90) % 360 })
+            }
           >
             <IconRotateClockwise
               stroke={2}
@@ -251,8 +246,8 @@ export function GuestOptions({
           >
             <IconPalette stroke={2} className="size-6 md:size-8" />
             <ColorPicker
-              avatarColor={avatarColor}
-              setAvatarColor={setAvatarColor}
+              avatarColor={tempColor}
+              setAvatarColor={setTempColor}
               className={
                 "absolute top-10 md:bottom-10 md:left-10 md:top-auto" +
                 " " +
@@ -304,19 +299,23 @@ export function UserOptions() {
   const [cookie, setCookie] = useCookies(["token", "googleRefreshToken"]);
   const [isAuth, setIsAuth] = useState(cookie.token !== undefined);
 
-  const [avatarRot, setAvatarRot] = useState(0);
-
-  const [avatarText, setAvatarText] = useState<string | null>(null);
-  const [avatarColor, setAvatarColor] = useState<string>("#FF16DC");
+  const [avatar, setAvatar] = useState<avatar | null>(null);
 
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
+  const [tempColor, setTempColor] = useState(avatar?.color ?? "#FF16DC");
+
+  useEffect(() => {
+    if (avatar !== null) setAvatar({ ...avatar, color: tempColor });
+  }, [tempColor]);
 
   async function getUserData() {
     const data: userData = await getUser(cookie, setCookie);
     if (data !== null) {
-      setAvatarText(data.avatar_text);
-      setAvatarColor(data.avatar_color);
-      setAvatarRot(data.avatar_rotation);
+      setAvatar({
+        text: data.avatar_text,
+        color: data.avatar_color,
+        rot: data.avatar_rotation,
+      });
     } else {
       setIsAuth(false);
     }
@@ -332,21 +331,28 @@ export function UserOptions() {
     <>
       <div className="flex flex-col items-center justify-center gap-5">
         {/* fill text and rot with user pref */}
-        {isAuth && avatarText !== null ? (
+        {isAuth && avatar !== null ? (
           <>
             <div className="flex flex-col items-center justify-center gap-5">
               <Avatar
-                value={avatarText ?? ""}
-                setValue={setAvatarText}
-                rot={avatarRot}
+                value={avatar?.text ?? ""}
+                onChange={(event) => {
+                  setAvatar({
+                    ...avatar,
+                    text: event.target.value,
+                  });
+                }}
+                rot={avatar?.rot ?? 0}
                 disabled={false}
                 // avatarColor is null until data comes from backend
-                color={avatarColor ?? "#FF16DC"}
+                color={avatar?.color ?? "#FF16DC"}
               >
                 <div
                   className="absolute -right-5 bottom-10 flex cursor-pointer items-center justify-center rounded-full 
                 bg-primary p-4 text-text sm:p-5"
-                  onClick={() => setAvatarRot((avatarRot + 90) % 360)}
+                  onClick={() => {
+                    setAvatar({ ...avatar, rot: (avatar.rot + 90) % 360 });
+                  }}
                 >
                   <IconRotateClockwise
                     stroke={2}
@@ -365,8 +371,8 @@ export function UserOptions() {
                 >
                   <IconPalette stroke={2} className="size-6 md:size-8" />
                   <ColorPicker
-                    avatarColor={avatarColor}
-                    setAvatarColor={setAvatarColor}
+                    avatarColor={tempColor}
+                    setAvatarColor={setTempColor}
                     className={
                       "absolute top-10 md:bottom-10 md:left-10 md:top-auto" +
                       " " +

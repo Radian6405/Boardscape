@@ -11,3 +11,9 @@ export interface chatMessage {
   username: string;
   message: string;
 }
+
+export interface avatar {
+  text: string | null;
+  color: string;
+  rot: number;
+}

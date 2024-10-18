@@ -1,3 +1,5 @@
+import { avatar } from "./interfaces";
+
 export interface solvedCells {
   row?: number;
   col?: number;
@@ -113,7 +115,7 @@ const defaultAvatars = [
   { text: ":)>", rot: 90 },
 ];
 
-export function generateRandomAvatar() {
+export function generateRandomAvatar(): avatar {
   const num = Math.floor(Math.random() * defaultAvatars.length);
-  return defaultAvatars[num];
+  return { ...defaultAvatars[num], color: generateRandomAvatarColor() };
 }

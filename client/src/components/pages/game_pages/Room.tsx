@@ -11,12 +11,8 @@ import { getUser } from "../../util/Navbar";
 import { useCookies } from "react-cookie";
 import { DoubleOutlineButton } from "../../util/reusables/Buttons";
 import TicTacToeGame from "./TicTacToe";
-import {
-  generateRandomAvatarColor,
-  generateRandomAvatar,
-  generateRandomUsername,
-} from "../../util/misc";
-import { chatMessage, userData } from "../../util/interfaces";
+import { generateRandomAvatar, generateRandomUsername } from "../../util/misc";
+import { avatar, chatMessage, userData } from "../../util/interfaces";
 
 function Room() {
   const [searchParams] = useSearchParams();
@@ -34,20 +30,19 @@ function Room() {
     const isGuest = searchParams.get("guest")?.toLocaleLowerCase() === "true";
     let data: userData = await getUser(cookie, setCookie);
     if (data === null || data === undefined || isGuest) {
-      const randomAvatar = generateRandomAvatar();
+      const prevAvatar = JSON.parse(localStorage.getItem("prevAvatar") ?? "{}");
+      let randomAvatar: avatar | null = null;
+      if (Object.keys(prevAvatar).length === 0)
+        randomAvatar = generateRandomAvatar();
+
       data = {
         username:
           localStorage.getItem("prevUsername") ?? generateRandomUsername(),
         user_id: null,
-        avatar_color:
-          localStorage.getItem("prevAvatarColor") ??
-          generateRandomAvatarColor(),
-        avatar_text:
-          localStorage.getItem("prevAvatarText") ?? randomAvatar.text,
+        avatar_color: randomAvatar ?? prevAvatar.color,
+        avatar_text: randomAvatar ?? prevAvatar.text,
         email: null,
-        avatar_rotation: Number(
-          localStorage.getItem("prevAvatarRotation") ?? randomAvatar.rot
-        ),
+        avatar_rotation: randomAvatar ?? prevAvatar.rot,
       };
     }
 

@@ -7,7 +7,7 @@ interface AvatarProps {
   disabled: boolean;
   color: string;
   value: string | null;
-  setValue?: React.Dispatch<React.SetStateAction<string | null>>;
+  onChange: React.ChangeEventHandler<HTMLTextAreaElement>;
 }
 
 function Avatar({
@@ -16,7 +16,7 @@ function Avatar({
   disabled,
   color,
   value,
-  setValue,
+  onChange,
 }: AvatarProps) {
   return (
     <>
@@ -33,10 +33,7 @@ function Avatar({
             disabled={disabled}
             autoFocus
             value={value ?? ""}
-            onChange={(event) => {
-              if (setValue !== undefined)
-                setValue(event.target.value === "" ? null : event.target.value);
-            }}
+            onChange={onChange}
             className={
               "h-48 w-52 select-none resize-none items-center bg-transparent p-8 text-center font-sans text-8xl" +
               " " +
