@@ -133,4 +133,24 @@ router.get(
   }
 );
 
+router.patch("/update/avatar", async (req: Request, res: Response) => {
+  console.log(req.body);
+
+  try {
+    const updatedUser = await pool.query(
+      "UPDATE user_data SET avatar_text = $1, avatar_color = $2, avatar_rotation = $3 WHERE user_id = $4;",
+      [
+        req.body.new_avatar.text,
+        req.body.new_avatar.color,
+        req.body.new_avatar.rot,
+        req.body.user_id,
+      ]
+    );
+    // console.log(updatedUser);
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 export default router;

@@ -15,7 +15,7 @@ import { generateRandomAvatar } from "../util/misc";
 import { avatar, userData } from "../util/interfaces";
 
 function JoinRoom() {
-  const [cookie] = useCookies(["token", "googleRefreshToken"]);
+  const [cookie, setCookie] = useCookies(["token", "googleRefreshToken"]);
 
   const [joinToggle, setJoinToggle] = useState(cookie.token !== undefined);
   const [code, setCode] = useState<string>("");
@@ -29,9 +29,14 @@ function JoinRoom() {
     localStorage.getItem("prevUsername")
   );
   const prevAvatar = JSON.parse(localStorage.getItem("prevAvatar") ?? "{}");
-  const [avatar, setAvatar] = useState<avatar>(
+  const [guestAvatar, setGuestAvatar] = useState<avatar>(
     Object.keys(prevAvatar).length === 0 ? generateRandomAvatar() : prevAvatar
   );
+
+  // for user options only
+  const [userData, setUserData] = useState<userData | null>(null);
+  const [UserAvatar, setUserAvatar] = useState<avatar | null>(null);
+  const [isChanged, setIsChanged] = useState<boolean>(false);
 
   function callDebug(text: string) {
     setDebugText(text);
@@ -40,7 +45,7 @@ function JoinRoom() {
     }, 2000);
     return;
   }
-  function joinUser() {
+  async function joinUser() {
     if (code.length !== 6) {
       callDebug("Not a valid room code");
       return;
@@ -50,7 +55,7 @@ function JoinRoom() {
         callDebug("Enter a username");
         return;
       }
-      if (avatar.text === null) {
+      if (guestAvatar.text === null) {
         callDebug("Enter an avatar");
         return;
       }
@@ -61,10 +66,35 @@ function JoinRoom() {
       return;
     }
 
+    if (isChanged && UserAvatar !== null && userData !== null) {
+      const response = await fetch("http://localhost:8000/update/avatar", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          new_avatar: UserAvatar,
+          user_id: userData.user_id,
+          email: userData.email,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("failed to update user avatar");
+      }
+    }
+
     navigate("/room?code=" + code + "&guest=" + !joinToggle);
   }
 
+  async function getUserData() {
+    const data = await getUser(cookie, setCookie);
+    setUserData(data);
+  }
+
   useEffect(() => {
+    getUserData();
+
     let code = searchParams.get("code")?.replace(/[^a-zA-Z]/g, "");
     if (code !== undefined) setCode(code.toUpperCase());
   }, []);
@@ -159,7 +189,12 @@ function JoinRoom() {
                     (joinToggle ? "block" : "hidden")
                   }
                 >
-                  <UserOptions />
+                  <UserOptions
+                    avatar={UserAvatar}
+                    setAvatar={setUserAvatar}
+                    setIsChanged={setIsChanged}
+                    userData={userData}
+                  />
                 </div>
                 <div
                   className={
@@ -171,8 +206,8 @@ function JoinRoom() {
                   <GuestOptions
                     username={username}
                     setUsername={setUsername}
-                    avatar={avatar}
-                    setAvatar={setAvatar}
+                    avatar={guestAvatar}
+                    setAvatar={setGuestAvatar}
                   />
                 </div>
               </div>
@@ -204,7 +239,7 @@ export function GuestOptions({
   }, [tempColor]);
 
   useEffect(() => {
-    localStorage.setItem("prevUsername", username ?? "");
+    if (username !== null) localStorage.setItem("prevUsername", username);
     localStorage.setItem("prevAvatar", JSON.stringify(avatar));
   }, [username, avatar]);
   return (
@@ -295,11 +330,20 @@ export function GuestOptions({
     </>
   );
 }
-export function UserOptions() {
-  const [cookie, setCookie] = useCookies(["token", "googleRefreshToken"]);
-  const [isAuth, setIsAuth] = useState(cookie.token !== undefined);
 
-  const [avatar, setAvatar] = useState<avatar | null>(null);
+export function UserOptions({
+  avatar,
+  setAvatar,
+  setIsChanged,
+  userData,
+}: {
+  avatar: avatar | null;
+  setAvatar: React.Dispatch<React.SetStateAction<avatar | null>>;
+  setIsChanged: React.Dispatch<React.SetStateAction<boolean>>;
+  userData: userData | null;
+}) {
+  const [cookie] = useCookies(["token", "googleRefreshToken"]);
+  const [isAuth, setIsAuth] = useState(cookie.token !== undefined);
 
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [tempColor, setTempColor] = useState(avatar?.color ?? "#FF16DC");
@@ -308,24 +352,31 @@ export function UserOptions() {
     if (avatar !== null) setAvatar({ ...avatar, color: tempColor });
   }, [tempColor]);
 
-  async function getUserData() {
-    const data: userData = await getUser(cookie, setCookie);
-    if (data !== null) {
-      setAvatar({
-        text: data.avatar_text,
-        color: data.avatar_color,
-        rot: data.avatar_rotation,
-      });
-    } else {
-      setIsAuth(false);
-    }
-  }
-
   useEffect(() => {
     if (cookie.token !== undefined) {
-      getUserData();
+      if (userData !== null) {
+        setAvatar({
+          text: userData.avatar_text,
+          color: userData.avatar_color,
+          rot: userData.avatar_rotation,
+        });
+        setTempColor(userData.avatar_color);
+        setIsAuth(true);
+      } else {
+        setIsAuth(false);
+      }
     }
-  }, []);
+  }, [userData]);
+
+  useEffect(() => {
+    if (avatar === null || userData === null) return;
+
+    setIsChanged(
+      avatar.text !== userData.avatar_text ||
+        avatar.color !== userData.avatar_color ||
+        avatar.rot !== userData.avatar_rotation
+    );
+  }, [avatar]);
 
   return (
     <>

@@ -30,19 +30,25 @@ function Room() {
     const isGuest = searchParams.get("guest")?.toLocaleLowerCase() === "true";
     let data: userData = await getUser(cookie, setCookie);
     if (data === null || data === undefined || isGuest) {
-      const prevAvatar = JSON.parse(localStorage.getItem("prevAvatar") ?? "{}");
+      const prevAvatar = localStorage.getItem("prevAvatar");
+
       let randomAvatar: avatar | null = null;
-      if (Object.keys(prevAvatar).length === 0)
+      if (
+        prevAvatar === null ||
+        Object.keys(JSON.parse(prevAvatar)).length === 0
+      )
         randomAvatar = generateRandomAvatar();
 
       data = {
         username:
           localStorage.getItem("prevUsername") ?? generateRandomUsername(),
         user_id: null,
-        avatar_color: randomAvatar ?? prevAvatar.color,
-        avatar_text: randomAvatar ?? prevAvatar.text,
+        avatar_color:
+          randomAvatar?.color ?? JSON.parse(prevAvatar ?? "{}").color,
+        avatar_text: randomAvatar?.text ?? JSON.parse(prevAvatar ?? "{}").text,
         email: null,
-        avatar_rotation: randomAvatar ?? prevAvatar.rot,
+        avatar_rotation:
+          randomAvatar?.rot ?? JSON.parse(prevAvatar ?? "{}").rot,
       };
     }
 
