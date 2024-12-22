@@ -2,16 +2,17 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { SimpleBackdrop } from "../../util/reusables/Backdrop";
 import {
   Chat,
-  chatMessage,
   PlayerLobbyCard,
   RoomCodeCard,
 } from "../../util/game_cards/Misc";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import { getUser, userData } from "../../util/Navbar";
+import { getUser } from "../../util/Navbar";
 import { useCookies } from "react-cookie";
 import { DoubleOutlineButton } from "../../util/reusables/Buttons";
 import TicTacToeGame from "./TicTacToe";
+import { generateRandomAvatar, generateRandomUsername } from "../../util/misc";
+import { avatar, chatMessage, userData } from "../../util/interfaces";
 
 function Room() {
   const [searchParams] = useSearchParams();
@@ -26,11 +27,28 @@ function Room() {
 
   async function init() {
     // get user data
+    const isGuest = searchParams.get("guest")?.toLocaleLowerCase() === "true";
     let data: userData = await getUser(cookie, setCookie);
-    if (data === null || data === undefined) {
+    if (data === null || data === undefined || isGuest) {
+      const prevAvatar = localStorage.getItem("prevAvatar");
+
+      let randomAvatar: avatar | null = null;
+      if (
+        prevAvatar === null ||
+        Object.keys(JSON.parse(prevAvatar)).length === 0
+      )
+        randomAvatar = generateRandomAvatar();
+
       data = {
-        username: "user_" + String(Math.floor(Math.random() * 10000)),
+        username:
+          localStorage.getItem("prevUsername") ?? generateRandomUsername(),
         user_id: null,
+        avatar_color:
+          randomAvatar?.color ?? JSON.parse(prevAvatar ?? "{}").color,
+        avatar_text: randomAvatar?.text ?? JSON.parse(prevAvatar ?? "{}").text,
+        email: null,
+        avatar_rotation:
+          randomAvatar?.rot ?? JSON.parse(prevAvatar ?? "{}").rot,
       };
     }
 

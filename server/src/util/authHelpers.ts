@@ -52,9 +52,8 @@ export function aucthenticateToken(
 
       //no user found
       if (Number(findUser.rowCount) == 0) {
-        req.user === null;
+        req.user = null;
         next();
-        return;
       }
 
       // user found
@@ -62,6 +61,9 @@ export function aucthenticateToken(
         user_id: findUser.rows[0].user_id,
         email: findUser.rows[0].email,
         username: String(findUser.rows[0].username),
+        avatar_text: String(findUser.rows[0].avatar_text),
+        avatar_color: String(findUser.rows[0].avatar_color),
+        avatar_rotation: findUser.rows[0].avatar_rotation,
       };
       next();
     }

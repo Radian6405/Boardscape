@@ -8,6 +8,7 @@ import {
 import pool from "../db";
 import { OAuth2Client } from "google-auth-library";
 import dotenv from "dotenv";
+import { generateRandomAvatar, generateRandomAvatarColor } from "../util/misc";
 
 dotenv.config({ path: "../../.env" });
 const router: Router = Router();
@@ -67,9 +68,17 @@ router.post(
 
       const hashedPassword: string = hashPassword(password);
 
+      const randomAvatar = generateRandomAvatar();
       const newUser = await pool.query(
-        "INSERT INTO user_data(username, email, password) VALUES($1,$2,$3) RETURNING *",
-        [username, email, hashedPassword]
+        "INSERT INTO user_data(username, email, password, avatar_text, avatar_color, avatar_rotation) VALUES($1,$2,$3,$4,$5,$6) RETURNING *",
+        [
+          username,
+          email,
+          hashedPassword,
+          randomAvatar.text,
+          generateRandomAvatarColor(),
+          randomAvatar.rot,
+        ]
       );
 
       res
@@ -100,7 +109,7 @@ router.post("/login", async (req: Request, res: Response) => {
     } else {
       res.status(401).send({
         message:
-          "Invalid credentials. Please check your username and password and try again.",
+          "Invalid credentials. Please check your credentials and try again.",
       });
     }
   } catch (error) {
@@ -123,5 +132,25 @@ router.get(
     }
   }
 );
+
+router.patch("/update/avatar", async (req: Request, res: Response) => {
+  console.log(req.body);
+
+  try {
+    const updatedUser = await pool.query(
+      "UPDATE user_data SET avatar_text = $1, avatar_color = $2, avatar_rotation = $3 WHERE user_id = $4;",
+      [
+        req.body.new_avatar.text,
+        req.body.new_avatar.color,
+        req.body.new_avatar.rot,
+        req.body.user_id,
+      ]
+    );
+    // console.log(updatedUser);
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 export default router;

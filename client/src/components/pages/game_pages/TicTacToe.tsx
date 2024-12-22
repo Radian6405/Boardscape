@@ -1,16 +1,11 @@
 import { useSearchParams } from "react-router-dom";
 import { Socket } from "socket.io-client";
-import {
-  chatMessage,
-  RoomCodeCard,
-  Chat,
-  PlayerRowCard,
-} from "../../util/game_cards/Misc";
-import { userData } from "../../util/Navbar";
+import { RoomCodeCard, Chat, PlayerRowCard } from "../../util/game_cards/Misc";
 import { useEffect, useState } from "react";
 import { IconCircle, IconX } from "@tabler/icons-react";
 import { SolidButton } from "../../util/reusables/Buttons";
-import { isSolved, isSolvedCell, solvedCells } from "../../util/Misc";
+import { isSolved, isSolvedCell, solvedCells } from "../../util/misc";
+import { chatMessage, userData } from "../../util/interfaces";
 
 function TicTacToeGame({
   userList,

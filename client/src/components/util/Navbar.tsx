@@ -7,11 +7,7 @@ import { DoubleOutlineButton } from "./reusables/Buttons";
 import LoginRegister from "./Login";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-
-export interface userData {
-  user_id: number | null;
-  username: string;
-}
+import { userData } from "./interfaces";
 
 function Navbar({
   theme,
@@ -26,7 +22,7 @@ function Navbar({
   const [cookie, setCookie] = useCookies(["token", "googleRefreshToken"]);
 
   async function setUser() {
-    const data = await getUser(cookie, setCookie);
+    const data: userData = await getUser(cookie, setCookie);
     if (data !== null) setUserData(data);
   }
 

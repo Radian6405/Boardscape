@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./components/util/Navbar";
 import Home from "./components/pages/Home";
 import { Route, Routes } from "react-router-dom";
-import JoinRoom from "./components/pages/Join";
+import JoinRoom from "./components/pages/join_page/Join";
 import LoginRedirect from "./components/pages/LoginRedirect";
 import RoomNotFound from "./components/pages/RoomNotFound";
 import Room from "./components/pages/game_pages/Room";
