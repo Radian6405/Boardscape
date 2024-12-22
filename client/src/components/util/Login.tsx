@@ -106,6 +106,7 @@ function Login({
       { path: "/", maxAge: 60 * 60 * 24 }
     );
 
+    window.location.reload();
     setShow(false);
   }
   return (
@@ -253,6 +254,7 @@ function Register({
       { path: "/", maxAge: 60 * 60 * 24 }
     );
 
+    window.location.reload();
     setShow(false);
   }
 

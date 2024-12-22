@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   server:
     image: boardscape:1.0

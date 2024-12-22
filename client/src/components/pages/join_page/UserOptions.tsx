@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import Avatar, { ColorPicker } from "../../util/reusables/Avatar";
 import { avatar, userData } from "../../util/interfaces";
+import LoginRegister from "../../util/Login";
+import { SolidButton } from "../../util/reusables/Buttons";
 
 function UserOptions({
   avatar,
@@ -18,6 +20,7 @@ function UserOptions({
   const [cookie] = useCookies(["token", "googleRefreshToken"]);
   const [isAuth, setIsAuth] = useState(cookie.token !== undefined);
 
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [tempColor, setTempColor] = useState(avatar?.color ?? "#FF16DC");
 
@@ -26,6 +29,7 @@ function UserOptions({
   }, [tempColor]);
 
   useEffect(() => {
+    console.log(userData);
     if (cookie.token !== undefined) {
       if (userData !== null) {
         setAvatar({
@@ -109,13 +113,20 @@ function UserOptions({
               {/* TODO before merge: update the changed avatar text and rot */}
               {/* <SolidButton>Update</SolidButton> */}
             </div>
+            <div className="font-nueu text-5xl font-bold text-primary  ">
+              {userData?.username}
+            </div>
             <div className="text-sm text-text/50 sm:text-base md:text-lg">
               type an avatar
             </div>
           </>
         ) : (
-          // TODO before merge: add login Popup
-          <div className="size-64 bg-white">click here to login</div>
+          <>
+            <SolidButton onClick={() => setShowLoginPopup(true)}>
+              Login
+            </SolidButton>
+            <LoginRegister show={showLoginPopup} setShow={setShowLoginPopup} />
+          </>
         )}
       </div>
     </>

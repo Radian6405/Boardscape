@@ -52,9 +52,8 @@ export function aucthenticateToken(
 
       //no user found
       if (Number(findUser.rowCount) == 0) {
-        req.user === null;
+        req.user = null;
         next();
-        return;
       }
 
       // user found
